@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Submit | Push Me!</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+	<link rel="stylesheet" href="../css/extend-pure.css" type="text/css">
+	<link rel="stylesheet" href="../css/style.css" type="text/css">
+	<link rel="stylesheet" href="../css/side_menu.css" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div id="layout"> 
+	<!-- Menu toggle -->
+	<a href="#menu" id="menuLink" class="menu-link">
+	<!-- Hamburger icon -->
+	<span></span>
+	</a>
+		<div id="menu" class="active">
+			<div class="pure-menu pure-menu-open">
+				<a class="pure-menu-heading" href="index.html">Top</a>
+				<ul>
+					<li><a href="submit.html">登録</a></li>
+					<li><a href="decide.html">選択</a></li>
+					<li><a href="listclips.html">クリップ</a></li>
+					<li><a href="#">Coming Soon...</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="main">
+		<div class="header">
+			<h1>お店を登録する</h1>
+		</div>
+		<form action="./index.html" method="post" onSubmit="return disp()" class="pure-form pure-form-aligned">
+			<div class="content">
+				<h2 class="content-subhead">*店名</h2>
+				<p><input type="text" id="name" name="title" placeholder="店名" required/></p>
+				<h2 class="content-subhead">*場所</h2>
+				<p><input type="text"name="place"value=""id="place1" placeholder="場所" required/></p>
+				<h2 class="content-subhead">*カテゴリ</h2>
+				<p><input type="text"name="tag"value=""id="category1" placeholder="カテゴリ" required/></p>
+				<h2 class="content-subhead">その他コメント</h2>
+				<p><textarea name="comment"cols="40"rows="4"id="comment" placeholder="コメント"></textarea></p>
+				<h2 class="content-subhead">URL</h2>
+				<p><input type="text" id="image" name="image" value="" placeholder="お店のURL"></p>
+				<p><input type="submit" value="登録" class="pure-button pure-button-primary"></p>
+			</div>
+		</form>
+	</div>
+<script type="text/javascript">
+<!--
+function disp(){
+
+	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+	if(window.confirm('本当にいいんですかね？')){
+			return true;
+	}
+	// 「OK」時の処理終了
+
+	// 「キャンセル」時の処理開始
+	else{
+			window.alert('キャンセルされました'); // 警告ダイアログを表示
+			return false;
+	}
+	// 「キャンセル」時の処理終了
+}
+// -->
+</script>
+	<script src="../js/side_menu.js"></script>
+</body>
