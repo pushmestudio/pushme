@@ -35,6 +35,7 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\img \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\index.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\qunit \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\accordion.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\extend-pure.css \
@@ -51,6 +52,10 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\index.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\listclips.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\side_menu.js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\qunit\qunit.css \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\qunit\qunit.js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\qunit\tests.html \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\qunit\tests.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\decide.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\error.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\index.html \

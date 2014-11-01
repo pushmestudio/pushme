@@ -1,122 +1,122 @@
 //初期表示(全データ抽出->ランダム表示)
-$(
-	function(){
-		$.ajax({
-			url: "https://api.myjson.com/bins/z9ef",
-			type: "GET",
-			success: function(data){
-				result = '<form name="itemlist" class="pure-form pure-form-aligned">';
-				result += '<div class="pure-g">';
-				result += '<span class="accordion">';
-				var extData = randomExtract(data);
-				for(i = 0; i < Object.keys(extData).length; i++){
-					var name = extData[i].name;
-					var cate = extData[i].cate;
-					var desc = extData[i].desc;
+$(function(){
+	$.ajax({
+		url: "https://api.myjson.com/bins/z9ef",
+		type: "GET",
+		success: function(data){
+			result = '<form name="itemlist" class="pure-form pure-form-aligned">';
+			result += '<div class="pure-g">';
+			result += '<span class="accordion">';
+			var extData = randomExtract(data);
+			for(i = 0; i < Object.keys(extData).length; i++){
+				var name = extData[i].name;
+				var cate = extData[i].cate;
+				var desc = extData[i].desc;
 
-					result += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
-					result += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
-					result += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
-
-					result += '<input type="button" name="detail" value="詳細"></div>';
-					result += '<ul>';
-					result += '<li>カテゴリ:' + cate + '</li>';
-					result += '<li>コメント:' + desc + '</li></ul></div>';
-				}
-				result += '</span></div></div>';
-				result += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
-				result += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-				result += "</form>";
-				$('#itemlist').html(result);
-				makeAccordion();
-				makeIsChecked();
-			},
-			error: function(extData){
-				alert("error occurred");
+				result += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
+				result += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
+				result += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
+				result += '<input type="button" name="detail" value="詳細"></div>';
+				result += '<ul>';
+				result += '<li>カテゴリ:' + cate + '</li>';
+				result += '<li>コメント:' + desc + '</li></ul></div>';
 			}
-		});
+			result += '</span></div></div>';
+			result += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
+			result += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
+			result += "</form>";
+			$('#itemlist').html(result);
+			makeAccordion();
+			makeIsChecked();
+		},
+		error: function(extData){
+			alert("error occurred");
+		}
 	});
+});
 
-	//選択
-	$('#submitId').click(function(){
-		var queryData = {"tag" : $('#queryId').val()};
-		$.ajax({
-			url: "getitemsbyquery",
-			type: "POST",
-			data: queryData,
-			success: function(data){
-				result = '<form name="itemlist2" class="pure-form pure-form-aligned">';
-				result += '<div class="pure-g">';
-				result += '<span class="accordion">';
-				for(i = 0; i < Object.keys(data).length; i++){
-					result += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
-					result += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
-					result += '<div name="title"><label for="item' + i + '">' + data[i].title + '</label></div>';
-					result +=	'<div name="place" style="font-size: 12px;">アクセス: ' + data[i].place + '</div>';
-					result += '<input type="button" name="detail" value="詳細"></div>';
-					result += '<ul>';
-					result += '<li>カテゴリ:' + data[i].tag + '</li>';
-					result += '<li>コメント:' + data[i].comment + '</li>';
-					result += '<li>URL: <a href="' + data[i].image + '">' + data[i].image + '</a></li></ul></div>';
-				}
-				result += '</span></div></div>';
-				result += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
-				result += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-				result += "</form>";
-				$('#itemlist').html(result);
-				makeAccordion();
-				makeIsChecked();
-			},
-			error: function(data){
-				alert("error occurred");
+//選択
+$('#submitId').click(function(){
+	var queryData = {"tag" : $('#queryId').val()};
+	$.ajax({
+		url: "https://api.myjson.com/bins/z9ef",
+		type: "GET",
+		success: function(data){
+			result = '<form name="itemlist" class="pure-form pure-form-aligned">';
+			result += '<div class="pure-g">';
+			result += '<span class="accordion">';
+			var extData = randomExtract(extractByCate(data, queryData.tag));
+			for(i = 0; i < Object.keys(extData).length; i++){
+				var name = extData[i].name;
+				var cate = extData[i].cate;
+				var desc = extData[i].desc;
+
+				result += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
+				result += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
+				result += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
+				result += '<input type="button" name="detail" value="詳細"></div>';
+				result += '<ul>';
+				result += '<li>カテゴリ:' + cate + '</li>';
+				result += '<li>コメント:' + desc + '</li></ul></div>';
 			}
-		});
+			result += '</span></div></div>';
+			result += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
+			result += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
+			result += "</form>";
+			$('#itemlist').html(result);
+			makeAccordion();
+			makeIsChecked();
+		},
+		error: function(extData){
+			alert("error occurred");
+		}
 	});
+});
 
-	function clipItem(){
-		/*    decision +='<form action="/addclip" method="post">';
-		//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
-		//decision += '<input type="submit" value="クリップ">';
-		test="aaaaaaa";
-		decision += '<input type="submit" value="'+clipName[0]+'">';
-		decision += "</form>";
-		$('#decision').html(decision);
-		'<input type="hidden" value="'+cn+'">'
-		*/
-		//
-	}
-
-	function narrowItems(){
-		$('#narrow').prop("disabled", true);
-		itemlist = $('[name="item"]');
-		itemlist.each(function(){
-			if($(this).prop("checked")){
-				$(this).prop("checked", false);
-			} else {
-				$(this).parents('div[name="arrow"]').remove();
-			}
-		});
-	}
-
-	/*
-	function decideItem(){
-	itemlist = $('[name="item"]');
-	decide = Math.floor(itemlist.length * Math.random());
-	itemlist.each(function(i, value){
-	if(i == decide){
-	choice = $(this).nextAll('label').text();
-	//var clipName = choice.substring(0,'(');
-	var clipName = choice.split("(");
-	decision = "<p>Your choice is : " + choice + "</p>";
-	//お店の名前(title)を取得
-	decision += '<form action="/addclip" method="post" class="pure-form">';
+function clipItem(){
+	/*    decision +='<form action="/addclip" method="post">';
 	//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
 	//decision += '<input type="submit" value="クリップ">';
-	console.log("clipName: " + clipName[0]);
-	decision += '<input type="hidden" id="id" name="name" value="'+clipName[0]+'">';
-	decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
+	test="aaaaaaa";
+	decision += '<input type="submit" value="'+clipName[0]+'">';
 	decision += "</form>";
 	$('#decision').html(decision);
+	'<input type="hidden" value="'+cn+'">'
+	*/
+	//
+}
+
+function narrowItems(){
+	$('#narrow').prop("disabled", true);
+	itemlist = $('[name="item"]');
+	itemlist.each(function(){
+		if($(this).prop("checked")){
+			$(this).prop("checked", false);
+		} else {
+			$(this).parents('div[name="arrow"]').remove();
+		}
+	});
+}
+
+/*
+function decideItem(){
+itemlist = $('[name="item"]');
+decide = Math.floor(itemlist.length * Math.random());
+itemlist.each(function(i, value){
+if(i == decide){
+choice = $(this).nextAll('label').text();
+//var clipName = choice.substring(0,'(');
+var clipName = choice.split("(");
+decision = "<p>Your choice is : " + choice + "</p>";
+//お店の名前(title)を取得
+decision += '<form action="/addclip" method="post" class="pure-form">';
+//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
+//decision += '<input type="submit" value="クリップ">';
+console.log("clipName: " + clipName[0]);
+decision += '<input type="hidden" id="id" name="name" value="'+clipName[0]+'">';
+decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
+decision += "</form>";
+$('#decision').html(decision);
 }
 });
 }
@@ -189,13 +189,13 @@ function randomExtract(originalData, extractAmount){
 
 	if(originalDataLength <= extractAmount){
 		extractedData = originalData; // 実データ数が抽出したい数以下のため抽出する必要がない
-		console.debug("originalData will be returned");
+		console.debug("no need to extract");
 
 	} else {
 		var extractNumberArray = new Array();
 		for(var i = 0; i < extractAmount; i++){
 			var candidateNumber = Math.round(Math.random() * (originalDataLength - 1));// Lengthと同じ値のインデックスだと配列の長さを超える
-			  console.debug("candidateNumber is : " + candidateNumber);
+			console.debug("candidateNumber is : " + candidateNumber);
 			if(extractNumberArray.indexOf(candidateNumber) != -1){
 				i--;//今回の回をなかったことにしてもう一度やり直させる
 				console.debug("dupulicated number is detected. Abort the canditate and try again.");
@@ -208,4 +208,22 @@ function randomExtract(originalData, extractAmount){
 	}
 	console.debug("returning data length is : " + extractedData.length);
 	return extractedData;
+}
+
+function extractByCate(originalData, query){
+	var categorisedData = new Array();
+	if(query.length <= 0){
+		categorisedData = originalData;
+	} else {
+		for(var i = 0; i < originalData.length; i++){
+			if(query === originalData[i].cate){
+				categorisedData.push(originalData[i]);
+				console.debug(originalData[i]);
+			}
+		}
+	}
+	if(categorisedData.length <= 0){
+		alert('結果が見つかりませんでした');
+	}
+	return categorisedData;
 }
