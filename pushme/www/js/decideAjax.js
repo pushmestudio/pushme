@@ -212,10 +212,10 @@ function randomExtract(originalData, extractAmount){
 
 function extractByCate(originalData, query){
 	var categorisedData = new Array();
-	if(query.length <= 0){
+	if(typeof query === "undefined" || query.length <= 0){
 		categorisedData = originalData;
 	} else {
-		for(var i = 0; i < originalData.length; i++){
+		for(var i = 0, n = originalData.length; i < n; i++){
 			if(query === originalData[i].cate){
 				categorisedData.push(originalData[i]);
 				console.debug(originalData[i]);
