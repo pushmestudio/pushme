@@ -1,33 +1,24 @@
-//初期表示(全データ抽出->ランダム表示)
+/**
+ * decideAjax.jsが読み込まれる際に呼び出される。
+ * データ取得後、事前に設定した件数分ランダムに抽出し、
+ * 呼び出し元のhtml上に書き出す。
+ * 
+ * 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+ */
 $(function(){
 	$.ajax({
-		url: "https://api.myjson.com/bins/z9ef",
+		url: "https://api.myjson.com/bins/10cr3",
 		type: "GET",
 		success: function(data){
-			result = '<form name="itemlist" class="pure-form pure-form-aligned">';
-			result += '<div class="pure-g">';
-			result += '<span class="accordion">';
 			var extData = randomExtract(data);
-			for(i = 0; i < Object.keys(extData).length; i++){
-				var name = extData[i].name;
-				var cate = extData[i].cate;
-				var desc = extData[i].desc;
-
-				result += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
-				result += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
-				result += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
-				result += '<input type="button" name="detail" value="詳細"></div>';
-				result += '<ul>';
-				result += '<li>カテゴリ:' + cate + '</li>';
-				result += '<li>コメント:' + desc + '</li></ul></div>';
-			}
-			result += '</span></div></div>';
-			result += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
-			result += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-			result += "</form>";
-			$('#itemlist').html(result);
+			var itemListHtml = makeItemListHtml(extData);
+			$('#itemlist').html(itemListHtml);
+			
 			makeAccordion();
 			makeIsChecked();
+			
+			var categoryOptionsHtml = makeCateOptionsHtml(data);
+			$('#queryId').append(categoryOptionsHtml);
 		},
 		error: function(extData){
 			alert("error occurred");
@@ -35,37 +26,24 @@ $(function(){
 	});
 });
 
-//選択
+/**
+ * カテゴリの選択が行われた際に呼び出される。
+ * データ取得後、事前に設定した件数分ランダムに抽出し、
+ * 呼び出し元のhtml上に書き出す。
+ */
 $('#submitId').click(function(){
 	var queryData = {"tag" : $('#queryId').val()};
 	$.ajax({
-		url: "https://api.myjson.com/bins/z9ef",
+		url: "https://api.myjson.com/bins/10cr3",
 		type: "GET",
 		success: function(data){
-			result = '<form name="itemlist" class="pure-form pure-form-aligned">';
-			result += '<div class="pure-g">';
-			result += '<span class="accordion">';
-			var extData = randomExtract(extractByCate(data, queryData.tag));
-			for(i = 0; i < Object.keys(extData).length; i++){
-				var name = extData[i].name;
-				var cate = extData[i].cate;
-				var desc = extData[i].desc;
+			var categorisedData = extractByCate(data, queryData.tag);
+			var extData = randomExtract(categorisedData);
+			var itemListHtml = makeItemListHtml(extData);
+			$('#itemlist').html(itemListHtml);
 
-				result += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
-				result += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
-				result += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
-				result += '<input type="button" name="detail" value="詳細"></div>';
-				result += '<ul>';
-				result += '<li>カテゴリ:' + cate + '</li>';
-				result += '<li>コメント:' + desc + '</li></ul></div>';
-			}
-			result += '</span></div></div>';
-			result += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
-			result += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-			result += "</form>";
-			$('#itemlist').html(result);
 			makeAccordion();
-			makeIsChecked();
+			makeIsChecked();			
 		},
 		error: function(extData){
 			alert("error occurred");
@@ -105,7 +83,7 @@ decide = Math.floor(itemlist.length * Math.random());
 itemlist.each(function(i, value){
 if(i == decide){
 choice = $(this).nextAll('label').text();
-//var clipName = choice.substring(0,'(');
+//var clipName = choice.subString(0,'(');
 var clipName = choice.split("(");
 decision = "<p>Your choice is : " + choice + "</p>";
 //お店の名前(title)を取得
@@ -179,6 +157,13 @@ function makeIsChecked(){
 
 var extractAmountDummyConfig = 8;//ランダムで抽出する数, いずれはユーザ設定ファイル等から持ってくる必要がある
 
+/**
+ * 受け取ったデータ及びデータ抽出件数に基づき、ランダムにデータを抽出する。
+ * データが件数以下の場合は全件出力する。この場合にはランダムな並び替えは実施しない。
+ * @param {String|Array} originalData 抽出対象となる元データ
+ * @param {number} extractAmount 抽出件数
+ * @return {String|Array} データから指定条件に基づいた抽出
+ */
 function randomExtract(originalData, extractAmount){
 	if(typeof extractAmount === "undefined"){
 		extractAmount = extractAmountDummyConfig;//configから持ってきたという想定
@@ -210,20 +195,82 @@ function randomExtract(originalData, extractAmount){
 	return extractedData;
 }
 
+/**
+ * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
+ * クエリが空だった場合には受け取ったデータをそのまま返す。
+ * @param {String|Array} originalData 抽出対象となる元データ
+ * @param {String} query 抽出条件となるカテゴリを示すクエリ
+ * @return {String|Array} クエリの条件に合致したデータ
+ */
 function extractByCate(originalData, query){
 	var categorisedData = new Array();
-	if(query.length <= 0){
+	if(typeof query === "undefined" || query.length <= 0){
 		categorisedData = originalData;
 	} else {
-		for(var i = 0; i < originalData.length; i++){
+		for(var i = 0, n = originalData.length; i < n; i++){
 			if(query === originalData[i].cate){
 				categorisedData.push(originalData[i]);
 				console.debug(originalData[i]);
 			}
 		}
 	}
-	if(categorisedData.length <= 0){
-		alert('結果が見つかりませんでした');
-	}
 	return categorisedData;
+}
+
+
+/**
+ * 受け取ったデータから重複のないカテゴリ一覧抽出する。
+ * 抽出したカテゴリ一覧はhtmlのselectのoptionとして書き出す。
+ * @param {String|Array} originalData カテゴリ抽出対象となる元データ
+ * @return {String} 抽出したカテゴリから構成される<option>タグ
+ */
+function makeCateOptionsHtml(originalData){
+	var cateArray = new Array();
+	var cateOption;
+		for(var i = 0, n = originalData.length; i < n; i++){
+			var cate = originalData[i].cate;
+			if(cateArray.indexOf(cate) != -1){
+				continue;//既にカテゴリ内にあるので追加しない
+			} else {
+				cateArray.push(cate); // カテゴリ一覧にカテゴリを追加
+				cateOption += '<option value="' + cate + '" name="' + cate + '">' + cate + '</option>';
+			}
+		}
+	return cateOption;
+}
+
+/**
+ * 受け取ったデータからhtml上にリストを作成する
+ * @param {String|Array} extData 抽出済みのデータ
+ * @return {String} itemListを構成するタグ
+ */
+function makeItemListHtml(extData){
+	var itemListHtml = "";
+	if(extData.length > 0){
+		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
+		itemListHtml += '<div class="pure-g">';
+		itemListHtml += '<span class="accordion">';
+
+		for(var i = 0, n = extData.length; i < n; i++){
+			var name = extData[i].name;
+			var cate = extData[i].cate;
+			var desc = extData[i].desc;
+
+			itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
+			itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
+			itemListHtml += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
+			itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
+			itemListHtml += '<ul>';
+			itemListHtml += '<li>カテゴリ:' + cate + '</li>';
+			itemListHtml += '<li>コメント:' + desc + '</li></ul></div>';
+		}
+		itemListHtml += '</span></div></div>';
+		itemListHtml += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
+		itemListHtml += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
+		itemListHtml += "</form>";
+	} else {
+		itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
+	}
+
+	return itemListHtml;
 }

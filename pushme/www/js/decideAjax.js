@@ -83,7 +83,7 @@ decide = Math.floor(itemlist.length * Math.random());
 itemlist.each(function(i, value){
 if(i == decide){
 choice = $(this).nextAll('label').text();
-//var clipName = choice.substring(0,'(');
+//var clipName = choice.subString(0,'(');
 var clipName = choice.split("(");
 decision = "<p>Your choice is : " + choice + "</p>";
 //お店の名前(title)を取得
@@ -160,9 +160,9 @@ var extractAmountDummyConfig = 8;//ランダムで抽出する数, いずれは�
 /**
  * 受け取ったデータ及びデータ抽出件数に基づき、ランダムにデータを抽出する。
  * データが件数以下の場合は全件出力する。この場合にはランダムな並び替えは実施しない。
- * @param {string array} originalData 抽出対象となる元データ
+ * @param {String|Array} originalData 抽出対象となる元データ
  * @param {number} extractAmount 抽出件数
- * @return {string array} データから指定条件に基づいた抽出
+ * @return {String|Array} データから指定条件に基づいた抽出
  */
 function randomExtract(originalData, extractAmount){
 	if(typeof extractAmount === "undefined"){
@@ -198,9 +198,9 @@ function randomExtract(originalData, extractAmount){
 /**
  * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
  * クエリが空だった場合には受け取ったデータをそのまま返す。
- * @param {string array} originalData 抽出対象となる元データ
- * @param {string} query 抽出条件となるカテゴリを示すクエリ
- * @return {string array} クエリの条件に合致したデータ
+ * @param {String|Array} originalData 抽出対象となる元データ
+ * @param {String} query 抽出条件となるカテゴリを示すクエリ
+ * @return {String|Array} クエリの条件に合致したデータ
  */
 function extractByCate(originalData, query){
 	var categorisedData = new Array();
@@ -221,8 +221,8 @@ function extractByCate(originalData, query){
 /**
  * 受け取ったデータから重複のないカテゴリ一覧抽出する。
  * 抽出したカテゴリ一覧はhtmlのselectのoptionとして書き出す。
- * @param {string array} originalData カテゴリ抽出対象となる元データ
- * @return {string} 抽出したカテゴリから構成される<option>タグ
+ * @param {String|Array} originalData カテゴリ抽出対象となる元データ
+ * @return {String} 抽出したカテゴリから構成される<option>タグ
  */
 function makeCateOptionsHtml(originalData){
 	var cateArray = new Array();
@@ -241,8 +241,8 @@ function makeCateOptionsHtml(originalData){
 
 /**
  * 受け取ったデータからhtml上にリストを作成する
- * @param {string array} extData 抽出済みのデータ
- * @return {string} itemListを構成するタグ
+ * @param {String|Array} extData 抽出済みのデータ
+ * @return {String} itemListを構成するタグ
  */
 function makeItemListHtml(extData){
 	var itemListHtml = "";

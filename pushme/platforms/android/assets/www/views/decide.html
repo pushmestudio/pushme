@@ -32,15 +32,21 @@
 	</div>
 	<div class="main">
 		<div class="header">
-			<h1>お店を選択する</h1>
+			<h1>選択する</h1>
 		</div>
 		<div class="content">
-			<h2 class="content-subhead">お店のカテゴリを入力してください</h2>
+			<h2 class="content-subhead">カテゴリを選んでください☻</h2>
 			<form id="formId" class="pure-form">
-				<input type="text" name="name" id="queryId">
+				<select id="queryId">
+					<option value="">ALL</option>
+					<option value="dummy">dummy</option>
+				</select>
 				<input type="button" id="submitId" value="retrieve" class="pure-button pure-button-primary">
 			</form>
-			<h2 class="content-subhead">最低1つ以上は選択してください</h2>
+			<form>
+
+			</form>
+			<h2 class="content-subhead">選択肢をチェックして絞り込みができるよ！</h2>
 			<div id="itemlist"></div>
 			<div id="decision"></div>
 		</div>
