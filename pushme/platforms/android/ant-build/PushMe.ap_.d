@@ -39,7 +39,9 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\accordion.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\extend-pure.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\fukidashi.css \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\grids-responsive-min.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\index.css \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\pure-min.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\side_menu.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\css\style.css \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\img\anonymous.jpg \
@@ -49,6 +51,8 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\decideAjax.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\getpictures.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\index.js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\jquery-ui.min.js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\jquery.min.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\listclips.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\side_menu.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\decide.html \
