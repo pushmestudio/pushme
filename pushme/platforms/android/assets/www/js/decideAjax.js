@@ -1,56 +1,66 @@
 /**
- * decideAjax.jsが読み込まれる際に呼び出される。
- * データ取得後、事前に設定した件数分ランダムに抽出し、
- * 呼び出し元のhtml上に書き出す。
- * 
- * 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+ * @fileOverview データを取得して必要な件数を抽出し、HTML出力します。
  */
-$(function(){
-	$.ajax({
-		url: "https://api.myjson.com/bins/10cr3",
-		type: "GET",
-		success: function(data){
-			var extData = randomExtract(data);
-			var itemListHtml = makeItemListHtml(extData);
-			$('#itemlist').html(itemListHtml);
-			
-			makeAccordion();
-			makeIsChecked();
-			
-			var categoryOptionsHtml = makeCateOptionsHtml(data);
-			$('#queryId').append(categoryOptionsHtml);
-		},
-		error: function(extData){
-			alert("error occurred");
-		}
+
+{
+	var storedData; // データの取得を一度に抑えるために共通で使う
+
+	/**
+	* decideAjax.jsが読み込まれる際に呼び出される。
+	* データ取得後、事前に設定した件数分ランダムに抽出し、
+	* 呼び出し元のhtml上に書き出す。
+	*
+	* 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+	*/
+	$(function(){
+		$.ajax({
+			url: "https://api.myjson.com/bins/10cr3",
+			type: "GET",
+			success: function(data){
+				storedData = data; // 2
+				var extData = randomExtract(storedData);
+				var itemListHtml = makeItemListHtml(extData);
+				$('#itemlist').html(itemListHtml);
+
+				makeAccordion();
+				makeIsChecked();
+
+				var categoryOptionsHtml = makeCateOptionsHtml(data);
+				$('#queryId').append(categoryOptionsHtml);
+			},
+			error: function(extData){
+				alert("error occurred");
+			}
+		});
 	});
-});
 
-/**
- * カテゴリの選択が行われた際に呼び出される。
- * データ取得後、事前に設定した件数分ランダムに抽出し、
- * 呼び出し元のhtml上に書き出す。
- */
-$('#submitId').click(function(){
-	var queryData = {"tag" : $('#queryId').val()};
-	$.ajax({
-		url: "https://api.myjson.com/bins/10cr3",
-		type: "GET",
-		success: function(data){
-			var categorisedData = extractByCate(data, queryData.tag);
-			var extData = randomExtract(categorisedData);
-			var itemListHtml = makeItemListHtml(extData);
-			$('#itemlist').html(itemListHtml);
+	/**
+	* カテゴリの選択が行われた際に呼び出される。
+	* データ取得後、事前に設定した件数分ランダムに抽出し、
+	* 呼び出し元のhtml上に書き出す。
+	*
+	* データが少量の場合はajaxは必要ないが、総データ量が多くなった場合、
+	* extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
+	*/
+	$('#submitId').click(function(){
+		var queryData = {"tag" : $('#queryId').val()};
+		$.ajax({
+			type: "GET",
+			success: function(){
+				var categorisedData = extractByCate(storedData, queryData.tag);
+				var extData = randomExtract(categorisedData);
+				var itemListHtml = makeItemListHtml(extData);
+				$('#itemlist').html(itemListHtml);
 
-			makeAccordion();
-			makeIsChecked();			
-		},
-		error: function(extData){
-			alert("error occurred");
-		}
+				makeAccordion();
+				makeIsChecked();
+			},
+			error: function(extData){
+				alert("error occurred");
+			}
+		});
 	});
-});
-
+}
 function clipItem(){
 	/*    decision +='<form action="/addclip" method="post">';
 	//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
@@ -199,7 +209,7 @@ function randomExtract(originalData, extractAmount){
  * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
  * クエリが空だった場合には受け取ったデータをそのまま返す。
  * @param {String|Array} originalData 抽出対象となる元データ
- * @param {String} query 抽出条件となるカテゴリを示すクエリ
+ * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
  * @return {String|Array} クエリの条件に合致したデータ
  */
 function extractByCate(originalData, query){
