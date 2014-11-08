@@ -80,3 +80,46 @@
 		equal(randomExtract(data, amount).length, expected,"PASS!");
 	});
 }
+{	
+	var data = new Array();
+	module("項目登録", {
+		setup: function(){
+			// prepare something for all following tests
+			data = [
+				{"timeStamp":"time","category":"cate","name":"name","description":"desc"}
+				,{"timeStamp":"time","category":"none","name":"name","description":"desc"}
+				,{"timeStamp":"time","category":"cate","name":"none","description":"desc"}
+				,{"timeStamp":"time","category":"cate","name":"name","description":"none"}
+			];
+		},
+		teardown: function(){
+			// clean up after each test		
+		}
+	});
+	
+	test("カテゴリ、名前、説明のすべての項目を入力し、登録に成功することを確認する", function(){
+//		var expected = data;
+		
+//		equal(randomExtract(data), expected,"PASS!");
+	});
+
+	test("カテゴリが空欄の状態で「登録」ボタンが押せないことを確認する", function(){
+//		var amount = "3";//3件得る
+//		var expected = data.slice(0,3);//data[0],data[1],data[2]を抽出
+		
+//		notEqual(randomExtract(data, amount), expected,"結果が同じでないことを以ってPASSとする");
+	});
+
+	test("名前が空欄の状態で「登録」ボタンが押せないことを確認する", function(){
+//		var amount = "5";//実データ数を超える数
+//		var expected = 4;
+		
+//		equal(randomExtract(data, amount).length, expected,"PASS!");
+	});
+	test("説明が空欄の状態で、登録に成功することを確認する", function(){
+//		var amount = "5";//実データ数を超える数
+//		var expected = 4;
+		
+//		equal(randomExtract(data, amount).length, expected,"PASS!");
+	});
+}
