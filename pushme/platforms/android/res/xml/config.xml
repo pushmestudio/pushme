@@ -6,6 +6,6 @@
         PushMe supports your decision making and makes your good day!
     </description>
     <preference name="LoadingPageDialog" value="PushMe!,Now Loading..." />
-    <content src="views/index.html" />
+    <content src="index.html" />
     <access origin="*" />
 </widget>
