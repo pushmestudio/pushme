@@ -22,13 +22,31 @@ package jp.co.push;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
+import android.webkit.JavascriptInterface;
+import android.widget.Toast;
+import android.webkit.WebView;
+import android.util.*;
+
 public class PushMe extends CordovaActivity
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        WebView webView = new WebView(this);
+        setContentView(webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new JSHandler(), "Bridge"); // set JSHandler to Javascript as "Bridge"
+
         // Set by <content src="index.html" /> in config.xml
-        loadUrl(launchUrl);
+        webView.loadUrl("file:///android_asset/www/index.html");
     }
+    
+    public class JSHandler {
+        @JavascriptInterface
+        public void showToast(String txt) {
+            Toast.makeText(PushMe.this, txt + "時です。もう一息頑張りましょう。", 5).show();
+        }
+    }
+
 }
