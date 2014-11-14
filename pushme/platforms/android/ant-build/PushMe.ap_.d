@@ -54,6 +54,7 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\jquery-ui.min.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\jquery.min.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\listclips.js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\share.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\side_menu.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\decide.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\error.html \

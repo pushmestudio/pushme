@@ -139,7 +139,7 @@ function decideItem(){
 			decision += '<form action="/addclip" method="post" class="pure-form">';
 			decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
 			decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
-			decision += "</form>";
+			decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';
 			$('#decision').html(decision);
 		}
 	}, 300)

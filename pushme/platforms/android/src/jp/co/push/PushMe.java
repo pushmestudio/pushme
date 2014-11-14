@@ -25,6 +25,8 @@ import org.apache.cordova.*;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 import android.webkit.WebView;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.*;
 
 public class PushMe extends CordovaActivity
@@ -44,8 +46,11 @@ public class PushMe extends CordovaActivity
     
     public class JSHandler {
         @JavascriptInterface
-        public void showToast(String txt) {
-            Toast.makeText(PushMe.this, txt + "時です。もう一息頑張りましょう。", 5).show();
+        public void shareText(String txt) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, txt);
+            startActivity(intent);
         }
     }
 
