@@ -16,6 +16,7 @@
 		$.ajax({
 			url: "https://api.myjson.com/bins/10cr3",
 			type: "GET",
+			dataType: "json",
 			success: function(data){
 				storedData = data; // 2
 				var extData = randomExtract(storedData);

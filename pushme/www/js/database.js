@@ -1,3 +1,8 @@
+/**
+ * upgradeneededイベントの発生時に呼び出され、DBの初期化を行う。
+ * DBの作成とオブジェクトストアの作成、インデックスの作成を行う。
+ * @param {e} データベースのオープン要求に対する結果のイベント
+ */
 function onCreateDB(e){
     var db = e.target.result;
     if(db.objectStoreNames.contains("items")){
@@ -15,7 +20,7 @@ function onCreateDB(e){
 }
 
 function addItemPrev(){
-    var request = indexedDB.open("pushmeDB", 5);
+    var request = indexedDB.open("pushmeDB", 1);
     request.onerror = function(e){
         console.log("open error:", e);
     };
@@ -39,6 +44,7 @@ function addItem(e){
 
     // Report on the success of opening the transaction
     transaction.oncomplete = function(e){
+        $('#regComplete').dialog("open");
         console.log("Transaction completed: database modification finished");
     };
     // Report on the error of opening the transaction
@@ -47,6 +53,7 @@ function addItem(e){
     };
 
     var store = transaction.objectStore("items");
+    console.log("newItem :" + newItem);
     // add newItem to the objectStore
     var objectStoreRequet = store.add(newItem);
 
@@ -56,7 +63,7 @@ function addItem(e){
 }
 
 function getAllItemsPrev(){
-    var request = indexedDB.open("pushmeDB", 5);
+    var request = indexedDB.open("pushmeDB", 1);
     request.onerror = function(e){
         console.log("open error:", e);
     };
@@ -93,7 +100,9 @@ function getTimeStamp(){
     var hour = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours();
     var min = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes();
     var sec = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
-    return year + month + day + hour + min + sec;
+    var timeStamp = "" + year + month + day + hour + min +sec;
+    console.log("timeStamp is:" + timeStamp);
+    return timeStamp;
 }
 /*
 var app = {
