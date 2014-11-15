@@ -38,13 +38,27 @@ decideAjax = (function(){
 	});
 	
 	/**
+	* カテゴリの選択が行われた際に呼び出される。
+	*/
+	$('#queryId').change(function(){
+		getRandomItem();
+	});
+	
+	/**
+	* retrieveが押下された際に呼び出される。
+	*/
+	$('#submitId').click(function(){
+		getRandomItem();
+	});
+	
+		/**
 	* データ取得後、事前に設定した件数分ランダムに抽出し、
 	* 呼び出し元のhtml上に書き出す。
 	*
 	* データが少量の場合はajaxは必要ないが、総データ量が多くなった場合、
 	* extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
 	*/
-	getRandomItem = function(){
+	var getRandomItem = function(){
 		var queryData = {"tag" : $('#queryId').val()};
 		$.ajax({
 			type: "GET",
@@ -62,21 +76,7 @@ decideAjax = (function(){
 			alert("error occurred");
 			}
 		});
-	}
-	
-	/**
-	* カテゴリの選択が行われた際に呼び出される。
-	*/
-	$('#queryId').change(function(){
-		getRandomItem();
-	});
-	
-	/**
-	* retrieveが押下された際に呼び出される。
-	*/
-	$('#submitId').click(function(){
-		getRandomItem();
-	});
+	};
 	
 	/**
 	* 絞り込み解除が押下された際に呼び出される。
@@ -183,7 +183,7 @@ decideAjax = (function(){
 	};
 
 	//詳細表示
-	makeAccordion = function(){
+	var makeAccordion = function(){
 		$(function(){
 			$('.accordion input[name="detail"]').click(function(){
 				$(this).parent().next("ul").slideToggle();
@@ -192,7 +192,7 @@ decideAjax = (function(){
 		});
 	};
 
-	makeIsChecked = function(){
+	var makeIsChecked = function(){
 		$('#itemlist').find('input[type="checkbox"]').click(function(){
 			var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
 			if(itemlength > 0){
@@ -212,7 +212,7 @@ decideAjax = (function(){
 	 * @param {number} extractAmount 抽出件数
 	 * @return {String|Array} データから指定条件に基づいた抽出
 	 */
-	randomExtract = function(originalData, extractAmount){
+	var randomExtract = function(originalData, extractAmount){
 		if(typeof extractAmount === "undefined"){
 			extractAmount = extractAmountDummyConfig;//configから持ってきたという想定
 		}
@@ -250,7 +250,7 @@ decideAjax = (function(){
 	 * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
 	 * @return {String|Array} クエリの条件に合致したデータ
 	 */
-	extractByCate = function(originalData, query){
+	var extractByCate = function(originalData, query){
 		var categorisedData = new Array();
 		if(typeof query === "undefined" || query.length <= 0){
 			categorisedData = originalData;
@@ -272,7 +272,7 @@ decideAjax = (function(){
 	 * @param {String|Array} originalData カテゴリ抽出対象となる元データ
 	 * @return {String} 抽出したカテゴリから構成される<option>タグ
 	 */
-	makeCateOptionsHtml = function(originalData){
+	var makeCateOptionsHtml = function(originalData){
 		var cateArray = new Array();
 		var cateOption;
 			for(var i = 0, n = originalData.length; i < n; i++){
@@ -292,7 +292,7 @@ decideAjax = (function(){
 	 * @param {String|Array} extData 抽出済みのデータ
 	 * @return {String} itemListを構成するタグ
 	 */
-	makeItemListHtml = function(extData){
+	var makeItemListHtml = function(extData){
 		var itemListHtml = "";
 		if(extData.length > 0){
 			itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
