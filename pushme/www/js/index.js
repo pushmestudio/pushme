@@ -35,14 +35,13 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         // Open DB
-        var request = indexedDB.open("pushmeDB", 5);
+        var request = indexedDB.open("pushmeDB", 1);
         request.onupgradeneeded = onCreateDB;
         request.onerror = function(e){
             console.log("open error:", e);
         };
         request.onsuccess = function(e){
             console.log("open success:")
-            onCreateDB(e);
 //            indexedDB.pushmeDB = e.target.result;
         }
     },

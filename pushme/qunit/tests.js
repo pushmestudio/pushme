@@ -97,12 +97,12 @@
 		equal(result, expected, "成功したらPASS");
 	});
 
-	test("カテゴリが空欄の状態で「登録」ボタンが押せないことを確認する", function(){
+	test("カテゴリが空欄の状態で登録できないことを確認する", function(){
 		var expected = "NG";
 		notEqual(result, expected, "結果が同じでないことを以ってPASSとする");
 	});
 
-	test("名前が空欄の状態で「登録」ボタンが押せないことを確認する", function(){
+	test("名前が空欄の状態で登録できないことを確認する", function(){
 		var expected = "NG";
 		notEqual(result, expected, "結果が同じでないことを以ってPASSとする");
 	});
