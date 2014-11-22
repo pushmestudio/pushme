@@ -117,7 +117,7 @@ decideAjax = (function(){
 		itemlist = $('[name="item"]');
 		itemlist.each(function(){
 			if($(this).prop("checked")){
-				$(this).prop("checked", false);
+				$(this).prop("checked", true);
 			} else {
 				$(this).parents('div[name="arrow"]').remove();
 			}
@@ -305,7 +305,7 @@ decideAjax = (function(){
 				var desc = extData[i].desc;
 
 				itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
-				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '">';
+				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
 				itemListHtml += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
 				itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
 				itemListHtml += '<ul>';
