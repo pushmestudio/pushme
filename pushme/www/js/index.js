@@ -42,7 +42,6 @@ var app = {
         };
         request.onsuccess = function(e){
             console.log("open success:")
-//            indexedDB.pushmeDB = e.target.result;
         }
     },
     // Update DOM on a Received Event
