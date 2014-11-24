@@ -94,20 +94,52 @@
 	
 	test("カテゴリ、名前、説明のすべての項目を入力し、登録に成功することを確認する", function(){
 		var expected = "OK";
-		equal(result, expected, "成功したらPASS");
+		equal(result, expected, "目視で確認できたらPASS");
 	});
 
 	test("カテゴリが空欄の状態で登録できないことを確認する", function(){
 		var expected = "NG";
-		notEqual(result, expected, "結果が同じでないことを以ってPASSとする");
+		notEqual(result, expected, "目視で確認できたらPASS");
 	});
 
 	test("名前が空欄の状態で登録できないことを確認する", function(){
 		var expected = "NG";
-		notEqual(result, expected, "結果が同じでないことを以ってPASSとする");
+		notEqual(result, expected, "目視で確認できたらPASS");
 	});
 	test("説明が空欄の状態で、登録に成功することを確認する", function(){
 		var expected = "OK";
-		equal(result, expected, "成功したらPASS");
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+}
+{	
+	var data = new Array();
+	module("登録一覧表示", {
+		setup: function(){
+			// prepare something for all following tests
+			result = "OK";
+		},
+		teardown: function(){
+			// clean up after each test		
+		}
+	});
+	
+	test("カテゴリにALLを選択した場合、登録されているすべてのレコードが表示されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("カテゴリにALL以外を選択した場合、選択されたカテゴリのレコードのみ表示されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("オブジェクトストアに9件以上のレコードが存在する場合でも、すべてのレコードが表示されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("オブジェクトストアに何もレコードが存在しない場合、retriveボタンを押してもレコードが表示されないことを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
 	});
 }

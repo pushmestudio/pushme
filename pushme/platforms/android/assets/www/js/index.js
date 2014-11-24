@@ -34,16 +34,6 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        // Open DB
-        var request = indexedDB.open("pushmeDB", 1);
-        request.onupgradeneeded = onCreateDB;
-        request.onerror = function(e){
-            console.log("open error:", e);
-        };
-        request.onsuccess = function(e){
-            console.log("open success:")
-//            indexedDB.pushmeDB = e.target.result;
-        }
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
