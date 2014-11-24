@@ -82,7 +82,6 @@ decideAjax = (function(){
 	* 絞り込み解除が押下された際に呼び出される。
 	*/
 	resetItem = function(){
-		$('#reset').prop("disabled", false);
 		$.ajax({
 			type: "GET",
 			success: function(){
@@ -194,8 +193,9 @@ decideAjax = (function(){
 
 	var makeIsChecked = function(){
 		$('#itemlist').find('input[type="checkbox"]').click(function(){
+			var allitemlength = $('#itemlist').find('input[type="checkbox"]').length;
 			var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
-			if(itemlength > 0){
+			if(itemlength > 0 && itemlength < allitemlength){
 				$('#narrow').prop("disabled", false);
 			}else{
 				$('#narrow').prop("disabled", true);
