@@ -27,10 +27,6 @@
             }
         }
     },
-    "installed_plugins": {
-        "com.brodysoft.sqlitePlugin": {
-            "PACKAGE_NAME": "jp.co.push"
-        }
-    },
+    "installed_plugins": {},
     "dependent_plugins": {}
 }

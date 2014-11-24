@@ -1,95 +1,121 @@
+// database.jsが読み込まれたページでは、常にこのdb変数を元に操作を行う
+var db = null;
+var version = 1;
+
+function openDB(){
+    var promise = new Promise(function(resolve, reject){
+        // Open DB
+        var request = indexedDB.open("pushmeDB", version);
+        request.onupgradeneeded = initDB;
+        request.onerror = function(e){
+            console.log("open error:", e);
+            reject("open error:" + e.value);
+        };
+        request.onsuccess = function(e){
+            console.log("open success:")
+            db = e.target.result;
+            resolve();
+        };
+    });
+    return promise;
+}
+
 /**
  * upgradeneededイベントの発生時に呼び出され、DBの初期化を行う。
  * DBの作成とオブジェクトストアの作成、インデックスの作成を行う。
  * @param {e} データベースのオープン要求に対する結果のイベント
  */
-function onCreateDB(e){
-    var db = e.target.result;
+function initDB(e){
+    db = e.target.result;
     if(db.objectStoreNames.contains("items")){
-        console.log("ObjectStore items already exists");
-    } else {
-        // Create Object Store
-        // keyPath is the property which makes each Object in the store unique
-        var store = db.createObjectStore("items", { keyPath: "timeStamp"});
-        // define what data the objectStore will contain
-        store.createIndex("category", "category", { unique: false});
-        store.createIndex("name", "name", { unique: true});
-        store.createIndex("description", "description", { unique: false});
-        console.log("ObjectStore items created");
-    }
+        db.deleteObjectStore("items");
+    } 
+    // Create Object Store
+    // keyPath is the property which makes each Object in the store unique
+    var store = db.createObjectStore("items", { keyPath: "timeStamp"});
+    // define what data the objectStore will contain
+    store.createIndex("category", "category", { unique: false});
+    store.createIndex("name", "name", { unique: true});
+    store.createIndex("description", "description", { unique: false});
+    console.log("ObjectStore #items# created");
 }
 
-function addItemPrev(){
-    var request = indexedDB.open("pushmeDB", 1);
-    request.onerror = function(e){
-        console.log("open error:", e);
-    };
-    request.onsuccess = function(e){
-        console.log("open success");
-        addItem(e);
-    }
-}
-
-function addItem(e){
-    // Make new data
-    var cate = $('#category').val();
-    var name = $('#name').val();
-    var desc = $('#description').val();
+function addItemtoDB(cate, name, desc){
     var time = getTimeStamp();
     var newItem = { timeStamp: time, category: cate, name: name, description: desc };
 
-    var db = e.target.result;
     // Open a read/write db transaction, ready for adding the data
-    var transaction = db.transaction(["items"], "readwrite");
+    var trans = db.transaction(["items"], "readwrite");
+    var store = trans.objectStore("items");
 
-    // Report on the success of opening the transaction
-    transaction.oncomplete = function(e){
-        $('#regComplete').dialog("open");
-        console.log("Transaction completed: database modification finished");
-    };
-    // Report on the error of opening the transaction
-    transaction.onerror = function(e){
-        console.log("Transaction failed: " + e.message);
-    };
+    var promise = new Promise(function(resolve, reject){
+        // add newItem to the objectStore
+        console.log("NewItem {category: " + newItem.category + ", name: " + newItem.name + ", description: " + newItem.description + "}");
+        var objectStoreRequet = store.add(newItem);
 
-    var store = transaction.objectStore("items");
-    console.log("newItem :" + newItem);
-    // add newItem to the objectStore
-    var objectStoreRequet = store.add(newItem);
-
-    objectStoreRequet.onsuccess = function(e){
-        console.log("New item added to database");
-    };
+        objectStoreRequet.onsuccess = function(e){
+            console.log("New item added to database");
+            resolve();
+        };
+        objectStoreRequet.onerror = function(e){
+            console.log("objectStoreRequet error: " + e.message);
+            reject();
+        };
+    });
+    return promise;
 }
 
-function getAllItemsPrev(){
-    var request = indexedDB.open("pushmeDB", 1);
-    request.onerror = function(e){
-        console.log("open error:", e);
-    };
-    request.onsuccess = function(e){
-        console.log("open success");
-        getAllItems(e);
-    }
+function getAllItemsfromDB(){
+    var trans = db.transaction(["items"], "readwrite");
+    var store = trans.objectStore("items");
+    var allItems = [];
+    
+    var promise = new Promise(function(resolve, reject){
+        var cursorRequest = store.openCursor();
+        cursorRequest.onsuccess = function(e){
+            var cursorResult = e.target.result;
+            if(cursorResult === null || cursorResult === undefined){
+                resolve(allItems);
+            } else {
+                console.log(cursorResult.value);
+                allItems.push(cursorResult.value);
+                cursorResult.continue();
+            }
+        };
+        cursorRequest.onerror = function(e){
+            console.log("cusorRequest error: " + e.message);
+            reject("cusorRequest error: " + e.message);
+        };
+    });
+    return promise;
 }
 
-function getAllItems(e){
-    var db = e.target.result;
-    var transaction = db.transaction(["items"], "readwrite");
-    var store = transaction.objectStore("items");
-    // Show items list for debugging
-    var cursorRequest = store.openCursor();
-    cursorRequest.onsuccess = function(e){
-        var cursorResult = e.target.result;
-        if(cursorResult){
-            console.log(cursorResult.value);
-            cursorResult.continue();
-        } else {
-        }
-    }
-    cursorRequest.onerror = function(e){
-        console.log("cusorRequest error: " + e.message);
-    }
+function getCategorizedItemsfromDB(query){
+    var categorizedItems = [];
+
+    var trans = db.transaction(["items"], "readwrite");
+    var store = trans.objectStore("items");
+
+    var promise = new Promise(function(resolve, reject){
+        // カテゴリに一致するもののみをフィルターする
+        var range = IDBKeyRange.only(query);
+        var index = store.index("category");
+        index.openCursor(range).onsuccess = function(e){
+            var cursorResult = e.target.result;
+            if(cursorResult === null || cursorResult === undefined){
+                resolve(categorizedItems);
+            } else {
+                console.log(cursorResult.value);
+                categorizedItems.push(cursorResult.value);
+                cursorResult.continue();
+            }
+        };
+        index.openCursor(range).onerror = function(e){
+            console.log("cusorRequest error: " + e.message);
+            reject("cusorRequest error: " + e.message);
+        };
+    });
+    return promise;
 }
 
 function getTimeStamp(){

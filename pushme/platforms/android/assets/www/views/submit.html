@@ -24,6 +24,7 @@
 					<li><a href="submit.html">登録</a></li>
 					<li><a href="decide.html">選択</a></li>
 					<li><a href="listclips.html">クリップ</a></li>
+					<li><a href="regitemslist.html">登録データ一覧</a></li>
 					<li><a href="#">Coming Soon...</a></li>
 				</ul>
 			</div>
@@ -36,16 +37,15 @@
 		<form id="regForm" class="pure-form pure-form-aligned">
 			<div class="content">
 				<h2 class="content-subhead">*カテゴリ</h2>
-				<p><input type="text" id="category" placeholder="カテゴリ" required/></p>
+				<p><input type="text" id="category" placeholder="カテゴリ" /></p>
 				<h2 class="content-subhead">*名前</h2>
-				<p><input type="text" id="name" placeholder="名前" required/></p>
+				<p><input type="text" id="name" placeholder="名前" /></p>
 				<h2 class="content-subhead">説明</h2>
 				<p><input type="text" id="description" placeholder="説明" /></p>
-				<p><input type="button" value="登録" class="pure-button pure-button-primary" onClick="confirmAction()"></p>
+				<p><input type="button" id="confirmAdd" value="登録" class="pure-button pure-button-primary" ></p>
 				<div id="regConfirm" title="データ登録"></div>
 				<div id="regComplete" title="登録完了" style="display: none">登録完了</div>
 				<div id="requireAlart" title="警告" style="display: none">必須項目を入力してください</div>
-				<p><input type="button" value="debug" class="pure-button pure-button-primary" onClick="getAllItemsPrev()"></p>
 			</div>
 		</form>
 	</div>
@@ -54,6 +54,11 @@
 <script type="text/javascript" src="../js/database.js"></script>
 <script src="../js/side_menu.js"></script>
 <script type="text/javascript" >
+// 登録する情報
+var cate;
+var name;
+var desc;
+
 $('#regConfirm').dialog({
 	autoOpen: false,
 	resizable: false,
@@ -62,8 +67,14 @@ $('#regConfirm').dialog({
 	width: 300,
 	buttons: {
 		"Yes": function(){
-			addItemPrev();
 			$(this).dialog("close");
+			openDB().then(function(){
+				addItemtoDB(cate, name, desc).then(function(){
+        			$('#regComplete').dialog("open");
+				}, function(err){
+					alert(err);
+				});
+			});
 		},
 		"Cancel": function(){
 			$(this).dialog("close");
@@ -98,16 +109,17 @@ $('#requireAlart').dialog({
     }
 });
 
-function confirmAction(){
-	var cate = $('#category').val();
-    var name = $('#name').val();
-    var desc = $('#description').val();
+$('#confirmAdd').click(function(){
+	cate = $('#category').val();
+    name = $('#name').val();
+    desc = $('#description').val();
     if( cate == "" || name == ""){
     	$('#requireAlart').dialog("open");
     } else {
 		$('#regConfirm').html("以下の項目で登録しますか？<br>カテゴリ: " + cate + "<br>名前: " + name + "<br>説明: " + desc);
 		$('#regConfirm').dialog("open");
 	}
-}
+});
+
 </script>
 </body>

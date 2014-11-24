@@ -35,7 +35,6 @@ C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\pl
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\img \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\index.html \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\js \
-C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\plugins \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\css\accordion.css \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\css\extend-pure.css \
@@ -72,13 +71,12 @@ C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\pl
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\js\jquery-ui.min.js \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\js\jquery.min.js \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\js\listclips.js \
+C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\js\manipulateDOM.js \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\js\side_menu.js \
-C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\plugins\com.brodysoft.sqlitePlugin \
-C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\plugins\com.brodysoft.sqlitePlugin\www \
-C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\plugins\com.brodysoft.sqlitePlugin\www\SQLitePlugin.js \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views\decide.html \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views\error.html \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views\index.html \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views\listclips.html \
+C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views\regitemslist.html \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\assets\www\views\submit.html \
 C:\Users\melty\Documents\Android_Projects\projects\decision2014.pushme\pushme\platforms\android\ant-build\AndroidManifest.xml \
