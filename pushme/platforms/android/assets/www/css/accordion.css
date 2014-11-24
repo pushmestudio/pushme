@@ -17,6 +17,10 @@ ul, li {
 	padding: 0 0 0 0;
 }
 
+span.accordion {
+	width: 70%
+}
+
 span.accordion ul {
 	display:none;
 	position: relative; 
@@ -26,14 +30,13 @@ span.accordion ul {
 	background: #111; 
 	color: #fff; 
 	z-index: 1;
-	width: 100%;
+	
 }
 
 span.accordion ul:after { 
 	position: absolute; 
 	bottom: 100%; 
 	left: 40%; 
-	width: 0; 
 	height: 0; 
 	margin-left: -10px; 
 	border: solid transparent; 
@@ -50,3 +53,4 @@ span.accordion ul > li {
 	background:#005000;
 	border-bottom:1px solid #EEE;
 }
+
