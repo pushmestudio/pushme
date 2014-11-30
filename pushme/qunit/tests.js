@@ -72,33 +72,73 @@
         notEqual(randomExtract(data, amount), expected,"結果が同じでないことを以ってPASSとする");
     });
 
-    test("4件あるデータから5件を指定した結果、取得可能最大件数である4件が得られる", function(){
-        var amount = "5";//実データ数を超える数
-        var expected = 4;
-        
-        equal(randomExtract(data, amount).length, expected,"PASS!");
-    });
+	test("4件あるデータから5件を指定した結果、取得可能最大件数である4件が得られる", function(){
+		var amount = "5";//実データ数を超える数
+		var expected = 4;
+		
+		equal(randomExtract(data, amount).length, expected,"PASS!");
+	});
 }
+{	
+	var data = new Array();
+	module("項目登録", {
+		setup: function(){
+			// prepare something for all following tests
+			result = "OK";
+		},
+		teardown: function(){
+			// clean up after each test		
+		}
+	});
+	
+	test("カテゴリ、名前、説明のすべての項目を入力し、登録に成功することを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
 
-{
-    module("最終決定結果の共有", {
-        setup: function(){
-            // prepare something for all following tests
-            // nothing to prepare on this module
-        }, teardown: function(){
-            // clean up after each test
-            // nothing to prepare on this module
-        }
-    });
+	test("カテゴリが空欄の状態で登録できないことを確認する", function(){
+		var expected = "NG";
+		notEqual(result, expected, "目視で確認できたらPASS");
+	});
 
-    test("テキストを指定すると、前後に文章を付けて返す", function(){
-        var txt = "シェアしたいテキスト";
-        var expected = "今回決まったのは [" + txt + "] です！"; // 返ってくる想定の文言
-        equal(formatForSend(txt), expected, "PASS!");
-    });
-    
-    test("他アプリのインテント起動+起動先にて最終決定結果の件名が表示される", function(){
-        var expected = true;
-        ok(expected, "常にPASSするテストです。目視にて確認を実施すること。");
-    });
+	test("名前が空欄の状態で登録できないことを確認する", function(){
+		var expected = "NG";
+		notEqual(result, expected, "目視で確認できたらPASS");
+	});
+	test("説明が空欄の状態で、登録に成功することを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+}
+{	
+	var data = new Array();
+	module("登録一覧表示", {
+		setup: function(){
+			// prepare something for all following tests
+			result = "OK";
+		},
+		teardown: function(){
+			// clean up after each test		
+		}
+	});
+	
+	test("カテゴリにALLを選択した場合、登録されているすべてのレコードが表示されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("カテゴリにALL以外を選択した場合、選択されたカテゴリのレコードのみ表示されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("オブジェクトストアに9件以上のレコードが存在する場合でも、すべてのレコードが表示されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("オブジェクトストアに何もレコードが存在しない場合、retriveボタンを押してもレコードが表示されないことを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
 }
