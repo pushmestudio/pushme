@@ -17,14 +17,20 @@ $(function(){
 		// 取得したレコードからカテゴリ一覧を作成し、プルダウンに追加
 		var categoryOptionsHtml = makeCateOptionsHtml(storedData);
 		$('#queryId').append(categoryOptionsHtml);
-
-		console.log(storedData);
+		showCategorizedItems();
+		console.dir(storedData);
 		}, function(err){
 			alert(err);
 		});
 	}, function(err){
 		alert(err);
 	});
+});
+
+// submit押されたら呼ぶよ～
+$('#submitId').click(function(){
+	var queryData = {"tag" : $('#queryId').val()};
+	showCategorizedItems(queryData.tag);
 });
 
 /**
@@ -105,7 +111,7 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
 			itemListHtml += '<ul>';
 			itemListHtml += '<li>カテゴリ:' + cate + '</li>';
-			itemListHtml += '<li>コメント:' + desc + '</li></ul></div>';
+			itemListHtml += '<li>説明:' + desc + '</li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
