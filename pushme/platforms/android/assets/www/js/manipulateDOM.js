@@ -18,6 +18,19 @@ $(function(){
 		var categoryOptionsHtml = makeCateOptionsHtml(storedData);
 		$('#queryId').append(categoryOptionsHtml);
 		showCategorizedItems();
+
+		// queryIdが変化したら呼ぶ
+		$('#queryId').change(function(){
+			var queryData = {"tag" : $('#queryId').val()};
+			showCategorizedItems(queryData.tag);
+		});
+
+		// submit押されたら呼ぶ
+		$('#submitId').click(function(){
+			var queryData = {"tag" : $('#queryId').val()};
+			showCategorizedItems(queryData.tag);
+		});
+
 		console.dir(storedData);
 		}, function(err){
 			alert(err);
@@ -25,12 +38,6 @@ $(function(){
 	}, function(err){
 		alert(err);
 	});
-});
-
-// submit押されたら呼ぶよ～
-$('#submitId').click(function(){
-	var queryData = {"tag" : $('#queryId').val()};
-	showCategorizedItems(queryData.tag);
 });
 
 /**
