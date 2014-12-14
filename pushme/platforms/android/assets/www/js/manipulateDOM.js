@@ -105,7 +105,7 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
 			itemListHtml += '<ul>';
 			itemListHtml += '<li>カテゴリ:' + cate + '</li>';
-			itemListHtml += '<li>コメント:' + desc + '</li></ul></div>';
+			itemListHtml += '<li>説明:' + desc + '</li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
