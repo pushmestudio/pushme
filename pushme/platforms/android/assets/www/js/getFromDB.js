@@ -21,7 +21,7 @@ function hoge(){openDB().then(function(){
 	// 取得したレコードからカテゴリ一覧を作成し、プルダウンに追加
     return storedData;
 	}, function(err){
-        console.debug(err);
+        console.error(err);
 	});
 }, function(err){
     console.error(err);
