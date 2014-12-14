@@ -17,8 +17,21 @@ $(function(){
 		// 取得したレコードからカテゴリ一覧を作成し、プルダウンに追加
 		var categoryOptionsHtml = makeCateOptionsHtml(storedData);
 		$('#queryId').append(categoryOptionsHtml);
+		showCategorizedItems();
 
-		console.log(storedData);
+		// queryIdが変化したら呼ぶ
+		$('#queryId').change(function(){
+			var queryData = {"tag" : $('#queryId').val()};
+			showCategorizedItems(queryData.tag);
+		});
+
+		// submit押されたら呼ぶ
+		$('#submitId').click(function(){
+			var queryData = {"tag" : $('#queryId').val()};
+			showCategorizedItems(queryData.tag);
+		});
+
+		console.dir(storedData);
 		}, function(err){
 			alert(err);
 		});

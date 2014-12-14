@@ -66,6 +66,10 @@
 /Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/img/logo.png.default \
 /Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/js/database.js \
 /Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/js/decideAjax.js \
+<<<<<<< HEAD
+=======
+/Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/js/getFromDB.js \
+>>>>>>> getFromDB
 /Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/js/getpictures.js \
 /Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/js/index.js \
 /Users/capsmalt/Documents/env/01.Projects/KSSOSS/pushme/decision2014.pushme/pushme/platforms/android/assets/www/js/jquery-ui.min.js \
