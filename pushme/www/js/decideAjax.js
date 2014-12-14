@@ -14,52 +14,48 @@ decideAjax = (function(){
 	* 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
 	*/
 	$(function(){
-		$.ajax({
-			url: "https://api.myjson.com/bins/10cr3",
-			type: "GET",
-			dataType: "json",
-			success: function(data){
-				storedData = data; // 2
-				var extData = randomExtract(storedData);
-				first8Data = extData;
-				var itemListHtml = makeItemListHtml(extData);
-				$('#itemlist').html(itemListHtml);
-
-				makeAccordion();
-				makeIsChecked();
-
-				var categoryOptionsHtml = makeCateOptionsHtml(data);
+		openDB().then(function(){
+			// DBからすべてのレコードを取得
+			getAllItemsfromDB().then(function(items){
+				storedData = items;
+				// 取得したレコードからカテゴリ一覧を作成し、プルダウンに追加
+				var categoryOptionsHtml = makeCateOptionsHtml(storedData);
 				$('#queryId').append(categoryOptionsHtml);
-			},
-			error: function(extData){
-				alert("error occurred");
-			}
+				getRandomItem();
+				console.dir(storedData);
+			}, function(err){
+				console.error(err);
+			});
+		}, function(err){
+			console.error(err);
 		});
 	});
-	
+
 	/**
-	* カテゴリの選択が行われた際に呼び出される。
-	*/
+	 * カテゴリの選択が行われた際に呼び出される。
+	 */
 	$('#queryId').change(function(){
 		getRandomItem();
 	});
-	
+
 	/**
-	* retrieveが押下された際に呼び出される。
-	*/
+	 * retrieveが押下された際に呼び出される。
+	 */
 	$('#submitId').click(function(){
 		getRandomItem();
 	});
-	
-		/**
-	* データ取得後、事前に設定した件数分ランダムに抽出し、
-	* 呼び出し元のhtml上に書き出す。
-	*
-	* データが少量の場合はajaxは必要ないが、総データ量が多くなった場合、
-	* extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
-	*/
+
+
+	/**
+	 * データ取得後、事前に設定した件数分ランダムに抽出し、
+	 * 呼び出し元のhtml上に書き出す。
+	 *
+	 * データが少量の場合はajaxは必要ないが、総データ量が多くなった場合、
+	 * extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
+	 */
 	var getRandomItem = function(){
 		var queryData = {"tag" : $('#queryId').val()};
+		console.log(queryData);
 		$.ajax({
 			type: "GET",
 			success: function(){
@@ -72,12 +68,12 @@ decideAjax = (function(){
 				makeAccordion();
 				makeIsChecked();
 			},
-			error: function(extData){
-			alert("error occurred");
+			error: function(err){
+                console.error(err);
 			}
 		});
 	};
-	
+
 	/**
 	* 絞り込み解除が押下された際に呼び出される。
 	*/
@@ -91,8 +87,8 @@ decideAjax = (function(){
 				makeAccordion();
 				makeIsChecked();
 			},
-			error: function(extData){
-			alert("error occurred");
+			error: function(err){
+                console.error(err);
 			}
 		});
 	};
@@ -256,7 +252,7 @@ decideAjax = (function(){
 			categorisedData = originalData;
 		} else {
 			for(var i = 0, n = originalData.length; i < n; i++){
-				if(query === originalData[i].cate){
+				if(query === originalData[i].category){
 					categorisedData.push(originalData[i]);
 					console.debug(originalData[i]);
 				}
@@ -276,7 +272,7 @@ decideAjax = (function(){
 		var cateArray = new Array();
 		var cateOption;
 			for(var i = 0, n = originalData.length; i < n; i++){
-				var cate = originalData[i].cate;
+				var cate = originalData[i].category;
 				if(cateArray.indexOf(cate) != -1){
 					continue;//既にカテゴリ内にあるので追加しない
 				} else {
@@ -301,8 +297,8 @@ decideAjax = (function(){
 
 			for(var i = 0, n = extData.length; i < n; i++){
 				var name = extData[i].name;
-				var cate = extData[i].cate;
-				var desc = extData[i].desc;
+				var cate = extData[i].category;
+				var desc = extData[i].description;
 
 				itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
 				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
@@ -323,5 +319,5 @@ decideAjax = (function(){
 
 		return itemListHtml;
 	};
-	
+
 })();
