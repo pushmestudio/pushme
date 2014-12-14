@@ -1,14 +1,12 @@
 #Last build type
-<<<<<<< HEAD
+#Sat, 13 Dec 2014 17:43:18 +0900
 #Tue, 25 Nov 2014 00:31:21 +0900
-=======
 #Mon, 24 Nov 2014 23:15:41 +0900
 <<<<<<<=HEAD
 #Sat, 08 Nov 2014 18:17:33 +0900
 =\=\=\=\=\=\=
 #Sat, 08 Nov 2014 12:52:45 +0900
->>>>>>>=master
->>>>>>> EditRegItem
+>>>>>>>=EditRegItem
 
 build.last.target=debug
 
