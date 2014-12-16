@@ -13,25 +13,45 @@ $(function(){
 	openDB().then(function(){
 		// DBからすべてのレコードを取得
 		getAllItemsfromDB().then(function(items){
-		storedData = items;
-		// 取得したレコードからカテゴリ一覧を作成し、プルダウンに追加
-		var categoryOptionsHtml = makeCateOptionsHtml(storedData);
-		$('#queryId').append(categoryOptionsHtml);
-		showCategorizedItems();
+			storedData = items;
+			// 取得したレコードからカテゴリ一覧を作成し、プルダウンに追加
+			var categoryOptionsHtml = makeCateOptionsHtml(storedData);
+			$('#queryId').append(categoryOptionsHtml);
+			// DOMを更新
+			var itemListHtml = makeShownItemListHtml(storedData);
+			$('#itemlist').html(itemListHtml);
+//			showCategorizedItems();
+			// 各種ボタン機能の埋め込み
+			makeAccordion();
+			makeEdit();
 
-		// queryIdが変化したら呼ぶ
-		$('#queryId').change(function(){
-			var queryData = {"tag" : $('#queryId').val()};
-			showCategorizedItems(queryData.tag);
-		});
+			// queryIdが変化したら呼ぶ
+			$('#queryId').change(function(){
+				var queryData = {"tag" : $('#queryId').val()};
+				categorizedData = extractByCate(storedData, queryData.tag);
+				// DOMを更新
+				var itemListHtml = makeShownItemListHtml(categorizedData);
+				$('#itemlist').html(itemListHtml);
+//				showCategorizedItems(queryData.tag);
+				// 各種ボタン機能の埋め込み
+				makeAccordion();
+				makeEdit();
+			});
 
-		// submit押されたら呼ぶ
-		$('#submitId').click(function(){
-			var queryData = {"tag" : $('#queryId').val()};
-			showCategorizedItems(queryData.tag);
-		});
+			// submitが押されたら呼ぶ
+			$('#submitId').click(function(){
+				var queryData = {"tag" : $('#queryId').val()};
+				categorizedData = extractByCate(storedData, queryData.tag);
+				// DOMを更新
+				var itemListHtml = makeShownItemListHtml(storedData);
+				$('#itemlist').html(itemListHtml);
+	//			showCategorizedItems();
+				// 各種ボタン機能の埋め込み
+				makeAccordion();
+				makeEdit();
+			});
 
-		console.dir(storedData);
+			console.dir(storedData);
 		}, function(err){
 			alert(err);
 		});
@@ -41,6 +61,7 @@ $(function(){
 });
 
 /**
+ * ◆◆◆◆◆◆◆◆◆現在未使用◆◆◆◆◆◆◆◆◆◆◆◆
  * 指定されたカテゴリのレコードを抽出し、htmlに書き出す
  * @param {String|Array} query 抽出を行うカテゴリ
  */
@@ -51,8 +72,7 @@ function showCategorizedItems(query){
 		// 詳細情報を追加
 		makeAccordion();
 	} else {
-		getCategorizedItemsfromDB(query).then(function(items){
-			categorizedData = items;
+		getCategorizedItemsfromDB(query).then(function(categorizedData){
 			var itemListHtml = makeShownItemListHtml(categorizedData);
 
 			$('#itemlist').html(itemListHtml);
@@ -61,6 +81,29 @@ function showCategorizedItems(query){
 		});
 	}
 }
+
+/**
+ * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
+ * クエリが空だった場合には受け取ったデータをそのまま返す。
+ * @param {String|Array} originalData 抽出対象となる元データ
+ * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
+ * @return {String|Array} クエリの条件に合致したデータ
+ */
+var extractByCate = function(originalData, query){
+	var categorisedData = new Array();
+	if(typeof query === "undefined" || query.length <= 0){
+		categorisedData = originalData;
+	} else {
+		for(var i = 0, n = originalData.length; i < n; i++){
+			if(query === originalData[i].category){
+				categorisedData.push(originalData[i]);
+				console.debug(originalData[i]);
+			}
+		}
+	}
+	return categorisedData;
+};
+
 
 /**
  * 受け取ったデータから重複のないカテゴリ一覧抽出する。
@@ -81,6 +124,20 @@ function makeCateOptionsHtml(originalData){
 			}
 		}
 	return cateOption;
+}
+
+/**
+ * 編集が押されたときの処理を記述する。
+ */
+ function makeEdit(){
+ 	var name = "";
+ 	$('input[name="edititem"]').click(function(){
+ 		oldname = $(this).parent().children('div[name="title"]').text();
+ 		console.log(oldname);
+// 		getUniqueItemfromDB(oldname).then(function(item){
+ 		$('#editRegItem').dialog("open");
+// 		});
+ 	});
 }
 
 /**
@@ -115,7 +172,8 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
 			itemListHtml += '<div name="card">';
 			itemListHtml += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
-			itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
+			itemListHtml += '<input type="button" name="detail" value="詳細">';
+			itemListHtml += '<input type="button" name="edititem" value="編集"></div>';
 			itemListHtml += '<ul>';
 			itemListHtml += '<li>カテゴリ:' + cate + '</li>';
 			itemListHtml += '<li>説明:' + desc + '</li></ul></div>';
@@ -127,4 +185,17 @@ function makeShownItemListHtml(extData){
 	}
 
 	return itemListHtml;
+}
+
+
+/**
+ * sotredDataの中身を更新(再取得)する
+ */
+function updateStoredData(){
+	openDB().then(function(){
+		// DBからすべてのレコードを取得
+		getAllItemsfromDB().then(function(items){
+			storedData = items;
+		});
+	});
 }
