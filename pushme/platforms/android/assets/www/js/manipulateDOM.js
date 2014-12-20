@@ -20,7 +20,6 @@ $(function(){
 			// DOMを更新
 			var itemListHtml = makeShownItemListHtml(storedData);
 			$('#itemlist').html(itemListHtml);
-//			showCategorizedItems();
 			// 各種ボタン機能の埋め込み
 			makeAccordion();
 			makeEdit();
@@ -32,7 +31,6 @@ $(function(){
 				// DOMを更新
 				var itemListHtml = makeShownItemListHtml(categorizedData);
 				$('#itemlist').html(itemListHtml);
-//				showCategorizedItems(queryData.tag);
 				// 各種ボタン機能の埋め込み
 				makeAccordion();
 				makeEdit();
@@ -43,7 +41,7 @@ $(function(){
 				var queryData = {"tag" : $('#queryId').val()};
 				categorizedData = extractByCate(storedData, queryData.tag);
 				// DOMを更新
-				var itemListHtml = makeShownItemListHtml(storedData);
+				var itemListHtml = makeShownItemListHtml(categorizedData);
 				$('#itemlist').html(itemListHtml);
 	//			showCategorizedItems();
 				// 各種ボタン機能の埋め込み
@@ -133,10 +131,7 @@ function makeCateOptionsHtml(originalData){
  	var name = "";
  	$('input[name="edititem"]').click(function(){
  		oldname = $(this).parent().children('div[name="title"]').text();
- 		console.log(oldname);
-// 		getUniqueItemfromDB(oldname).then(function(item){
  		$('#editRegItem').dialog("open");
-// 		});
  	});
 }
 
@@ -190,12 +185,43 @@ function makeShownItemListHtml(extData){
 
 /**
  * sotredDataの中身を更新(再取得)する
+ * 更新するのはメモリ上に保存されているデータである
+ * @param {String|Array} originalData 抽出対象となる元データ
+ * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
+ * @return {String|Array} クエリの条件に合致したデータ
  */
-function updateStoredData(){
-	openDB().then(function(){
-		// DBからすべてのレコードを取得
-		getAllItemsfromDB().then(function(items){
-			storedData = items;
-		});
-	});
+function updateStoredData(oldname, newcate, newname, newdesc){
+	for(var i = 0, n = storedData.length; i < n; i++){
+		if(oldname === storedData[i].name){
+			storedData[i].category = newcate;
+			storedData[i].name = newname;
+			storedData[i].description = newdesc;
+		}
+	}
+	// 変更されたアイテムのカテゴリがカテゴリ一覧にあるかを確認し、プルダウンに追加
+	var categoryOptionsHtml = addCateOptionsHtml(newcate);
+	$('#queryId').append(categoryOptionsHtml);
+	var queryData = {"tag" : $('#queryId').val()};
+	categorizedData = extractByCate(storedData, queryData.tag);
+	// DOMを更新
+	var itemListHtml = makeShownItemListHtml(categorizedData);
+	$('#itemlist').html(itemListHtml);
+	// 各種ボタン機能の埋め込み
+	makeAccordion();
+	makeEdit();
+}
+
+function addCateOptionsHtml(newcate){
+	objectList = $('#queryId').children('option[name]');
+	cateArray = new Array();
+	var cateOption;
+	for(var i = 0; i < objectList.length; i++){
+		cateArray.push($(objectList[i]).val());
+	//	console.debug(objectList[i]);
+	}
+	console.debug(cateArray);
+	if(cateArray.indexOf(newcate) === -1){
+		cateOption += '<option value="' + newcate + '" name="' + newcate + '">' + newcate + '</option>';
+	}
+	return cateOption;
 }
