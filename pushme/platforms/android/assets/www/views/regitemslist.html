@@ -53,16 +53,16 @@
 			<form>
 				<table>
 					<tr>
+						<td>*カテゴリ</td>
+						<td><input type="text" id="newcate"></td>
+					</tr>
+					<tr>
 						<td>*名前</td>
 						<td><input type="text" id="newname"></td>
 					</tr>
 					<tr>
-						<td>*カテゴリ</td>
-						<td><input type="text" id="newcategory"></td>
-					</tr>
-					<tr>
 						<td>説明</td>
-						<td><input type="text" id="newdescription"></td>
+						<td><input type="text" id="newdesc"></td>
 					</tr>
 				</table>
 			</form>
@@ -75,19 +75,6 @@
 	<script src="../js/side_menu.js"></script>
 	<script type="text/javascript">
 	var oldname;
-
-	$('#editComplete').dialog({
-	    autoOpen: false,
-	    resizable: false,
-	    modal: true,
-	    height: 200,
-	    width: 250,
-	    buttons: {
-	        "OK": function(){
-	            $(this).dialog("close");
-	        }
-	    }
-	});
 
 /*
 	$('#submitId').click(function(){
@@ -117,17 +104,18 @@
 		buttons: {
 			"この内容で修正する": function(){
 				var newname = $('#newname').val();
-				var newcategory = $('#newcategory').val();
-				var newdescription = $('#newdescription').val();
+				var newcate = $('#newcate').val();
+				var newdesc = $('#newdesc').val();
 
-				if( newname === "" || newcategory === ""){
+				if( newname === "" || newcate === ""){
 					$(this).dialog("close");
 			    	$('#requireAlart').dialog("open");
 			    } else {
+					$(this).dialog("close");
 					console.log("oldname is: " + oldname + ", newname is: " + newname);
 					openDB().then(function(){
-						updateItemtoDB(oldname, newcategory, newname, newdescription).then(function(){
-							$(this).dialog("close");
+						updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
+							updateStoredData(oldname, newcate, newname, newdesc);
 		        			$('#editComplete').dialog("open");
 						});
 					});
@@ -137,6 +125,19 @@
 				$(this).dialog("close");
 			}
 		}
+	});
+
+	$('#editComplete').dialog({
+	    autoOpen: false,
+	    resizable: false,
+	    modal: true,
+	    height: 200,
+	    width: 250,
+	    buttons: {
+	        "OK": function(){
+	            $(this).dialog("close");
+	        }
+	    }
 	});
 
 	</script>
