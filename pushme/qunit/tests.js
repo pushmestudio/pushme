@@ -142,3 +142,40 @@
 		equal(result, expected, "目視で確認できたらPASS");
 	});
 }
+{	
+	var data = new Array();
+	module("登録項目編集", {
+		setup: function(){
+			// prepare something for all following tests
+			result = "OK";
+		},
+		teardown: function(){
+			// clean up after each test		
+		}
+	});
+	
+	test("編集ボタンを押して必要項目を入力し「この内容で修正する」をクリックした場合、正しく編集されることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("編集ボタンを押して必要項目を入力せずに「この内容で修正する」をクリックした場合、「必須項目を入力してください」というポップアップが表示され、更新されないことを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("編集ボタンを押して「キャンセル」をクリックした場合、更新されないことを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("編集によって現在カテゴリ一覧にないカテゴリに変更した場合、編集後カテゴリ一覧に新しいカテゴリが登録されていることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+
+	test("編集によって現在1項目しかないカテゴリを変更した場合、編集後カテゴリ一覧から古いカテゴリが削除されていることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
+}

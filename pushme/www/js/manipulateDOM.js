@@ -59,28 +59,6 @@ $(function(){
 });
 
 /**
- * ◆◆◆◆◆◆◆◆◆現在未使用◆◆◆◆◆◆◆◆◆◆◆◆
- * 指定されたカテゴリのレコードを抽出し、htmlに書き出す
- * @param {String|Array} query 抽出を行うカテゴリ
- */
-function showCategorizedItems(query){
-	if(typeof query === "undefined" || query.length <= 0){
-		var itemListHtml = makeShownItemListHtml(storedData);
-		$('#itemlist').html(itemListHtml);
-		// 詳細情報を追加
-		makeAccordion();
-	} else {
-		getCategorizedItemsfromDB(query).then(function(categorizedData){
-			var itemListHtml = makeShownItemListHtml(categorizedData);
-
-			$('#itemlist').html(itemListHtml);
-			// 詳細情報を追加
-			makeAccordion();
-		});
-	}
-}
-
-/**
  * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
  * クエリが空だった場合には受け取ったデータをそのまま返す。
  * @param {String|Array} originalData 抽出対象となる元データ
@@ -111,7 +89,7 @@ var extractByCate = function(originalData, query){
  */
 function makeCateOptionsHtml(originalData){
 	var cateArray = new Array();
-	var cateOption;
+	var cateOption = '<option value="">ALL</option>';
 		for(var i = 0, n = originalData.length; i < n; i++){
 			var cate = originalData[i].category;
 			if(cateArray.indexOf(cate) != -1){
@@ -186,9 +164,10 @@ function makeShownItemListHtml(extData){
 /**
  * sotredDataの中身を更新(再取得)する
  * 更新するのはメモリ上に保存されているデータである
- * @param {String|Array} originalData 抽出対象となる元データ
- * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
- * @return {String|Array} クエリの条件に合致したデータ
+ * @param {String} oldname 編集前の名前
+ * @param {String} newcate 編集後のカテゴリ
+ * @param {String} newname 編集後の名前
+ * @param {String} newdesc 編集後の説明
  */
 function updateStoredData(oldname, newcate, newname, newdesc){
 	for(var i = 0, n = storedData.length; i < n; i++){
@@ -198,30 +177,26 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 			storedData[i].description = newdesc;
 		}
 	}
-	// 変更されたアイテムのカテゴリがカテゴリ一覧にあるかを確認し、プルダウンに追加
-	var categoryOptionsHtml = addCateOptionsHtml(newcate);
-	$('#queryId').append(categoryOptionsHtml);
-	var queryData = {"tag" : $('#queryId').val()};
-	categorizedData = extractByCate(storedData, queryData.tag);
-	// DOMを更新
-	var itemListHtml = makeShownItemListHtml(categorizedData);
-	$('#itemlist').html(itemListHtml);
+	// カテゴリ一覧を更新
+	var query = $('#queryId').val();
+	categorizedData = extractByCate(storedData, query);
+	var categoryOptionsHtml = makeCateOptionsHtml(storedData);
+	$('#queryId').html(categoryOptionsHtml);
+	$('#queryId').val(query);
+	// クエリを更新
+	var query = $('#queryId').val();
+	console.log(query);
+	// 編集前のカテゴリがALL、もしくは編集後にカテゴリが消えた場合
+	if(typeof query === "undefined" || query.length <= 0){
+		// DOMを更新
+		var itemListHtml = makeShownItemListHtml(storedData);
+		$('#itemlist').html(itemListHtml);
+	} else {
+		// DOMを更新
+		var itemListHtml = makeShownItemListHtml(categorizedData);
+		$('#itemlist').html(itemListHtml);
+	}
 	// 各種ボタン機能の埋め込み
 	makeAccordion();
 	makeEdit();
-}
-
-function addCateOptionsHtml(newcate){
-	objectList = $('#queryId').children('option[name]');
-	cateArray = new Array();
-	var cateOption;
-	for(var i = 0; i < objectList.length; i++){
-		cateArray.push($(objectList[i]).val());
-	//	console.debug(objectList[i]);
-	}
-	console.debug(cateArray);
-	if(cateArray.indexOf(newcate) === -1){
-		cateOption += '<option value="' + newcate + '" name="' + newcate + '">' + newcate + '</option>';
-	}
-	return cateOption;
 }
