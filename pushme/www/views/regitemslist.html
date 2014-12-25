@@ -40,7 +40,6 @@
 			<h2 class="content-subhead">カテゴリを選んでください☻</h2>
 			<form id="formId" class="pure-form">
 				<select id="queryId">
-					<option value="">ALL</option>
 				</select>
 				<input type="button" id="submitId" value="retrieve" class="pure-button pure-button-primary">
 			</form>
@@ -102,7 +101,7 @@
 		height: 250,
 		width: 300,
 		buttons: {
-			"この内容で修正する": function(){
+			"この内容で編集する": function(){
 				var newname = $('#newname').val();
 				var newcate = $('#newcate').val();
 				var newdesc = $('#newdesc').val();
@@ -116,12 +115,18 @@
 					openDB().then(function(){
 						updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
 							updateStoredData(oldname, newcate, newname, newdesc);
+							$('#newname').val("");
+							$('#newcate').val("");
+							$('#newdesc').val("");
 		        			$('#editComplete').dialog("open");
 						});
 					});
 				}
 			},
 			"キャンセル": function(){
+				$('#newname').val("");
+				$('#newcate').val("");
+				$('#newdesc').val("");
 				$(this).dialog("close");
 			}
 		}
