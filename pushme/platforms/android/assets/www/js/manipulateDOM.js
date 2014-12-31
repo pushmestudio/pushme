@@ -108,7 +108,14 @@ function makeCateOptionsHtml(originalData){
  function makeEdit(){
  	var name = "";
  	$('input[name="edititem"]').click(function(){
- 		oldname = $(this).parent().children('div[name="title"]').text();
+ 		oldname = $(this).parent().children('div[name="name"]').text();
+ 		oldcate = $(this).parent().next().find('span[name="cate"]').text();
+ 		olddesc = $(this).parent().next().find('span[name="desc"]').text();
+
+		$('#newname').val(oldname);
+		$('#newcate').val(oldcate);
+		$('#newdesc').val(olddesc);
+
  		$('#editRegItem').dialog("open");
  	});
 }
@@ -144,12 +151,12 @@ function makeShownItemListHtml(extData){
 
 			itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
 			itemListHtml += '<div name="card">';
-			itemListHtml += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
+			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
 			itemListHtml += '<input type="button" name="detail" value="詳細">';
 			itemListHtml += '<input type="button" name="edititem" value="編集"></div>';
 			itemListHtml += '<ul>';
-			itemListHtml += '<li>カテゴリ:' + cate + '</li>';
-			itemListHtml += '<li>説明:' + desc + '</li></ul></div>';
+			itemListHtml += '<li>カテゴリ:<span name="cate">' + cate + '</span></li>';
+			itemListHtml += '<li>説明:<span name="desc">' + desc + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
@@ -178,6 +185,13 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 		}
 	}
 	// カテゴリ一覧を更新
+	categorizedData = extractByCate(storedData, newcate);
+	var categoryOptionsHtml = makeCateOptionsHtml(storedData);
+	$('#queryId').html(categoryOptionsHtml);
+	$('#queryId').val(newcate);
+	var itemListHtml = makeShownItemListHtml(categorizedData);
+	$('#itemlist').html(itemListHtml);
+	/*
 	var query = $('#queryId').val();
 	categorizedData = extractByCate(storedData, query);
 	var categoryOptionsHtml = makeCateOptionsHtml(storedData);
@@ -196,6 +210,7 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 		var itemListHtml = makeShownItemListHtml(categorizedData);
 		$('#itemlist').html(itemListHtml);
 	}
+	*/
 	// 各種ボタン機能の埋め込み
 	makeAccordion();
 	makeEdit();

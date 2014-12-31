@@ -61,7 +61,7 @@
 					</tr>
 					<tr>
 						<td>説明</td>
-						<td><input type="text" id="newdesc"></td>
+						<td><textarea id="newdesc" cols="20" rows="7" style="resize: none;"></textarea></td>
 					</tr>
 				</table>
 			</form>
@@ -74,6 +74,8 @@
 	<script src="../js/side_menu.js"></script>
 	<script type="text/javascript">
 	var oldname;
+	var oldcate;
+	var olddesc;
 
 /*
 	$('#submitId').click(function(){
@@ -98,7 +100,7 @@
 		autoOpen: false,
 		resizable: false,
 		modal: true,
-		height: 250,
+		height: 400,
 		width: 300,
 		buttons: {
 			"この内容で編集する": function(){
@@ -124,9 +126,11 @@
 				}
 			},
 			"キャンセル": function(){
+				/*
 				$('#newname').val("");
 				$('#newcate').val("");
 				$('#newdesc').val("");
+				*/
 				$(this).dialog("close");
 			}
 		}
