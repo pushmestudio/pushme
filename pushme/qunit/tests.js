@@ -153,6 +153,11 @@
 			// clean up after each test		
 		}
 	});
+
+	test("編集ボタンを押して編集内容入力フォームが表示されたとき、フォームに変更前の文字列が入力されていることを確認する", function(){
+		var expected = "OK";
+		equal(result, expected, "目視で確認できたらPASS");
+	});
 	
 	test("編集ボタンを押して必要項目を入力し「この内容で修正する」をクリックした場合、正しく編集されることを確認する", function(){
 		var expected = "OK";
@@ -178,4 +183,5 @@
 		var expected = "OK";
 		equal(result, expected, "目視で確認できたらPASS");
 	});
+
 }
