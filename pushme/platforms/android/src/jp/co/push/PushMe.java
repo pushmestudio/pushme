@@ -23,7 +23,6 @@ import android.os.Bundle;
 import org.apache.cordova.*;
 
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 import android.webkit.WebView;
 import android.content.Intent;
 import android.net.Uri;
@@ -43,7 +42,7 @@ public class PushMe extends CordovaActivity
         // Set by <content src="index.html" /> in config.xml
         webView.loadUrl("file:///android_asset/www/index.html");
     }
-    
+
     public class JSHandler {
         @JavascriptInterface
         public void shareText(String txt) {
