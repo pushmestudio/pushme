@@ -40,16 +40,30 @@ decideAjax = (function(){
 
 	/**
 	 * retrieveが押下された際に呼び出される。
+	 * @deprecated
 	 */
 	$('#submitId').click(function(){
 		getRandomItem();
 	});
 
+  var fewAmount = 4;
+	var normalAmount = 8;
+	var manyAmount = 12;
 	/**
 	 * 件数が変更されたとき呼び出される
 	 */
-	$('#extractAmount').change(function(){
-		setExtractAmount($('#extractAmount').val());
+	$('#view_few').click(function(){
+		setExtractAmount(fewAmount);
+		getRandomItem()
+	});
+
+	$('#view_normal').click(function(){
+		setExtractAmount(normalAmount);
+		getRandomItem()
+	});
+
+	$('#view_many').click(function(){
+		setExtractAmount(manyAmount);
 		getRandomItem()
 	});
 

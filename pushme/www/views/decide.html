@@ -36,28 +36,19 @@
 			<h1>選択する</h1>
 		</div>
 		<div class="content">
-			<h2 class="content-subhead">カテゴリを選んでください☻</h2>
 			<form id="formId" class="pure-form">
 				<select id="queryId">
 					<option value="">ALL</option>
 				</select>
-
-				<select id="extractAmount">
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8" selected>8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
-					<option value="11">11</option>
-					<option value="12">12</option>
-				</select>
+			<fieldset>
+				<button type="button" id="view_few" class="pure-button"><img src="../img/option_few.png"></button>
+				<button type="button" id="view_normal" class="pure-button"><img src="../img/option_normal.png"></button>
+				<button type="button" id="view_many" class="pure-button"><img src="../img/option_many.png"></button>
+			</fieldset>
 
 				<input type="button" id="submitId" value="retrieve" class="pure-button pure-button-primary">
 			</form>
 
-			<h2 class="content-subhead">選択肢をチェックして絞り込みができるよ！</h2>
 			<div id="itemlist"></div>
 			<div id="decision"></div>
 		</div>
@@ -69,5 +60,11 @@
   <script src="../js/database.js"></script>
   <script src="../js/getFromDB.js"></script>
   <script src="../js/side_menu.js"></script>
+	<script>
+	$(function() {
+		$('#jquery-ui-button-radio').buttonset();
+	});
+	</script>
+
 </body>
 </html>
