@@ -191,26 +191,7 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 	$('#queryId').val(newcate);
 	var itemListHtml = makeShownItemListHtml(categorizedData);
 	$('#itemlist').html(itemListHtml);
-	/*
-	var query = $('#queryId').val();
-	categorizedData = extractByCate(storedData, query);
-	var categoryOptionsHtml = makeCateOptionsHtml(storedData);
-	$('#queryId').html(categoryOptionsHtml);
-	$('#queryId').val(query);
-	// クエリを更新
-	var query = $('#queryId').val();
-	console.log(query);
-	// 編集前のカテゴリがALL、もしくは編集後にカテゴリが消えた場合
-	if(typeof query === "undefined" || query.length <= 0){
-		// DOMを更新
-		var itemListHtml = makeShownItemListHtml(storedData);
-		$('#itemlist').html(itemListHtml);
-	} else {
-		// DOMを更新
-		var itemListHtml = makeShownItemListHtml(categorizedData);
-		$('#itemlist').html(itemListHtml);
-	}
-	*/
+
 	// 各種ボタン機能の埋め込み
 	makeAccordion();
 	makeEdit();
