@@ -76,6 +76,7 @@ decideAjax = (function(){
 	 * extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
 	 */
 	var getRandomItem = function(){
+		$('#decision').html("");
 		var queryData = {"tag" : $('#queryId').val()};
 		console.log(queryData);
 		$.ajax({
@@ -192,7 +193,7 @@ decideAjax = (function(){
 				console.log(choice);
 				decision += '<form action="/addclip" method="post" class="pure-form">';
 				decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
-				decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
+				decision += '<input type="submit" id="clip" value="クリップする" class="pure-button pure-button-success">';
 				decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';
 				$('#decision').html(decision);
 			}
@@ -222,6 +223,9 @@ decideAjax = (function(){
 			}else if(itemlength == allitemlength){
 				$('#narrow').prop("disabled", true);
 				$('#decide').prop("disabled", false);
+			}
+			if(!$('#clip').prop("disabled")){
+				$('#decide').prop("disabled", true);
 			}
 		});
 	};
