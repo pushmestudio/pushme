@@ -203,7 +203,7 @@ decideAjax = (function(){
 	var makeAccordion = function(){
 		$(function(){
 			$('.accordion input[name="detail"]').click(function(){
-				$(this).parent().next("ul").slideToggle();
+				$(this).parent().parent().next("ul").slideToggle();
 				$(this).toggleClass("open");
 			});
 		});
