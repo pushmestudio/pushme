@@ -168,6 +168,7 @@ decideAjax = (function(){
 
 	decideItem = function(){
 		$('#decide').prop("disabled", true);
+		if($('#reset')){ $('#reset').prop("disabled", true);}
 		var itemlist = $(':checkbox[name="item"]:checked').parent('div[name="card"]');
 		var i = 0;
 		var count = 0;
@@ -224,8 +225,10 @@ decideAjax = (function(){
 				$('#narrow').prop("disabled", true);
 				$('#decide').prop("disabled", false);
 			}
-			if(!$('#clip').prop("disabled")){
+			if($('#decision').children().length > 0){
 				$('#decide').prop("disabled", true);
+				$('#narrow').prop("disabled", true);
+				$('#reset').prop("disabled", true);
 			}
 		});
 	};
