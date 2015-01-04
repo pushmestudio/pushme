@@ -167,7 +167,7 @@ decideAjax = (function(){
 
 	decideItem = function(){
 		$('#decide').prop("disabled", true);
-		var itemlist = $('div[name="card"]');
+		var itemlist = $(':checkbox[name="item"]:checked').parent('div[name="card"]');
 		var i = 0;
 		var count = 0;
 		var random = 0;
@@ -213,10 +213,15 @@ decideAjax = (function(){
 		$('#itemlist').find('input[type="checkbox"]').click(function(){
 			var allitemlength = $('#itemlist').find('input[type="checkbox"]').length;
 			var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
-			if(itemlength > 0 && itemlength < allitemlength){
-				$('#narrow').prop("disabled", false);
-			}else{
+			if(itemlength <= 0){
 				$('#narrow').prop("disabled", true);
+				$('#decide').prop("disabled", true);
+			}else if(itemlength > 0 && itemlength < allitemlength){
+				$('#narrow').prop("disabled", false);
+				$('#decide').prop("disabled", false);
+			}else if(itemlength == allitemlength){
+				$('#narrow').prop("disabled", true);
+				$('#decide').prop("disabled", false);
 			}
 		});
 	};
@@ -320,10 +325,10 @@ decideAjax = (function(){
 				var cate = extData[i].category;
 				var desc = extData[i].description;
 
-				itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
+				itemListHtml += '<div name="arrow" class="pure-u-1">';
 				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
-				itemListHtml += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
-				itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
+				itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
+				itemListHtml += '<div name="buttons"><input type="button" name="detail" value="詳細"></div></div>';
 				itemListHtml += '<ul>';
 				itemListHtml += '<li>カテゴリ:' + cate + '</li>';
 				itemListHtml += '<li>コメント:' + desc + '</li></ul></div>';
