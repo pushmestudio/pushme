@@ -40,9 +40,31 @@ decideAjax = (function(){
 
 	/**
 	 * retrieveが押下された際に呼び出される。
+	 * @deprecated
 	 */
 	$('#submitId').click(function(){
 		getRandomItem();
+	});
+
+  var fewAmount = 4;
+	var normalAmount = 8;
+	var manyAmount = 12;
+	/**
+	 * 件数が変更されたとき呼び出される
+	 */
+	$('#view_few').click(function(){
+		setExtractAmount(fewAmount);
+		getRandomItem()
+	});
+
+	$('#view_normal').click(function(){
+		setExtractAmount(normalAmount);
+		getRandomItem()
+	});
+
+	$('#view_many').click(function(){
+		setExtractAmount(manyAmount);
+		getRandomItem()
 	});
 
 
@@ -199,8 +221,6 @@ decideAjax = (function(){
 		});
 	};
 
-	var extractAmountDummyConfig = 8;//ランダムで抽出する数, いずれはユーザ設定ファイル等から持ってくる必要がある
-
 	/**
 	 * 受け取ったデータ及びデータ抽出件数に基づき、ランダムにデータを抽出する。
 	 * データが件数以下の場合は全件出力する。この場合にはランダムな並び替えは実施しない。
@@ -210,7 +230,7 @@ decideAjax = (function(){
 	 */
 	var randomExtract = function(originalData, extractAmount){
 		if(typeof extractAmount === "undefined"){
-			extractAmount = extractAmountDummyConfig;//configから持ってきたという想定
+			extractAmount = getExtractAmount(); // Cookieにセットしてある抽出件数を用いている
 		}
 		var extractedData = new Array();
 		var originalDataLength = originalData.length;
@@ -319,5 +339,31 @@ decideAjax = (function(){
 
 		return itemListHtml;
 	};
+
+
+	var extractAmount = 8;
+	/**
+	* 抽出件数をセットする
+	* @param {String} cvalue 抽出件数としてセットしたい値 数値以外や1未満の場合は既定値でセットする
+	*/
+	var setExtractAmount = function(cvalue) {
+		var defaultAmount = 8;
+		var configValue = parseInt(cvalue);
+
+		if (typeof configValue === 'number' && configValue > 0) {
+			extractAmount = Math.ceil(configValue); // 小数点を受け取ってしまった場合の対処
+		} else {
+			extractAmount = defaultAmount;
+		}
+
+	}
+
+	/**
+	* 抽出件数をゲットする
+	* @return {number} extractAmount セット済の抽出件数
+	*/
+	var getExtractAmount = function() {
+		return extractAmount;
+	}
 
 })();

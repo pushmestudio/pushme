@@ -66,6 +66,8 @@
 				</table>
 			</form>
 		</div>
+		<div id="delItem" title="登録データの削除">削除しますか？</div>
+		<div id="delComplete" title="削除完了">削除完了	</div>
 	</div>
 	<script src="../js/jquery.min.js" type="text/javascript" ></script>
 	<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
@@ -76,6 +78,7 @@
 	var oldname;
 	var oldcate;
 	var olddesc;
+	var delname;
 
 	$('#requireAlart').dialog({
 	    autoOpen: false,
@@ -142,7 +145,41 @@
 	        }
 	    }
 	});
-
+	
+	$('#delItem').dialog({
+		autoOpen: false,
+		resizable: false,
+		modal: true,
+		height: 250,
+		width: 300,
+		buttons: {
+			"削除": function(){
+					$(this).dialog("close");
+					openDB().then(function(){
+						delItemFromDB().then(function(){
+								updateStoredDataForDeleteProcess(delname);
+								$('#delComplete').dialog("open");
+						});
+					});
+			},
+			"キャンセル": function(){
+				$(this).dialog("close");
+			}
+		}
+	});
+	
+	$('#delComplete').dialog({
+	    autoOpen: false,
+	    resizable: false,
+	    modal: true,
+	    height: 200,
+	    width: 250,
+	    buttons: {
+	        "OK": function(){
+	            $(this).dialog("close");
+	        }
+	    }
+	});
 	</script>
 </body>
 </html>

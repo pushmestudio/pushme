@@ -198,3 +198,40 @@ function getTimeStamp(){
     console.log("timeStamp is:" + timeStamp);
     return timeStamp;
 }
+
+/**
+ * データ一覧表示で削除ボタンをクリックされたアイテムをDBから削除
+ * 1. DBに対象のアイテムがあるか検索
+ * 2. Yesなら削除 (db.transaction.objectStore.delete()を使用)
+ */
+function delItemFromDB(){
+	var name = delname; //regitemslist.htmlにあるグローバル変数
+	var trans = db.transaction(["items"], "readwrite");
+	var store = trans.objectStore("items");
+	var promise = new Promise(function(resolve, reject){
+		var index = store.index("name");
+		var keyRange = IDBKeyRange.only(name);
+		index.openCursor(keyRange).onsuccess = function(e) {
+			var result = e.target.result;
+			if(result === null || result === undefined){
+				console.log("name: " + name + " is not found");
+			} else {
+				console.log("result.value.name " + result.value.name);
+			};
+			var delReq = store.delete(result.value.timeStamp);
+			delReq.onsuccess = function(){
+				console.log("DELETE SUCCESS");
+				resolve();
+			};
+			delReq.onerror = function(){
+				console.log("DELETE FAILURE");
+				reject();
+			};
+		};
+		index.openCursor(keyRange).onerror = function(e){
+			console.log("cursorRequest error: " + e.message);
+			reject("cursorRequest error: " + e.message);
+		};
+	});
+	return promise;
+};
