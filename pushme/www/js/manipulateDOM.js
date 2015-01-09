@@ -23,6 +23,7 @@ $(function(){
 			// 各種ボタン機能の埋め込み
 			makeAccordion();
 			makeEdit();
+			makeDel();
 
 			// queryIdが変化したら呼ぶ
 			$('#queryId').change(function(){
@@ -34,6 +35,7 @@ $(function(){
 				// 各種ボタン機能の埋め込み
 				makeAccordion();
 				makeEdit();
+				makeDel();
 			});
 
 			// submitが押されたら呼ぶ
@@ -47,6 +49,7 @@ $(function(){
 				// 各種ボタン機能の埋め込み
 				makeAccordion();
 				makeEdit();
+				makeDel();
 			});
 
 			console.dir(storedData);
@@ -121,6 +124,17 @@ function makeCateOptionsHtml(originalData){
 }
 
 /**
+ * 削除ボタンのクリック時にコールされる
+ */
+function makeDel(){
+ 	var name = "";
+ 	$('input[name="deleteitem"]').click(function(){
+ 		delname = $(this).parent().children('div[name="name"]').text();
+ 		$('#delItem').dialog("open");
+ 	});	
+}
+
+/**
  * 詳細情報を表示するアコーディオンを作成する。
  */
 function makeAccordion(){
@@ -153,7 +167,8 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<div name="card">';
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
 			itemListHtml += '<input type="button" name="detail" value="詳細">';
-			itemListHtml += '<input type="button" name="edititem" value="編集"></div>';
+			itemListHtml += '<input type="button" name="edititem" value="編集">';
+			itemListHtml += '<input type="button" name="deleteitem" value="削除"></div>';
 			itemListHtml += '<ul>';
 			itemListHtml += '<li>カテゴリ:<span name="cate">' + cate + '</span></li>';
 			itemListHtml += '<li>説明:<span name="desc">' + desc + '</span></li></ul></div>';
@@ -195,4 +210,57 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 	// 各種ボタン機能の埋め込み
 	makeAccordion();
 	makeEdit();
+	makeDel();
+}
+
+/**
+ * DBからアイテムを削除した際に、DOMで扱うstoredDataの中身を削除
+ * 対象カテゴリに該当するアイテムがない場合はカテゴリ自体を削除
+ *
+ */
+function updateStoredDataForDeleteProcess(delname){
+	var check, targetCate;
+	for(var i = 0, n = storedData.length; i < n; i++){
+		if(delname === storedData[i].name){
+			check = i;
+			targetCate = storedData[i].category;
+		};
+	}
+	storedData.some(function(v,check){
+		if (v.name==delname){
+			storedData.splice(check,1);
+			console.log("delete from storedData");
+		}	
+	});
+	//var queryData = {"tag" : $('#queryId').val()};
+	categorizedData = extractByCate(storedData, targetCate);//queryData.tag
+	if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
+		var newCateHtml = '<select id="queryId">';
+		newCateHtml += makeCateOptionsHtml(storedData);
+		newCateHtml += '</select>';
+		$('#queryId').replaceWith(newCateHtml);
+		var itemListHtml = makeShownItemListHtml(storedData);
+	}else{//カテゴリに該当するアイテムが１つ以上ある時
+		var itemListHtml = makeShownItemListHtml(categorizedData);
+	}
+	$('#itemlist').html(itemListHtml);
+	reloadqueryIdChangeFunc();//queryIdを再定義したため、リロード
+}
+
+/**
+ * queryIdの再定義に伴い、queryId変更時のアクションをリロードするメソッド
+ */
+var reloadqueryIdChangeFunc = function(){
+	makeAccordion();
+	makeEdit();
+	makeDel();
+	$('#queryId').change(function(){
+		var queryData = {"tag" : $('#queryId').val()};
+		categorizedData = extractByCate(storedData, queryData.tag);
+		var itemListHtml = makeShownItemListHtml(categorizedData);
+		$('#itemlist').html(itemListHtml);
+		makeAccordion();
+		makeEdit();
+		makeDel();
+	});
 }
