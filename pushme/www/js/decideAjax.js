@@ -89,6 +89,7 @@ decideAjax = (function(){
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
+				extendLabel();
 				makeIsChecked();
 			},
 			error: function(err){
@@ -108,6 +109,7 @@ decideAjax = (function(){
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
+				extendLabel();
 				makeIsChecked();
 			},
 			error: function(err){
@@ -168,6 +170,9 @@ decideAjax = (function(){
 
 	decideItem = function(){
 		$('#decide').prop("disabled", true);
+		$('#narrow').prop("disabled", true);
+		$('#reset').prop("disabled", true);
+		//$('#decide').prop("disabled", true);
 		if($('#reset')){ $('#reset').prop("disabled", true);}
 		var itemlist = $(':checkbox[name="item"]:checked').parent('div[name="card"]');
 		var i = 0;
@@ -190,13 +195,15 @@ decideAjax = (function(){
 				}, 1000);
 				//お店の名前(title)を取得
 				decision = "";
-				choice = $(itemlist.get(random)).children('div[name="title"]').text();
+				choice = $(itemlist.get(random)).children('div[name="name"]').text();
 				console.log(choice);
 				decision += '<form action="/addclip" method="post" class="pure-form">';
 				decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
 				decision += '<input type="submit" id="clip" value="クリップする" class="pure-button pure-button-success">';
 				decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';
 				$('#decision').html(decision);
+				$('#clip').prop("disabled", false);
+				$('#share').prop("disabled", false);
 			}
 		}, 300)
 	};
@@ -205,32 +212,59 @@ decideAjax = (function(){
 	var makeAccordion = function(){
 		$(function(){
 			$('.accordion input[name="detail"]').click(function(){
-				$(this).parent().parent().next("ul").slideToggle();
+				$(this).parents('div[name="card"]').next("ul").slideToggle();
 				$(this).toggleClass("open");
 			});
 		});
 	};
+	
+	var extendLabel = function(){
+		var ispart = false;
+		$('#itemlist').find('input[name="detail"]').click(function(){
+			ispart = true;
+		});
+		$('#itemlist').find('input[type="checkbox"]').click(function(){
+			ispart = true;
+			makeIsChecked();
+		});
+		$('#itemlist').find('label').click(function(){
+			ispart = true;
+			makeIsChecked();
+		});
+		
+		$('#itemlist').find('div[name="card"]').click(function(){
+			if(ispart){
+				ispart = false;
+				return;
+			}
+			var checkbox = $(this).children('input[type="checkbox"]');
+			if(checkbox.is(':checked')){
+				checkbox.prop('checked', false);
+			}else{
+				checkbox.prop('checked', true);
+			}
+			makeIsChecked();
+		});
+	}
 
 	var makeIsChecked = function(){
-		$('#itemlist').find('input[type="checkbox"]').click(function(){
-			var allitemlength = $('#itemlist').find('input[type="checkbox"]').length;
-			var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
-			if(itemlength <= 0){
-				$('#narrow').prop("disabled", true);
-				$('#decide').prop("disabled", true);
-			}else if(itemlength > 0 && itemlength < allitemlength){
-				$('#narrow').prop("disabled", false);
-				$('#decide').prop("disabled", false);
-			}else if(itemlength == allitemlength){
-				$('#narrow').prop("disabled", true);
-				$('#decide').prop("disabled", false);
-			}
-			if($('#decision').children().length > 0){
-				$('#decide').prop("disabled", true);
-				$('#narrow').prop("disabled", true);
-				$('#reset').prop("disabled", true);
-			}
-		});
+		var allitemlength = $('#itemlist').find('input[type="checkbox"]').length;
+		var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
+		if(itemlength <= 0){
+			$('#narrow').prop("disabled", true);
+			$('#decide').prop("disabled", true);
+		}else if(itemlength > 0 && itemlength < allitemlength){
+			$('#narrow').prop("disabled", false);
+			$('#decide').prop("disabled", false);
+		}else if(itemlength == allitemlength){
+			$('#narrow').prop("disabled", true);
+			$('#decide').prop("disabled", false);
+		}
+		if($('#decision').children().length > 0){
+			$('#decide').prop("disabled", true);
+			$('#narrow').prop("disabled", true);
+			$('#reset').prop("disabled", true);
+		}
 	};
 
 	/**
