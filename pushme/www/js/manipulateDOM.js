@@ -108,9 +108,9 @@ function makeCateOptionsHtml(originalData){
  function makeEdit(){
  	var name = "";
  	$('input[name="edititem"]').click(function(){
- 		oldname = $(this).parent().children('div[name="name"]').text();
- 		oldcate = $(this).parent().next().find('span[name="cate"]').text();
- 		olddesc = $(this).parent().next().find('span[name="desc"]').text();
+ 		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+ 		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+ 		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
 
 		$('#newname').val(oldname);
 		$('#newcate').val(oldcate);
@@ -126,7 +126,7 @@ function makeCateOptionsHtml(originalData){
 function makeAccordion(){
 	$(function(){
 		$('.accordion input[name="detail"]').click(function(){
-			$(this).parent().parent().next("ul").slideToggle();
+			$(this).parents('div[name="card"]').next("ul").slideToggle();
 			$(this).toggleClass("open");
 		});
 	});
