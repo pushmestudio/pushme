@@ -34,17 +34,20 @@
 		<div class="header">
 			<h1>お店を登録する</h1>
 		</div>
-		<form id="regForm" class="pure-form pure-form-aligned">
+		<form id="regForm" class="pure-form">
 			<div class="content">
 				<h2 class="content-subhead">*カテゴリ</h2>
-				<p><input type="text" id="category" placeholder="カテゴリ" /></p>
+				<input id="getqueryId" type="text" value="" placeholder="カテゴリ" style="border:0;position:relative;left:2;top:-1;width:100px;z-index:1">
+                <select id="queryId" style="position:relative;left:-105px;top:0;width:122px;z-index:0" onchange="document.getElementById('getqueryId').value=this.options[this.selectedIndex].text;this.selectedIndex=-1;" onblur="this.selectedIndex=-1;">
+				</select>
 				<h2 class="content-subhead">*名前</h2>
-				<p><input type="text" id="name" placeholder="名前" /></p>
+				<p><input type="text" id="name" name="name" placeholder="名前" size="14"/></p>
 				<h2 class="content-subhead">説明</h2>
-				<p><input type="text" id="description" placeholder="説明" /></p>
+				<p><textarea name="description" placeholder="説明" style="width:200px;height:200px;" id="description" placeholder="説明" /></textarea></p>
 				<p><input type="button" id="confirmAdd" value="登録" class="pure-button pure-button-primary" ></p>
 				<div id="regConfirm" title="データ登録"></div>
 				<div id="regComplete" title="登録完了" >登録完了</div>
+				<div id="repregComplete" title="連続登録完了" style="display: none">連続登録完了</div>
 				<div id="requireAlart" title="警告" >必須項目を入力してください</div>
 			</div>
 		</form>
@@ -53,73 +56,6 @@
 <script src="../js/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="../js/database.js"></script>
 <script src="../js/side_menu.js"></script>
-<script type="text/javascript" >
-// 登録する情報
-var cate;
-var name;
-var desc;
+<script src="../js/submit.js"></script>
 
-$('#regConfirm').dialog({
-	autoOpen: false,
-	resizable: false,
-	modal: true,
-	height: 250,
-	width: 300,
-	buttons: {
-		"Yes": function(){
-			$(this).dialog("close");
-			openDB().then(function(){
-				addItemtoDB(cate, name, desc).then(function(){
-        			$('#regComplete').dialog("open");
-				}, function(err){
-					alert(err);
-				});
-			});
-		},
-		"Cancel": function(){
-			$(this).dialog("close");
-		}
-	}
-});
-
-$('#regComplete').dialog({
-    autoOpen: false,
-    resizable: false,
-    modal: true,
-    height: 200,
-    width: 250,
-    buttons: {
-        "OK": function(){
-            $(this).dialog("close");
-            location.href = "./index.html";
-        }
-    }
-});
-
-$('#requireAlart').dialog({
-    autoOpen: false,
-    resizable: false,
-    modal: true,
-    height: 200,
-    width: 250,
-    buttons: {
-        "OK": function(){
-            $(this).dialog("close");
-        }
-    }
-});
-
-$('#confirmAdd').click(function(){
-	cate = $('#category').val();
-    name = $('#name').val();
-    desc = $('#description').val();
-    if( cate == "" || name == ""){
-    	$('#requireAlart').dialog("open");
-    } else {
-		$('#regConfirm').html("以下の項目で登録しますか？<br>カテゴリ: " + cate + "<br>名前: " + name + "<br>説明: " + desc);
-		$('#regConfirm').dialog("open");
-	}
-});
-
-</script>
 </body>
