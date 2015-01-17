@@ -3,21 +3,20 @@ var db = null;
 var version = 1;
 
 function openDB(){
-    var promise = new Promise(function(resolve, reject){
-        // Open DB
-        var request = indexedDB.open("pushmeDB", version);
-        request.onupgradeneeded = initDB;
-        request.onerror = function(e){
-            console.log("open error:", e);
-            reject("open error:" + e.value);
-        };
-        request.onsuccess = function(e){
-            console.log("open success:")
-            db = e.target.result;
-            resolve();
-        };
-    });
-    return promise;
+    var deferred = new jQuery.Deferred();
+    // Open DB
+    var request = indexedDB.open("pushmeDB", version);
+    request.onupgradeneeded = initDB;
+    request.onerror = function(e){
+        console.log("open error:", e);
+        deferred.reject("open error");
+    };
+    request.onsuccess = function(e){
+        console.log("open success:")
+        db = e.target.result;
+        deferred.resolve();
+    };
+    return deferred.promise();
 }
 
 /**
@@ -48,21 +47,23 @@ function addItemtoDB(cate, name, desc){
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
 
-    var promise = new Promise(function(resolve, reject){
+    var deferred = new jQuery.Deferred();
+ //   var promise = new Promise(function(resolve, reject){
         // add newItem to the objectStore
         console.log("NewItem {category: " + newItem.category + ", name: " + newItem.name + ", description: " + newItem.description + "}");
         var objectStoreRequet = store.add(newItem);
 
         objectStoreRequet.onsuccess = function(e){
             console.log("New item added to database");
-            resolve();
+            deferred.resolve();
         };
         objectStoreRequet.onerror = function(e){
-            console.log("objectStoreRequet error: " + e.message);
-            reject();
+            console.log("objectStoreRequest error: " + e.message);
+            deferred.reject("objectStoreRequest error");
         };
-    });
-    return promise;
+ //   });
+    return deferred.promise();
+ //   return promise;
 }
 
 function updateItemtoDB(oldname, newcate, newname, newdesc){
@@ -73,7 +74,8 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
 
-    var promise = new Promise(function(resolve, reject){
+    var deferred = new jQuery.Deferred();
+ //   var promise = new Promise(function(resolve, reject){
         // 名前が一致するデータを取得する
         var range = IDBKeyRange.only(oldname);
         var index = store.index("name");
@@ -91,20 +93,21 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
                 var objectStoreRequest = store.put(updateItem);
                 objectStoreRequest.onsuccess = function(e){
                     console.log("Update the item");
-                    resolve();
+                    deferred.resolve();
                 };
                 objectStoreRequest.onerror = function(e){
                     console.log("objectStoreRequet error: " + e.message);
-                    reject("objectStoreRequest error: " + e.message);
+                    deferred.reject("objectStoreRequest error: " + e.message);
                 };
             }
         };
         index.openCursor(range).onerror = function(e){
             console.log("cursorRequest error: " + e.message);
-            reject("cursorRequest error: " + e.message);
+            deferred.reject("cursorRequest error: " + e.message);
         };
-    });
-    return promise;
+ //   });
+    return deferred.promise();
+ //   return promise;
 }
 
 function getAllItemsfromDB(){
@@ -112,12 +115,13 @@ function getAllItemsfromDB(){
     var store = trans.objectStore("items");
     var allItems = [];
     
-    var promise = new Promise(function(resolve, reject){
+    var deferred = new jQuery.Deferred();
+//    var promise = new Promise(function(resolve, reject){
         var cursorRequest = store.openCursor();
         cursorRequest.onsuccess = function(e){
             var cursorResult = e.target.result;
             if(cursorResult === null || cursorResult === undefined){
-                resolve(allItems);
+                deferred.resolve(allItems);
             } else {
                 console.log(cursorResult.value);
                 allItems.push(cursorResult.value);
@@ -126,10 +130,11 @@ function getAllItemsfromDB(){
         };
         cursorRequest.onerror = function(e){
             console.log("cursorRequest error: " + e.message);
-            reject("cursorRequest error: " + e.message);
+            deferred.reject("cursorRequest error: " + e.message);
         };
-    });
-    return promise;
+ //   });
+    return deferred.promise();
+//    return promise;
 }
 
 function getCategorizedItemsfromDB(query){
@@ -138,14 +143,15 @@ function getCategorizedItemsfromDB(query){
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
 
-    var promise = new Promise(function(resolve, reject){
+    var deferred = new jQuery.Deferred();
+//    var promise = new Promise(function(resolve, reject){
         // カテゴリに一致するもののみをフィルターする
         var range = IDBKeyRange.only(query);
         var index = store.index("category");
         index.openCursor(range).onsuccess = function(e){
             var cursorResult = e.target.result;
             if(cursorResult === null || cursorResult === undefined){
-                resolve(categorizedItems);
+                deferred.resolve(categorizedItems);
             } else {
                 console.log(cursorResult.value);
                 categorizedItems.push(cursorResult.value);
@@ -154,10 +160,11 @@ function getCategorizedItemsfromDB(query){
         };
         index.openCursor(range).onerror = function(e){
             console.log("cursorRequest error: " + e.message);
-            reject("cursorRequest error: " + e.message);
+            deferred.reject("cursorRequest error: " + e.message);
         };
-    });
-    return promise;
+//    });
+    return deferred.promise();
+//    return promise;
 }
 
 function getUniqueItemfromDB(name){
@@ -165,7 +172,8 @@ function getUniqueItemfromDB(name){
     var store = trans.objectStore("items");
     var item;
 
-    var promise = new Promise(function(resolve, reject){
+    var deferred = new jQuery.Deferred();
+//    var promise = new Promise(function(resolve, reject){
         // 名前が一致するデータを取得する
         var range = IDBKeyRange.only(name);
         var index = store.index("name");
@@ -176,14 +184,15 @@ function getUniqueItemfromDB(name){
             } else {
                 item = cursorResult.value;
             }
-            resolve(item);
+            deferred.resolve(item);
         };
         index.openCursor(range).onerror = function(e){
             console.log("cursorRequest error: " + e.message);
-            reject("cursorRequest error: " + e.message);
+            deferred.reject("cursorRequest error: " + e.message);
         };
-    });
-    return promise;
+//    });
+    return deferred.promise();
+//    return promise;
 }
 
 function getTimeStamp(){
@@ -208,7 +217,9 @@ function delItemFromDB(){
 	var name = delname; //regitemslist.htmlにあるグローバル変数
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
-	var promise = new Promise(function(resolve, reject){
+
+    var deferred = new jQuery.Deferred();
+//	var promise = new Promise(function(resolve, reject){
 		var index = store.index("name");
 		var keyRange = IDBKeyRange.only(name);
 		index.openCursor(keyRange).onsuccess = function(e) {
@@ -221,17 +232,18 @@ function delItemFromDB(){
 			var delReq = store.delete(result.value.timeStamp);
 			delReq.onsuccess = function(){
 				console.log("DELETE SUCCESS");
-				resolve();
+				deferred.resolve();
 			};
 			delReq.onerror = function(){
 				console.log("DELETE FAILURE");
-				reject();
+				deferred.reject();
 			};
 		};
 		index.openCursor(keyRange).onerror = function(e){
 			console.log("cursorRequest error: " + e.message);
-			reject("cursorRequest error: " + e.message);
+			deferred.reject("cursorRequest error: " + e.message);
 		};
-	});
-	return promise;
+//	});
+    return deferred.promise();
+//	return promise;
 };
