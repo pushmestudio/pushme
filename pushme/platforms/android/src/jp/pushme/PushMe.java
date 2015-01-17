@@ -17,7 +17,7 @@
        under the License.
  */
 
-package jp.co.push;
+package jp.pushme;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

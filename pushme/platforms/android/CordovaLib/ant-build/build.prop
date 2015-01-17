@@ -1,5 +1,5 @@
 #Last build type
-#Sat, 03 Jan 2015 09:39:52 +0900
+#Sat, 17 Jan 2015 15:00:53 +0900
 #Sat, 13 Dec 2014 17:43:18 +0900
 #Sun, 14 Dec 2014 16:02:35 +0900
 #Tue, 25 Nov 2014 00:31:21 +0900
@@ -10,10 +10,10 @@
 #Sat, 08 Nov 2014 12:52:45 +0900
 >>>>>>>=EditRegItem
 
-build.last.target=debug
+build.last.target=release
 
 build.last.is.instrumented=false
 
-build.last.is.packaging.debug=true
+build.last.is.packaging.debug=false
 
-build.last.is.signing.debug=true
+build.last.is.signing.debug=false

@@ -1,8 +1,8 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<widget id="jp.co.push" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PushMe</name>
+<widget id="jp.pushme" version="0.5.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>PushMe!</name>
     <description>
-        PushMe supports your decision making and makes your good day!
+        Easy Decision, Easy Life!
     </description>
 	<preference name="LoadingPageDialog" value="PushMe!,Now Loading..."/>
     <content src="index.html" />

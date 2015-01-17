@@ -1,17 +1,19 @@
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes.dex : \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/BuildConfig.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/PushMe$JSHandler.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/PushMe$MyWebViewClient.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/PushMe.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/R$attr.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/R$drawable.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/R$string.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/R$xml.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/jp/co/push/R.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$1.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$Action.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$DBQuery.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$DBRunner.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$QueryType.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin.class \
-/Users/capsmalt/Documents/env/01.Projects/KSSOSS/review_editFunc/decision2014.pushme/pushme/platforms/android/ant-build/dexedLibs/classes-12ef9a47a82ae3d502f3d3afaa51c0f3.jar \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes.dex : \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\com\android\vending\billing\IInAppBillingService$Stub$Proxy.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\com\android\vending\billing\IInAppBillingService$Stub.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\com\android\vending\billing\IInAppBillingService.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\BuildConfig.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\PushMe$JSHandler.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\PushMe.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\R$attr.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\R$drawable.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\R$string.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\R$xml.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\R.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\org\pgsqlite\SQLitePlugin$1.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\org\pgsqlite\SQLitePlugin$Action.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\org\pgsqlite\SQLitePlugin$DBQuery.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\org\pgsqlite\SQLitePlugin$DBRunner.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\org\pgsqlite\SQLitePlugin$QueryType.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\org\pgsqlite\SQLitePlugin.class \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\dexedLibs\classes-72c230f14169d4ea29ae91bf1624f22c.jar \
