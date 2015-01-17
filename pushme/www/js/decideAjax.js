@@ -341,7 +341,7 @@ decideAjax = (function(){
 	 */
 	var makeCateOptionsHtml = function(originalData){
 		var cateArray = new Array();
-		var cateOption;
+		var cateOption = '<option value="">ALL</option>';;
 			for(var i = 0, n = originalData.length; i < n; i++){
 				var cate = originalData[i].category;
 				if(cateArray.indexOf(cate) != -1){
@@ -362,7 +362,7 @@ decideAjax = (function(){
 	var makeItemListHtml = function(extData){
 		var itemListHtml = "";
 		if(extData.length > 0){
-			itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
+			itemListHtml += '<p><form name="itemlist" class="pure-form pure-form-aligned">';
 			itemListHtml += '<div class="pure-g">';
 			itemListHtml += '<span class="accordion">';
 
@@ -383,7 +383,7 @@ decideAjax = (function(){
 			itemListHtml += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
 			itemListHtml += '<input type="button" id="reset" disabled="disabled" value="絞り込み解除" onclick="resetItem()" class="pure-button pure-button-small">';
 			itemListHtml += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-			itemListHtml += "</form>";
+			itemListHtml += "</form></p>";
 		} else {
 			itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
 		}

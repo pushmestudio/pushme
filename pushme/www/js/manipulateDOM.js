@@ -129,9 +129,9 @@ function makeCateOptionsHtml(originalData){
 function makeDel(){
  	var name = "";
  	$('input[name="deleteitem"]').click(function(){
- 		delname = $(this).parent().children('div[name="name"]').text();
- 		delcate = $(this).parent().next().find('span[name="cate"]').text();
- 		deldesc = $(this).parent().next().find('span[name="desc"]').text();
+ 		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+ 		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+ 		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
  		$('#delItem').html("カテゴリ: " + delcate + "<br>名前: " + delname + "<br>説明: " + deldesc);
  		$('#delItem').dialog("open");
  	});
