@@ -1,0 +1,50 @@
+@media screen and (min-width:49em){
+
+ .content {
+	max-width: 50%
+ }
+
+}
+
+@media screen and (max-width:48em){
+
+ .content {
+ 	max-width: 80%
+ }
+
+}
+
+span.accordion {
+	width: 100%
+}
+
+div[name="card"]{
+	margin: 5px 0 5px 0; 
+	padding: 5px 5px 5px 5px;
+	height: 30px;
+	position: relative;
+}
+
+input[name="item"],
+div[name="name"],
+div[name="buttons"] {
+	display:inline-block;
+	vertical-align: middle;
+}
+
+div[name="name"]{
+	padding:0 .5em 0px .5em;
+}
+
+div[name="buttons"]{
+	position: absolute;
+	top:.5em;
+	right:5px;
+}
+
+input[type="button"]{
+	margin: 0 5px 0 0;
+}
+
+
+}
