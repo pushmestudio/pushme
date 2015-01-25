@@ -54,17 +54,17 @@ decideAjax = (function(){
 	 */
 	$('#view_few').click(function(){
 		setExtractAmount(fewAmount);
-		getRandomItem()
+		getRandomItem();
 	});
 
 	$('#view_normal').click(function(){
 		setExtractAmount(normalAmount);
-		getRandomItem()
+		getRandomItem();
 	});
 
 	$('#view_many').click(function(){
 		setExtractAmount(manyAmount);
-		getRandomItem()
+		getRandomItem();
 	});
 
 
@@ -91,6 +91,7 @@ decideAjax = (function(){
 				makeAccordion();
 				extendLabel();
 				makeIsChecked();
+				footerFixed();
 			},
 			error: function(err){
                 console.error(err);

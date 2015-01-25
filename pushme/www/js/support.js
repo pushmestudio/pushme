@@ -15,7 +15,7 @@ new function(){
     // From here is under the MIT license by Kazuma Nishihata.
     var footerId = "ads";
     //メイン
-    function footerFixed(){
+    footerFixed = function(){
         //ドキュメントの高さ
         var dh = document.getElementsByTagName("body")[0].clientHeight;
         //フッターのtopからの位置
@@ -45,6 +45,5 @@ new function(){
     }
 
     addEvent(window,"load",footerFixed);
-    addEvent(window,"resize",footerFixed);
     
 }
