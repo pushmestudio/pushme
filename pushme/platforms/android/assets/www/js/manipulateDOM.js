@@ -111,9 +111,9 @@ function makeCateOptionsHtml(originalData){
  function makeEdit(){
  	var name = "";
  	$('input[name="edititem"]').click(function(){
- 		oldname = $(this).parent().children('div[name="name"]').text();
- 		oldcate = $(this).parent().next().find('span[name="cate"]').text();
- 		olddesc = $(this).parent().next().find('span[name="desc"]').text();
+ 		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+ 		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+ 		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
 
 		$('#newname').val(oldname);
 		$('#newcate').val(oldcate);
@@ -129,12 +129,12 @@ function makeCateOptionsHtml(originalData){
 function makeDel(){
  	var name = "";
  	$('input[name="deleteitem"]').click(function(){
- 		delname = $(this).parent().children('div[name="name"]').text();
- 		delcate = $(this).parent().next().find('span[name="cate"]').text();
- 		deldesc = $(this).parent().next().find('span[name="desc"]').text();
+ 		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+ 		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+ 		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
  		$('#delItem').html("カテゴリ: " + delcate + "<br>名前: " + delname + "<br>説明: " + deldesc);
  		$('#delItem').dialog("open");
- 	});	
+ 	});
 }
 
 /**
@@ -143,7 +143,7 @@ function makeDel(){
 function makeAccordion(){
 	$(function(){
 		$('.accordion input[name="detail"]').click(function(){
-			$(this).parent().next("ul").slideToggle();
+			$(this).parents('div[name="card"]').next("ul").slideToggle();
 			$(this).toggleClass("open");
 		});
 	});
@@ -166,13 +166,14 @@ function makeShownItemListHtml(extData){
 			var cate = extData[i].category;
 			var desc = extData[i].description;
 
-			itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
+			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
+			itemListHtml += '<div name="buttons">';
 			itemListHtml += '<input type="button" name="detail" value="詳細">';
-			itemListHtml += '<input type="button" name="edititem" value="編集">';
-			itemListHtml += '<input type="button" name="deleteitem" value="削除"></div>';
-			itemListHtml += '<ul>';
+			itemListHtml += '<input type="button" name="edititem" value="編集">'
+			itemListHtml += '<input type="button" name="deleteitem" value="削除">';
+			itemListHtml += '</div></div><ul>';
 			itemListHtml += '<li>カテゴリ:<span name="cate">' + cate + '</span></li>';
 			itemListHtml += '<li>説明:<span name="desc">' + desc + '</span></li></ul></div>';
 		}
@@ -233,7 +234,7 @@ function updateStoredDataForDeleteProcess(delname){
 		if (v.name==delname){
 			storedData.splice(check,1);
 			console.log("delete from storedData");
-		}	
+		}
 	});
 	//var queryData = {"tag" : $('#queryId').val()};
 	categorizedData = extractByCate(storedData, targetCate);//queryData.tag
