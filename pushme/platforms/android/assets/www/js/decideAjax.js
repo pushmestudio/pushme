@@ -76,6 +76,7 @@ decideAjax = (function(){
 	 * extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
 	 */
 	var getRandomItem = function(){
+		$('#decision').html("");
 		var queryData = {"tag" : $('#queryId').val()};
 		console.log(queryData);
 		$.ajax({
@@ -88,6 +89,7 @@ decideAjax = (function(){
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
+				extendLabel();
 				makeIsChecked();
 			},
 			error: function(err){
@@ -107,6 +109,7 @@ decideAjax = (function(){
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
+				extendLabel();
 				makeIsChecked();
 			},
 			error: function(err){
@@ -165,9 +168,15 @@ decideAjax = (function(){
 	}
 	*/
 
+	var animation_flag = false;
 	decideItem = function(){
+		animation_flag = true;
 		$('#decide').prop("disabled", true);
-		var itemlist = $('div[name="card"]');
+		$('#narrow').prop("disabled", true);
+		$('#reset').prop("disabled", true);
+		//$('#decide').prop("disabled", true);
+		if($('#reset')){ $('#reset').prop("disabled", true);}
+		var itemlist = $(':checkbox[name="item"]:checked').parent('div[name="card"]');
 		var i = 0;
 		var count = 0;
 		var random = 0;
@@ -188,13 +197,16 @@ decideAjax = (function(){
 				}, 1000);
 				//お店の名前(title)を取得
 				decision = "";
-				choice = $(itemlist.get(random)).children('div[name="title"]').text();
+				choice = $(itemlist.get(random)).children('div[name="name"]').text();
 				console.log(choice);
 				decision += '<form action="/addclip" method="post" class="pure-form">';
 				decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
-				decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
+				decision += '<input type="submit" id="clip" value="クリップする" class="pure-button pure-button-success">';
 				decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';
 				$('#decision').html(decision);
+				$('#clip').prop("disabled", false);
+				$('#share').prop("disabled", false);
+				animation_flag = false;
 			}
 		}, 300)
 	};
@@ -203,22 +215,61 @@ decideAjax = (function(){
 	var makeAccordion = function(){
 		$(function(){
 			$('.accordion input[name="detail"]').click(function(){
-				$(this).parent().next("ul").slideToggle();
+				$(this).parents('div[name="card"]').next("ul").slideToggle();
 				$(this).toggleClass("open");
 			});
 		});
 	};
+	
+	var extendLabel = function(){
+		var ispart = false;
+		$('#itemlist').find('input[name="detail"]').click(function(){
+			ispart = true;
+		});
+		$('#itemlist').find('input[type="checkbox"]').click(function(){
+			ispart = true;
+			makeIsChecked();
+		});
+		$('#itemlist').find('label').click(function(){
+			ispart = true;
+			makeIsChecked();
+		});
+		
+		$('#itemlist').find('div[name="card"]').click(function(){
+			if(ispart){
+				ispart = false;
+				return;
+			}
+			var checkbox = $(this).children('input[type="checkbox"]');
+			if(checkbox.is(':checked')){
+				checkbox.prop('checked', false);
+			}else{
+				checkbox.prop('checked', true);
+			}
+			makeIsChecked();
+		});
+	}
 
 	var makeIsChecked = function(){
-		$('#itemlist').find('input[type="checkbox"]').click(function(){
+		if(!animation_flag){
 			var allitemlength = $('#itemlist').find('input[type="checkbox"]').length;
 			var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
-			if(itemlength > 0 && itemlength < allitemlength){
-				$('#narrow').prop("disabled", false);
-			}else{
+			if(itemlength <= 0){
 				$('#narrow').prop("disabled", true);
+				$('#decide').prop("disabled", true);
+			}else if(itemlength > 0 && itemlength < allitemlength){
+				$('#narrow').prop("disabled", false);
+				$('#decide').prop("disabled", false);
+			}else if(itemlength == allitemlength){
+				$('#narrow').prop("disabled", true);
+				$('#decide').prop("disabled", false);
 			}
-		});
+			if($('#decision').children().length > 0){
+				$('#decide').prop("disabled", true);
+				$('#narrow').prop("disabled", true);
+				$('#reset').prop("disabled", true);
+			}
+		}
 	};
 
 	/**
@@ -290,7 +341,7 @@ decideAjax = (function(){
 	 */
 	var makeCateOptionsHtml = function(originalData){
 		var cateArray = new Array();
-		var cateOption;
+		var cateOption = '<option value="">ALL</option>';;
 			for(var i = 0, n = originalData.length; i < n; i++){
 				var cate = originalData[i].category;
 				if(cateArray.indexOf(cate) != -1){
@@ -311,7 +362,7 @@ decideAjax = (function(){
 	var makeItemListHtml = function(extData){
 		var itemListHtml = "";
 		if(extData.length > 0){
-			itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
+			itemListHtml += '<p><form name="itemlist" class="pure-form pure-form-aligned">';
 			itemListHtml += '<div class="pure-g">';
 			itemListHtml += '<span class="accordion">';
 
@@ -320,10 +371,10 @@ decideAjax = (function(){
 				var cate = extData[i].category;
 				var desc = extData[i].description;
 
-				itemListHtml += '<div name="arrow" class="pure-u-1 pure-u-md-1-4">';
+				itemListHtml += '<div name="arrow" class="pure-u-1">';
 				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
-				itemListHtml += '<div name="title"><label for="item' + i + '">' + name + '</label></div>';
-				itemListHtml += '<input type="button" name="detail" value="詳細"></div>';
+				itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
+				itemListHtml += '<div name="buttons"><input type="button" name="detail" value="詳細"></div></div>';
 				itemListHtml += '<ul>';
 				itemListHtml += '<li>カテゴリ:' + cate + '</li>';
 				itemListHtml += '<li>コメント:' + desc + '</li></ul></div>';
@@ -332,7 +383,7 @@ decideAjax = (function(){
 			itemListHtml += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
 			itemListHtml += '<input type="button" id="reset" disabled="disabled" value="絞り込み解除" onclick="resetItem()" class="pure-button pure-button-small">';
 			itemListHtml += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-			itemListHtml += "</form>";
+			itemListHtml += "</form></p>";
 		} else {
 			itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
 		}
