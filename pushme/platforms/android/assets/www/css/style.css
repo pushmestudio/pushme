@@ -28,3 +28,23 @@ button.img-button {
         line-height: 0;
         font-size: 0;
 }
+
+.custom-combobox {
+    position: relative;
+    display: inline-black;
+}
+
+.custom-combobox-button {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: 0px;
+    padding: 0;
+    height: 1.8em;
+    border-radius: 5px;
+}
+
+.custom-combobox-input {
+    margin: 0;
+    padding: 0.3em;
+}
