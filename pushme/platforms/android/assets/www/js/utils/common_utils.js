@@ -39,10 +39,10 @@ function formatForSend(txt){
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000)); //日数*24時間*60分*60秒*1000ミリ秒
-  var expires = "expires="+d.toUTCString();
+  var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + "; " + expires;
-
-  console.debug(document.cookie);
+  
+  console.debug(name + "=" + cvalue + "; " + expires);
 }
 
 /**
@@ -59,4 +59,40 @@ function getCookie(cname) {
     if (c.indexOf(name) == 0) return c.substring(name.length, c.length); // nameにいれたものとマッチすれば返す
   }
   return ""; // for文内で全てマッチしなかったら空値を返す
+}
+
+function changeAdsState(){
+  var adsState = getAdsState();
+  if(!adsState){
+    adsState = 'off';
+    console.debug("adsState not contain" + adsState);
+  } else if (adsState == 'off'){
+    adsState = 'on';
+    console.debug("ads state changed off to on" + adsState);
+  } else {
+    adsState = 'off';
+    console.debug("ads state changed on to off" +adsState);
+  }
+  
+  setCookie('adsState', adsState, 500);
+  showAds();
+}
+
+function getAdsState(){
+  var adsState = getCookie('adsState');
+  console.log("adsState is: " + adsState);
+  return adsState;
+}
+
+function showAds(){
+  var adsState = getAdsState();
+  console.debug("showAds basedOn adsState" + adsState);
+  var el = document.getElementById('ads'); // 広告表示枠のdiv
+  if(adsState == 'on'){
+    el.style.display = 'inline';
+    alert('Thank you for your support!');
+  } else {
+    el.style.display = 'none';
+    alert('Ads allow us to develop and deliver more functions. If you change your mind, please enable it.');
+  }
 }

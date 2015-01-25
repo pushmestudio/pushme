@@ -76,6 +76,7 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\database.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\decideAjax.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\external \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\footerFixed.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\getFromDB.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\getpictures.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\index.js \
@@ -86,6 +87,7 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\share.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\side_menu.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\submit.js \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\support.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\utils \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\external\jquery-ui.min.js \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\js\external\jquery.min.js \
@@ -98,4 +100,5 @@ C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\listclips.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\regitemslist.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\submit.html \
+C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\assets\www\views\support.html \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\AndroidManifest.xml \
