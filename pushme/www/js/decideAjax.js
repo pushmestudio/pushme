@@ -112,6 +112,7 @@ decideAjax = (function(){
 				makeAccordion();
 				extendLabel();
 				makeIsChecked();
+                footerFixed();
 			},
 			error: function(err){
                 console.error(err);
@@ -143,6 +144,7 @@ decideAjax = (function(){
 				$(this).parents('div[name="arrow"]').remove();
 			}
 		});
+        footerFixed();
 	};
 
 	/*
@@ -209,6 +211,7 @@ decideAjax = (function(){
 				$('#share').prop("disabled", false);
 				animation_flag = false;
 			}
+            footerFixed();
 		}, 300)
 	};
 
@@ -218,6 +221,11 @@ decideAjax = (function(){
 			$('.accordion input[name="detail"]').click(function(){
 				$(this).parents('div[name="card"]').next("ul").slideToggle();
 				$(this).toggleClass("open");
+                var setFotter = setInterval(function(){
+                    footerFixed();
+                    clearInterval(setFotter);
+                }, 1000); // toogleの処理待ちのため1秒待ってからフッター調整
+                setFotter();
 			});
 		});
 	};
