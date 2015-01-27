@@ -31,7 +31,6 @@ button.img-button {
 
 .custom-combobox {
     position: relative;
-    display: inline-black;
 }
 
 .custom-combobox-button {
@@ -47,4 +46,19 @@ button.img-button {
 .custom-combobox-input {
     margin: 0;
     padding: 0.3em;
+    width: 8em;
+}
+
+@media only screen and (max-width: 480px) {
+    .custom-combobox-input {
+        display: inline-block;    
+    }
+    
+    .custom-combobox-button {
+        display: inline-block;
+    }
+
+    input#category{
+        display: inline-block;
+    }
 }
