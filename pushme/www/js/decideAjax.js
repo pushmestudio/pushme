@@ -7,11 +7,13 @@ decideAjax = (function(){
 	var first8Data; //絞り込み前の状態を保存
 
 	/**
-	* decideAjax.jsが読み込まれる際に呼び出される。
-	* データ取得後、事前に設定した件数分ランダムに抽出し、
-	* 呼び出し元のhtml上に書き出す。
-	*
-	* 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+	　* decideAjax.jsが読み込まれる際に呼び出される。
+	　* データ取得後、事前に設定した件数分ランダムに抽出し、
+	　* 呼び出し元のhtml上に書き出す。
+	　*
+	　* 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+    　* 画面上に表示されているもののサイズ(特に高さ)を変えるようなイベントを起こす場合は、
+     * 必ず、ads_utilsのfooterFixed()を呼んでください。
 	*/
 	$(function(){
 		openDB().then(function(){
@@ -35,14 +37,6 @@ decideAjax = (function(){
 	 * カテゴリの選択が行われた際に呼び出される。
 	 */
 	$('#queryId').change(function(){
-		getRandomItem();
-	});
-
-	/**
-	 * retrieveが押下された際に呼び出される。
-	 * @deprecated
-	 */
-	$('#submitId').click(function(){
 		getRandomItem();
 	});
 
@@ -87,9 +81,8 @@ decideAjax = (function(){
 				first8Data = extData;
 				var itemListHtml = makeItemListHtml(extData);
 				$('#itemlist').html(itemListHtml);
-
 				makeAccordion();
-				extendLabel();
+                extendLabel();
 				makeIsChecked();
 				footerFixed();
 			},
@@ -110,7 +103,7 @@ decideAjax = (function(){
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
-				extendLabel();
+                extendLabel();
 				makeIsChecked();
                 footerFixed();
 			},
@@ -215,17 +208,20 @@ decideAjax = (function(){
 		}, 300)
 	};
 
-	//詳細表示
+	/**
+     * 詳細表示
+     * makeAccordion自体は、clickに対しイベントリスナを付加するだけである点に注意
+     * 処理時間を考慮し、clickされてから1秒後に広告位置をセットし直す
+     */
 	var makeAccordion = function(){
 		$(function(){
 			$('.accordion input[name="detail"]').click(function(){
 				$(this).parents('div[name="card"]').next("ul").slideToggle();
 				$(this).toggleClass("open");
-                var setFotter = setInterval(function(){
+                setAds = setInterval(function(){
                     footerFixed();
-                    clearInterval(setFotter);
-                }, 1000); // toogleの処理待ちのため1秒待ってからフッター調整
-                setFotter();
+                    clearInterval(setAds);
+                }, 1000);
 			});
 		});
 	};
