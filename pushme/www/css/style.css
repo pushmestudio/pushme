@@ -31,7 +31,6 @@ button.img-button {
 
 .custom-combobox {
     position: relative;
-    display: inline-black;
 }
 
 .custom-combobox-button {
@@ -48,4 +47,11 @@ button.img-button {
     margin: 0;
     padding: 0.3em;
     width: 8em;
+}
+
+/* 通常だとpure-formが優先されてカテゴリ選択のプルダウンが改行されてしまう(display:block)ため、ここだけ上書きする */
+@media only screen and (max-width: 480px) {
+    input#category{
+        display: inline-block;
+    }
 }
