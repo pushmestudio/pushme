@@ -35,8 +35,7 @@ $(function(){
 				// 各種ボタン機能の埋め込み
 				makeAccordion();
 				makeEdit();
-				makeDel();
-			});
+				makeDel();			});
 
 			// submitが押されたら呼ぶ
 			$('#submitId').click(function(){
@@ -49,8 +48,7 @@ $(function(){
 				// 各種ボタン機能の埋め込み
 				makeAccordion();
 				makeEdit();
-				makeDel();
-			});
+				makeDel();			});
 
 			console.dir(storedData);
 		}, function(err){
@@ -110,7 +108,7 @@ function makeCateOptionsHtml(originalData){
  */
  function makeEdit(){
  	var name = "";
- 	$('input[name="edititem"]').click(function(){
+ 	$('button[name="edititem"]').click(function(){
  		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
@@ -128,7 +126,7 @@ function makeCateOptionsHtml(originalData){
  */
 function makeDel(){
  	var name = "";
- 	$('input[name="deleteitem"]').click(function(){
+ 	$('button[name="deleteitem"]').click(function(){
  		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
@@ -142,7 +140,7 @@ function makeDel(){
  */
 function makeAccordion(){
 	$(function(){
-		$('.accordion input[name="detail"]').click(function(){
+		$('.accordion button[name="detail"]').click(function(){
 			$(this).parents('div[name="card"]').next("ul").slideToggle();
 			$(this).toggleClass("open");
 		});
@@ -169,13 +167,12 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
-			itemListHtml += '<div name="buttons">';
-			itemListHtml += '<input type="button" name="detail" value="詳細">';
-			itemListHtml += '<input type="button" name="edititem" value="編集">'
-			itemListHtml += '<input type="button" name="deleteitem" value="削除">';
-			itemListHtml += '</div></div><ul>';
-			itemListHtml += '<li>カテゴリ:<span name="cate">' + cate + '</span></li>';
-			itemListHtml += '<li>説明:<span name="desc">' + desc + '</span></li></ul></div>';
+			itemListHtml += '<div name="buttons"><button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
+			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
+			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button></div></div>';
+			itemListHtml += '<ul>';
+			itemListHtml += '<li>【<span name="cate">' + cate + '</span>】</li>';
+			itemListHtml += '<li>【<span name="desc">' + desc + '</span>】</li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
@@ -214,8 +211,7 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 	// 各種ボタン機能の埋め込み
 	makeAccordion();
 	makeEdit();
-	makeDel();
-}
+	makeDel();}
 
 /**
  * DBからアイテムを削除した際に、DOMで扱うstoredDataの中身を削除
