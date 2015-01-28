@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="../css/accordion.css" type="text/css">
 	<link rel="stylesheet" href="../css/grids-responsive-min.css">
 	<link rel="stylesheet" href="../css/smartphone.css" type="text/css">
+	<link rel="stylesheet" href="../css/icon.css" type="text/css">
 </head>
 <body>
 	<div id="layout">
@@ -21,31 +22,52 @@
 	</a>
 		<div id="menu" class="active">
 			<div class="pure-menu pure-menu-open">
-				<a class="pure-menu-heading" href="index.html">Top</a>
 				<ul>
-					<li><a href="submit.html">登録</a></li>
-					<li><a href="decide.html">選択</a></li>
-					<li><a href="listclips.html">クリップ</a></li>
-					<li><a href="regitemslist.html">登録データ一覧</a></li>
-					<li><a href="#">Coming Soon...</a></li>
+					<li><a href="index.html"><img src="../img/menu_top.png"></a></li>
+					<li><a href="submit.html"><img src="../img/menu_register.png"></a></li>
+					<li><a href="decide.html"><img src="../img/menu_decide.png"></a></li>
+					<li><a href="listclips.html"><img src="../img/menu_clip.png"></a></li>
+					<li><a href="regitemslist.html"><img src="../img/menu_list.png"></a></li>
+					<li><a href="#"><img src="../img/menu_feedbk.png"></a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="main">
 		<div class="header">
-			<h1>選択する</h1>
+			<h1>Decide<img src="../img/mark_decide.png"></h1>
 		</div>
 		<div class="content">
 			<form id="formId" class="pure-form">
-				<select id="queryId"></select>
-				<button type="button" id="view_few" class="pure-button img-button"><img src="../img/option_few.png"></button>
-				<button type="button" id="view_normal" class="pure-button img-button"><img src="../img/option_normal.png"></button>
-				<button type="button" id="view_many" class="pure-button img-button"><img src="../img/option_many.png"></button>
-			</form>
+				<div class="icon-area dispnum">
+				<fieldset>
+					<button type="button" id="view_few" class="pure-button"><img src="../img/option_few.png"></button>
+					<button type="button" id="view_normal" class="pure-button"><img src="../img/option_normal.png"></button>
+					<button type="button" id="view_many" class="pure-button"><img src="../img/option_many.png"></button>
+				</fieldset>
+				</div>
+				<div class="category">
+				Category:
+				<select id="queryId">
+					<option value="">ALL</option>
+				</select>
+				</div>
 
+				<div class="icon-area option">
+					<button type="button" id="narrow" onclick="narrowItems()" disabled="disabled" class="pure-button"><img src="../img/filterbycheck.png"></button>
+					<button type="button" id="reset" onclick="resetItem()" disabled="disabled" class="pure-button"><img src="../img/unfilter.png"></button>
+					<button type="button" id="clip" onclick="clipItem()" disabled="disabled" class="pure-button"><img src="../img/clip.png"></button>
+					<button type="button" id="share" onclick="shareItem()" disabled="disabled" class="pure-button"><img src="../img/share.png"></button>
+				</div>
+
+			</form>
+			
 			<div id="itemlist"></div>
+			<div class="icon-area main">
+				<button type="button" id="decide" onclick="decideItem()" class="pure-button"><img src="../img/decide.png"></button>
+			</div>
 			<div id="decision"></div>
+			
 		</div>
 	</div>
 	<script src="../js/jquery.min.js" type="text/javascript" ></script>
