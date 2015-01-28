@@ -172,7 +172,7 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button></div></div>';
 			itemListHtml += '<ul>';
 			itemListHtml += '<li>【<span name="cate">' + cate + '</span>】</li>';
-			itemListHtml += '<li>【<span name="desc">' + desc + '</span>】</li></ul></div>';
+			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
