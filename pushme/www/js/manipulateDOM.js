@@ -156,27 +156,33 @@ function makeAccordion(){
 /**
  * 登録データ一覧画面で UnClip/Clipボタン押下時のボタン表示/非表示操作。およびDBのclip属性の変更メソッド呼出
  */
-function clipOnRegitemlist(){}
-/*
 function clipOnRegitemlist(){
 	for(var i = 0, n = storedData.length; i < n; i++){
+		//name=="true"の時、既にクリップ済なので、UnClipボタンを表示
 		if($('#clipFlagTrue_'+i).attr("name")=="true"){
-			$('#clipFlagTrue_'+i).css("display", "inline");
-			$('input[value="UnClip"]').click(function(){
-					$('#'+$(this).attr("id")).css("display","none");
-					//$('#'+$(this).attr("id").parents('div[name="buttons"]').children('input[value="Clip"]').attr("id")).css("display","inline");
-					//console.log($(this).attr("id").parents('div[name="card"]').children('div[name="buttons"]').next().find('input[value="Clip"]').attr("id"));
-			});
-
-		}else{
-			$('#clipFlagFalse_'+i).css("display", "none");
-		}
-		if($('#clipFlagFalse_'+i).attr("name")=="false"){
-			$('#clipFlagFalse_'+i).css("display", "inline");
+			$('#clipFlagTrue_'+i).css("display", "inline");//UnClipボタン-->表示
+			$('#clipFlagFalse_'+i).css("display", "none");//Clipボタン-->非表示
+		//name=="false"の時、未クリップなので、Clipボタンを表示
+		}else if ($('#clipFlagTrue_'+i).attr("name")=="false"){
+			$('#clipFlagTrue_'+i).css("display", "none");//UnClipボタン-->非表示
+			$('#clipFlagFalse_'+i).css("display", "inline");//Clipボタン-->表示
 		}
 	}
+	//UnClipボタン押下で、UnClipをnoneに、Clipをinlineに変更
+	$('input[value="UnClip"]').click(function(){
+			$('#'+$(this).attr("id")).css("display","none");//UnClipボタン-->非表示に変更
+			$('#'+$(this).next().attr("id")).css("display","inline");//Clipボタン-->表示に変更
+			var clip2false = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+			offClipfromDB(clip2false);//DBのclip属性をfalseにするメソッド呼出(database.js)
+	});
+	//Clipボタン押下で、Clipをnoneに、UnClipをinlineに変更
+	$('input[value="Clip"]').click(function(){
+			$('#'+$(this).attr("id")).css("display","none");//Clipボタン-->非表示に変更
+			$('#'+$(this).prev().attr("id")).css("display","inline");//UnClipボタン-->表示に変更
+			var clip2true = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+			addClip(clip2true);//DBのclip属性をtrueにするメソッド呼出(database.js)
+	});
 }
-*/
 
 /**
  * 受け取ったデータからhtml上に、一覧表示で使用するリストを作成する
