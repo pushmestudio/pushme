@@ -1,6 +1,6 @@
 // database.jsが読み込まれたページでは、常にこのdb変数を元に操作を行う
 var db = null;
-var version = 1;
+var version = 2;	//注意: Versionが変わると、既存の保存データなどはクリアされます
 
 function openDB(){
     var promise = new Promise(function(resolve, reject){
@@ -37,12 +37,13 @@ function initDB(e){
     store.createIndex("category", "category", { unique: false});
     store.createIndex("name", "name", { unique: true});
     store.createIndex("description", "description", { unique: false});
+    store.createIndex("clip","clip", {unique:false});
     console.log("ObjectStore #items# created");
 }
 
 function addItemtoDB(cate, name, desc){
     var time = getTimeStamp();
-    var newItem = { timeStamp: time, category: cate, name: name, description: desc };
+    var newItem = { timeStamp: time, category: cate, name: name, description: desc, clip: "false" };
 
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction(["items"], "readwrite");
@@ -50,7 +51,7 @@ function addItemtoDB(cate, name, desc){
 
     var promise = new Promise(function(resolve, reject){
         // add newItem to the objectStore
-        console.log("NewItem {category: " + newItem.category + ", name: " + newItem.name + ", description: " + newItem.description + "}");
+        console.log("NewItem {category: " + newItem.category + ", name: " + newItem.name + ", description: " + newItem.description + "clip: " + newItem.clip + "}");
         var objectStoreRequet = store.add(newItem);
 
         objectStoreRequet.onsuccess = function(e){
@@ -206,6 +207,7 @@ function getTimeStamp(){
  */
 function delItemFromDB(){
 	var name = delname; //regitemslist.htmlにあるグローバル変数
+	console.log("delname in database.js: " + name);
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
 	var promise = new Promise(function(resolve, reject){
@@ -235,3 +237,122 @@ function delItemFromDB(){
 	});
 	return promise;
 };
+
+/**
+ * クリップを保存するメソッド
+ * 選択時の最終決定時に「クリップする」ボタン押下で呼ばれる
+ */
+function addClip(clipName){
+		var name = clipName; //regitemslist.htmlにあるグローバル変数
+		var trans = db.transaction(["items"], "readwrite");
+		var store = trans.objectStore("items");
+		var index = store.index("name");
+		var keyRange = IDBKeyRange.only(name);
+		var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
+		
+		index.openCursor(keyRange).onsuccess = function(e) {
+			var result = e.target.result;
+			if(result === null || result === undefined){
+				console.log("name: " + name + " is not found");
+			} else {
+				console.log("result.value.name " + result.value.name);
+			};
+				updateItem = result.value;
+                updateItem.category = result.value.category;
+                updateItem.name = result.value.name;
+                updateItem.description = result.value.description;
+                updateItem.clip = "true";
+                console.log("updateItem.category: " + updateItem.category + ", updateItem.name: " + updateItem.name + ", updateItem.description: " + updateItem.description + "clip : " + updateItem.clip);
+			
+			var clipFlagTrue = store.put(updateItem);
+			clipFlagTrue.onsuccess = function(){
+				console.log("CLIP ADD SUCCESS");
+				alert("クリップ追加しました");
+				//resolve();
+			};
+			clipFlagTrue.onerror = function(){
+				console.log("CLIP ADD FAILURE");
+				alert("クリップ追加できませんでした");
+				//reject();
+			};
+		};
+		index.openCursor(keyRange).onerror = function(e){
+			console.log("cursorRequest error: " + e.message);
+			//reject("cursorRequest error: " + e.message);
+		};	
+}
+
+/**
+ * クリップ一覧を表示する際に、clip属性がtrueのデータのみ抽出するメソッド
+ */
+function getClippedItemsfromDB(){
+    var trans = db.transaction(["items"], "readwrite");
+    var store = trans.objectStore("items");
+    var clipFlag = "true";
+    var keyRange = IDBKeyRange.only(clipFlag);
+
+    var promise = new Promise(function(resolve, reject){
+    	var req = store.index("clip").openCursor(keyRange);
+    	var allClippedItems = [];
+    	req.onsuccess = function(e) {    		
+			var result = e.target.result;
+    		if(result === null || result === undefined){
+				resolve(allClippedItems);
+			} else {
+				console.log("result.value.name " + result.value.name);
+				console.log(result.value);
+            	allClippedItems.push(result.value);
+            	result.continue();
+			}
+		};
+		req.onerror = function(e){
+			console.log("clipReq error: " + e.message);
+			reject("clipReq error: " + e.message);
+		};
+		//console.dir(allClippedItems);
+	});
+	return promise;
+}
+
+/**
+ * クリップ一覧で、「UnClipボタン」押下時にDBのclip属性をfalseに変更するメソッド
+ */
+function offClipfromDB(offClipName){
+		var name = offClipName;
+		var trans = db.transaction(["items"], "readwrite");
+		var store = trans.objectStore("items");
+		var index = store.index("name");
+		var keyRange = IDBKeyRange.only(name);
+		var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
+		
+		index.openCursor(keyRange).onsuccess = function(e) {
+			var result = e.target.result;
+			if(result === null || result === undefined){
+				console.log("name: " + name + " is not found");
+			} else {
+				console.log("result.value.name " + result.value.name);
+			};
+				updateItem = result.value;
+                updateItem.category = result.value.category;
+                updateItem.name = result.value.name;
+                updateItem.description = result.value.description;
+                updateItem.clip = "false";
+                console.log("updateItem.category: " + updateItem.category + ", updateItem.name: " + updateItem.name + ", updateItem.description: " + updateItem.description + "clip : " + updateItem.clip);
+			
+			var clipFlagFalse = store.put(updateItem);
+			clipFlagFalse.onsuccess = function(){
+				console.log("CLIP Changed to FALSE is SUCCESS");
+				alert("クリップを削除しました");
+				//resolve();
+			};
+			clipFlagFalse.onerror = function(){
+				console.log("CLIP Changed to FALSE is FAILURE");
+				alert("クリップを削除できませんでした");
+				//reject();
+			};
+		};
+		index.openCursor(keyRange).onerror = function(e){
+			console.log("cursorRequest error: " + e.message);
+			//reject("cursorRequest error: " + e.message);
+		};	
+}

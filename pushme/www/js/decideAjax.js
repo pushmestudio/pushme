@@ -118,7 +118,11 @@ decideAjax = (function(){
 		});
 	};
 
-	clipItem = function(){
+	clipItem = function(choice){
+		clipName=choice;
+		console.log("clipName : " +clipName);
+		addClip(clipName);//database.jsのaddClipメソッド呼出し
+		
 		/*    decision +='<form action="/addclip" method="post">';
 		//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
 		//decision += '<input type="submit" value="クリップ">';
@@ -199,9 +203,12 @@ decideAjax = (function(){
 				decision = "";
 				choice = $(itemlist.get(random)).children('div[name="name"]').text();
 				console.log(choice);
+				/*
 				decision += '<form action="/addclip" method="post" class="pure-form">';
 				decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
 				decision += '<input type="submit" id="clip" value="クリップする" class="pure-button pure-button-success">';
+				decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';*/
+				decision += '<p><button id="clip" class="pure-button pure-button-success" onClick=clipItem("'+choice+'")>クリップする</button></p>';
 				decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';
 				$('#decision').html(decision);
 				$('#clip').prop("disabled", false);
@@ -387,10 +394,8 @@ decideAjax = (function(){
 		} else {
 			itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
 		}
-
 		return itemListHtml;
 	};
-
 
 	var extractAmount = 8;
 	/**
@@ -406,7 +411,6 @@ decideAjax = (function(){
 		} else {
 			extractAmount = defaultAmount;
 		}
-
 	}
 
 	/**
