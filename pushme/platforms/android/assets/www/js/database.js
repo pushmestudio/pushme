@@ -268,6 +268,7 @@ function addClip(clipName){
 			clipFlagTrue.onsuccess = function(){
 				console.log("CLIP ADD SUCCESS");
 				alert("クリップ追加しました");
+				console.dir("addClip時のstoredData: "+storedData);
 				//resolve();
 			};
 			clipFlagTrue.onerror = function(){
@@ -343,6 +344,7 @@ function offClipfromDB(offClipName){
 			clipFlagFalse.onsuccess = function(){
 				console.log("CLIP Changed to FALSE is SUCCESS");
 				alert("クリップを削除しました");
+				console.dir("offClip時のstoredData: "+storedData.value);
 				//resolve();
 			};
 			clipFlagFalse.onerror = function(){

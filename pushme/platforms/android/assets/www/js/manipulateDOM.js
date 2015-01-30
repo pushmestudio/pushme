@@ -174,6 +174,7 @@ function clipOnRegitemlist(){
 			$('#'+$(this).next().attr("id")).css("display","inline");//Clipボタン-->表示に変更
 			var clip2false = $(this).parents('div[name="card"]').children('div[name="name"]').text();
 			offClipfromDB(clip2false);//DBのclip属性をfalseにするメソッド呼出(database.js)
+			updateStoredDataForClipOnRegitemlist(clip2false, "false");//itemlist更新
 	});
 	//Clipボタン押下で、Clipをnoneに、UnClipをinlineに変更
 	$('input[value="Clip"]').click(function(){
@@ -181,6 +182,7 @@ function clipOnRegitemlist(){
 			$('#'+$(this).prev().attr("id")).css("display","inline");//UnClipボタン-->表示に変更
 			var clip2true = $(this).parents('div[name="card"]').children('div[name="name"]').text();
 			addClip(clip2true);//DBのclip属性をtrueにするメソッド呼出(database.js)
+			updateStoredDataForClipOnRegitemlist(clip2true, "true");//itemlist更新
 	});
 }
 
@@ -310,4 +312,18 @@ var reloadqueryIdChangeFunc = function(){
 		makeDel();
 		clipOnRegitemlist();
 	});
+}
+
+function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChanged){
+	for(var i = 0, n = storedData.length; i < n; i++){
+		if(clipNameOfFlagChanged === storedData[i].name){
+			storedData[i].clip = clipFlagChanged;
+		}
+	}
+	var itemListHtml = makeShownItemListHtml(storedData);
+	$('#itemlist').html(itemListHtml);
+	makeAccordion();
+	makeEdit();
+	makeDel();
+	clipOnRegitemlist();
 }
