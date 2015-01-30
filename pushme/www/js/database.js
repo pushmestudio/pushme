@@ -268,7 +268,6 @@ function addClip(clipName){
 			clipFlagTrue.onsuccess = function(){
 				console.log("CLIP ADD SUCCESS");
 				alert("クリップ追加しました");
-				console.dir("addClip時のstoredData: "+storedData);
 				//resolve();
 			};
 			clipFlagTrue.onerror = function(){
@@ -310,7 +309,6 @@ function getClippedItemsfromDB(){
 			console.log("clipReq error: " + e.message);
 			reject("clipReq error: " + e.message);
 		};
-		//console.dir(allClippedItems);
 	});
 	return promise;
 }
