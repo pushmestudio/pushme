@@ -173,7 +173,8 @@ function offClip(){
  			//var offClipName = $(this).parents('div[name="card"]').children('div[name="clip"]').text();
  			console.log(offClipName);
  			offClipfromDB(offClipName);//database.jsでclip属性をfalseに変更
- 			updateStoredDataForDeleteProcess(offClipName);
+ 			//updateStoredDataForDeleteProcess(offClipName);
+ 			updateStoredDataOnClipitemlist(offClipName);
  		});
 }
 
@@ -307,4 +308,37 @@ var reloadqueryIdChangeFunc = function(){
 		makeDel();
 		offClip();
 	});
+}
+
+function updateStoredDataOnClipitemlist(offClipName){
+	var clippedData=[];
+	for(var i = 0, n = storedData.length; i < n; i++){
+		if(offClipName == storedData[i].name){
+			storedData[i].clip = "false";
+		}
+		if(storedData[i].clip=="true"){
+			clippedData.push(storedData[i]);
+		}
+	}
+	
+	if (($('#queryId').val())!=""){
+		var cateOfClip = $('#queryId').val()
+		categorizedData = extractByCate(clippedData, cateOfClip);
+		if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
+			var newCateHtml = '<select id="queryId">';
+			newCateHtml += makeCateOptionsHtml(categorizedData);
+			newCateHtml += '</select>';
+			$('#queryId').replaceWith(newCateHtml);	
+			var itemListHtml = makeShownItemListHtml(clippedData);
+		}else{
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}
+	}else{
+		var itemListHtml = makeShownItemListHtml(clippedData);
+	}
+	$('#itemlist').html(itemListHtml);
+	makeAccordion();
+	makeEdit();
+	makeDel();
+	offClip();
 }
