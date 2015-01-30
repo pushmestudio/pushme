@@ -312,30 +312,46 @@ var reloadqueryIdChangeFunc = function(){
 
 function updateStoredDataOnClipitemlist(offClipName){
 	var clippedData=[];
+	var targetCate=""
+	var targetCateNum=0;
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(offClipName == storedData[i].name){
-			storedData[i].clip = "false";
+			storedData[i].clip = "false";//html再描画用のstoredDataのClip属性をfalseにする
+			targetCate=storedData[i].category;//falseにしたクリップのカテゴリ名を取得
 		}
 		if(storedData[i].clip=="true"){
-			clippedData.push(storedData[i]);
+			clippedData.push(storedData[i]);//Clip属性がtrueのデータを取得
+		}
+		if(targetCate==storedData[i].category){//falseにしたカテゴリのアイテムが存在するか確認するためのカウント
+			targetCateNum++;//falseに変更したアイテム以外に、同カテゴリのアイテムが存在すれば、targetCateNum > 1になる
 		}
 	}
-	
-	if (($('#queryId').val())!=""){
+
+	if (($('#queryId').val())!=""){//選択カテゴリ名が、ALL以外を指定された時
 		var cateOfClip = $('#queryId').val()
 		categorizedData = extractByCate(clippedData, cateOfClip);
 		if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
 			var newCateHtml = '<select id="queryId">';
-			newCateHtml += makeCateOptionsHtml(categorizedData);
+			newCateHtml += makeCateOptionsHtml(clippedData);
+			newCateHtml += '</select>';
+			$('#queryId').replaceWith(newCateHtml);	
+			var itemListHtml = makeShownItemListHtml(clippedData);
+		}else{//カテゴリに該当するアイテムが１つ以上ある時
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}
+	}else{//カテゴリ名がALLを指定された時
+		categorizedData = extractByCate(clippedData, targetCate);
+		if (categorizedData.length==0){
+			var newCateHtml = '<select id="queryId">';
+			newCateHtml += makeCateOptionsHtml(clippedData);
 			newCateHtml += '</select>';
 			$('#queryId').replaceWith(newCateHtml);	
 			var itemListHtml = makeShownItemListHtml(clippedData);
 		}else{
 			var itemListHtml = makeShownItemListHtml(categorizedData);
-		}
-	}else{
-		var itemListHtml = makeShownItemListHtml(clippedData);
+		}	
 	}
+	
 	$('#itemlist').html(itemListHtml);
 	makeAccordion();
 	makeEdit();
