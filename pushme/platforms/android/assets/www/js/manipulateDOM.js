@@ -320,7 +320,13 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 			storedData[i].clip = clipFlagChanged;
 		}
 	}
-	var itemListHtml = makeShownItemListHtml(storedData);
+	if (($('#queryId').val())!=""){
+		var cateOfClip = $('#queryId').val()
+		categorizedData = extractByCate(storedData, cateOfClip);
+		var itemListHtml = makeShownItemListHtml(categorizedData);
+	}else{
+		var itemListHtml = makeShownItemListHtml(storedData);
+	}
 	$('#itemlist').html(itemListHtml);
 	makeAccordion();
 	makeEdit();

@@ -122,17 +122,6 @@ decideAjax = (function(){
 		clipName=choice;
 		console.log("clipName : " +clipName);
 		addClip(clipName);//database.jsのaddClipメソッド呼出し
-		
-		/*    decision +='<form action="/addclip" method="post">';
-		//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
-		//decision += '<input type="submit" value="クリップ">';
-		test="aaaaaaa";
-		decision += '<input type="submit" value="'+clipName[0]+'">';
-		decision += "</form>";
-		$('#decision').html(decision);
-		'<input type="hidden" value="'+cn+'">'
-		*/
-		//
 	};
 
 	narrowItems = function(){
@@ -147,30 +136,6 @@ decideAjax = (function(){
 			}
 		});
 	};
-
-	/*
-	decideItem = function(){
-	itemlist = $('[name="item"]');
-	decide = Math.floor(itemlist.length * Math.random());
-	itemlist.each(function(i, value){
-	if(i == decide){
-	choice = $(this).nextAll('label').text();
-	//var clipName = choice.subString(0,'(');
-	var clipName = choice.split("(");
-	decision = "<p>Your choice is : " + choice + "</p>";
-	//お店の名前(title)を取得
-	decision += '<form action="/addclip" method="post" class="pure-form">';
-	//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
-	//decision += '<input type="submit" value="クリップ">';
-	console.log("clipName: " + clipName[0]);
-	decision += '<input type="hidden" id="id" name="name" value="'+clipName[0]+'">';
-	decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
-	decision += "</form>";
-	$('#decision').html(decision);
-	}
-	});
-	}
-	*/
 
 	var animation_flag = false;
 	decideItem = function(){
