@@ -339,6 +339,7 @@ function updateStoredDataOnClipitemlist(offClipName){
 		}else{//カテゴリに該当するアイテムが１つ以上ある時
 			var itemListHtml = makeShownItemListHtml(categorizedData);
 		}
+		reloadqueryIdChangeFunc();
 	}else{//カテゴリ名がALLを指定された時
 		categorizedData = extractByCate(clippedData, targetCate);
 		if (categorizedData.length==0){
@@ -348,8 +349,9 @@ function updateStoredDataOnClipitemlist(offClipName){
 			$('#queryId').replaceWith(newCateHtml);	
 			var itemListHtml = makeShownItemListHtml(clippedData);
 		}else{
-			var itemListHtml = makeShownItemListHtml(categorizedData);
-		}	
+			var itemListHtml = makeShownItemListHtml(clippedData);
+		}
+		reloadqueryIdChangeFunc();
 	}
 	
 	$('#itemlist').html(itemListHtml);
