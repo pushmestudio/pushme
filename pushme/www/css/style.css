@@ -18,13 +18,17 @@ textarea {
 }
 
 button.img-button {
-        width: auto;
-        overflow: visible;
-        background: none;
-        margin-top: 10px;
-        margin-left: 5px;
-        border: 0;
-        padding: 0;
-        line-height: 0;
-        font-size: 0;
+    width: auto;
+    overflow: visible;
+    background: none;
+    margin-top: 10px;
+    margin-left: 5px;
+    border: 0;
+    padding: 0;
+    line-height: 0;
+    font-size: 0;
+}
+
+#ads {
+    margin: auto;
 }
