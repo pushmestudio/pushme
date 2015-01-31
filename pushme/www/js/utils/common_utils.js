@@ -39,10 +39,10 @@ function formatForSend(txt){
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000)); //日数*24時間*60分*60秒*1000ミリ秒
-  var expires = "expires="+d.toUTCString();
+  var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + "; " + expires;
-
-  console.debug(document.cookie);
+  
+  console.debug(name + "=" + cvalue + "; " + expires);
 }
 
 /**

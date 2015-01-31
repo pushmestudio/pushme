@@ -7,11 +7,13 @@ decideAjax = (function(){
 	var first8Data; //絞り込み前の状態を保存
 
 	/**
-	* decideAjax.jsが読み込まれる際に呼び出される。
-	* データ取得後、事前に設定した件数分ランダムに抽出し、
-	* 呼び出し元のhtml上に書き出す。
-	*
-	* 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+	　* decideAjax.jsが読み込まれる際に呼び出される。
+	　* データ取得後、事前に設定した件数分ランダムに抽出し、
+	　* 呼び出し元のhtml上に書き出す。
+	　*
+	　* 又、このjsの読み込みの初回のみカテゴリの一覧を読み込む。
+    　* 画面上に表示されているもののサイズ(特に高さ)を変えるようなイベントを起こす場合は、
+     * 必ず、ads_utilsのfooterFixed()を呼んでください。
 	*/
 	$(function(){
 		openDB().then(function(){
@@ -38,7 +40,6 @@ decideAjax = (function(){
 		getRandomItem();
 	});
 
-
 	var fewAmount = 4;
 	var normalAmount = 8;
 	var manyAmount = 12;
@@ -50,7 +51,7 @@ decideAjax = (function(){
 			clearInterval(timerId);
 		}
 		setExtractAmount(fewAmount);
-		getRandomItem()
+		getRandomItem();
 	});
 
 	$('#view_normal').click(function(){
@@ -58,7 +59,7 @@ decideAjax = (function(){
 			clearInterval(timerId);
 		}
 		setExtractAmount(normalAmount);
-		getRandomItem()
+		getRandomItem();
 	});
 
 	$('#view_many').click(function(){
@@ -66,7 +67,7 @@ decideAjax = (function(){
 			clearInterval(timerId);
 		}
 		setExtractAmount(manyAmount);
-		getRandomItem()
+		getRandomItem();
 	});
 
 	/**
@@ -90,10 +91,10 @@ decideAjax = (function(){
 				first8Data = extData;
 				var itemListHtml = makeItemListHtml(extData);
 				$('#itemlist').html(itemListHtml);
-
 				makeAccordion();
-				extendLabel();
+                extendLabel();
 				makeIsChecked();
+				footerFixed();
 			},
 			error: function(err){
                 console.error(err);
@@ -113,8 +114,9 @@ decideAjax = (function(){
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
-				extendLabel();
+                extendLabel();
 				makeIsChecked();
+                footerFixed();
 			},
 			error: function(err){
                 console.error(err);
@@ -139,6 +141,7 @@ decideAjax = (function(){
 				$(this).parents('div[name="arrow"]').remove();
 			}
 		});
+        footerFixed();
 	};
 	
 	shareItem = function(){
@@ -179,15 +182,23 @@ decideAjax = (function(){
 				$('#clip').prop("disabled", false);
 				$('#share').prop("disabled", false);
 			}
+            footerFixed();
 		}, 300)
 	};
-	
-	//詳細表示
+	/**
+     * 詳細表示
+     * makeAccordion自体は、clickに対しイベントリスナを付加するだけである点に注意
+     * 処理時間を考慮し、clickされてから1秒後に広告位置をセットし直す
+     */
 	var makeAccordion = function(){
 		$(function(){
 			$('.accordion button[name="detail"]').click(function(){
 				$(this).parents('div[name="card"]').next("ul").slideToggle();
 				$(this).toggleClass("open");
+                setAds = setInterval(function(){
+                    footerFixed();
+                    clearInterval(setAds);
+                }, 1000);
 			});
 		});
 	};
