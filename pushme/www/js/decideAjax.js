@@ -40,27 +40,35 @@ decideAjax = (function(){
 		getRandomItem();
 	});
 
-  var fewAmount = 4;
+	var fewAmount = 4;
 	var normalAmount = 8;
 	var manyAmount = 12;
 	/**
 	 * 件数が変更されたとき呼び出される
 	 */
 	$('#view_few').click(function(){
+		if(timerId != null){
+			clearInterval(timerId);
+		}
 		setExtractAmount(fewAmount);
 		getRandomItem();
 	});
 
 	$('#view_normal').click(function(){
+		if(timerId != null){
+			clearInterval(timerId);
+		}
 		setExtractAmount(normalAmount);
 		getRandomItem();
 	});
 
 	$('#view_many').click(function(){
+		if(timerId != null){
+			clearInterval(timerId);
+		}
 		setExtractAmount(manyAmount);
 		getRandomItem();
 	});
-
 
 	/**
 	 * データ取得後、事前に設定した件数分ランダムに抽出し、
@@ -71,6 +79,8 @@ decideAjax = (function(){
 	 */
 	var getRandomItem = function(){
 		$('#decision').html("");
+		$('#clip').prop("disabled", true);
+		$('#share').prop("disabled", true);
 		var queryData = {"tag" : $('#queryId').val()};
 		console.log(queryData);
 		$.ajax({
@@ -96,6 +106,7 @@ decideAjax = (function(){
 	* 絞り込み解除が押下された際に呼び出される。
 	*/
 	resetItem = function(){
+		$('#reset').prop("disabled", true);
 		$.ajax({
 			type: "GET",
 			success: function(){
@@ -114,16 +125,9 @@ decideAjax = (function(){
 	};
 
 	clipItem = function(){
-		/*    decision +='<form action="/addclip" method="post">';
-		//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
-		//decision += '<input type="submit" value="クリップ">';
-		test="aaaaaaa";
-		decision += '<input type="submit" value="'+clipName[0]+'">';
-		decision += "</form>";
-		$('#decision').html(decision);
-		'<input type="hidden" value="'+cn+'">'
-		*/
-		//
+		$('#clip').click(function() {
+			$('#addclip').submit();
+		});
 	};
 
 	narrowItems = function(){
@@ -139,39 +143,16 @@ decideAjax = (function(){
 		});
         footerFixed();
 	};
-
-	/*
+	
+	shareItem = function(){
+		shareText(choice)
+	};
+	
+	var timerId;
 	decideItem = function(){
-	itemlist = $('[name="item"]');
-	decide = Math.floor(itemlist.length * Math.random());
-	itemlist.each(function(i, value){
-	if(i == decide){
-	choice = $(this).nextAll('label').text();
-	//var clipName = choice.subString(0,'(');
-	var clipName = choice.split("(");
-	decision = "<p>Your choice is : " + choice + "</p>";
-	//お店の名前(title)を取得
-	decision += '<form action="/addclip" method="post" class="pure-form">';
-	//decision += '<input type="button" value="クリップ" onclick="clipItem()">';
-	//decision += '<input type="submit" value="クリップ">';
-	console.log("clipName: " + clipName[0]);
-	decision += '<input type="hidden" id="id" name="name" value="'+clipName[0]+'">';
-	decision += '<input type="submit" value="クリップする" class="pure-button pure-button-success">';
-	decision += "</form>";
-	$('#decision').html(decision);
-	}
-	});
-	}
-	*/
-
-	var animation_flag = false;
-	decideItem = function(){
-		animation_flag = true;
 		$('#decide').prop("disabled", true);
 		$('#narrow').prop("disabled", true);
 		$('#reset').prop("disabled", true);
-		//$('#decide').prop("disabled", true);
-		if($('#reset')){ $('#reset').prop("disabled", true);}
 		var itemlist = $(':checkbox[name="item"]:checked').parent('div[name="card"]');
 		var i = 0;
 		var count = 0;
@@ -195,14 +176,11 @@ decideAjax = (function(){
 				decision = "";
 				choice = $(itemlist.get(random)).children('div[name="name"]').text();
 				console.log(choice);
-				decision += '<form action="/addclip" method="post" class="pure-form">';
+				decision += '<form id="addclip" action="/addclip" method="post" class="pure-form">';
 				decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
-				decision += '<input type="submit" id="clip" value="クリップする" class="pure-button pure-button-success">';
-				decision += '</form><p><button class="pure-button" onClick=shareText("'+ choice + '")>共有する</button></p>';
 				$('#decision').html(decision);
 				$('#clip').prop("disabled", false);
 				$('#share').prop("disabled", false);
-				animation_flag = false;
 			}
             footerFixed();
 		}, 300)
@@ -215,7 +193,7 @@ decideAjax = (function(){
      */
 	var makeAccordion = function(){
 		$(function(){
-			$('.accordion input[name="detail"]').click(function(){
+			$('.accordion button[name="detail"]').click(function(){
 				$(this).parents('div[name="card"]').next("ul").slideToggle();
 				$(this).toggleClass("open");
                 setAds = setInterval(function(){
@@ -228,7 +206,7 @@ decideAjax = (function(){
 	
 	var extendLabel = function(){
 		var ispart = false;
-		$('#itemlist').find('input[name="detail"]').click(function(){
+		$('#itemlist').find('button[name="detail"]').click(function(){
 			ispart = true;
 		});
 		$('#itemlist').find('input[type="checkbox"]').click(function(){
@@ -256,7 +234,6 @@ decideAjax = (function(){
 	}
 
 	var makeIsChecked = function(){
-		if(!animation_flag){
 			var allitemlength = $('#itemlist').find('input[type="checkbox"]').length;
 			var itemlength = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
 			if(itemlength <= 0){
@@ -274,7 +251,6 @@ decideAjax = (function(){
 				$('#narrow').prop("disabled", true);
 				$('#reset').prop("disabled", true);
 			}
-		}
 	};
 
 	/**
@@ -346,7 +322,7 @@ decideAjax = (function(){
 	 */
 	var makeCateOptionsHtml = function(originalData){
 		var cateArray = new Array();
-		var cateOption = '<option value="">ALL</option>';;
+		var cateOption;
 			for(var i = 0, n = originalData.length; i < n; i++){
 				var cate = originalData[i].category;
 				if(cateArray.indexOf(cate) != -1){
@@ -367,7 +343,7 @@ decideAjax = (function(){
 	var makeItemListHtml = function(extData){
 		var itemListHtml = "";
 		if(extData.length > 0){
-			itemListHtml += '<p><form name="itemlist" class="pure-form pure-form-aligned">';
+			itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
 			itemListHtml += '<div class="pure-g">';
 			itemListHtml += '<span class="accordion">';
 
@@ -379,16 +355,13 @@ decideAjax = (function(){
 				itemListHtml += '<div name="arrow" class="pure-u-1">';
 				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
 				itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
-				itemListHtml += '<div name="buttons"><input type="button" name="detail" value="詳細"></div></div>';
+				itemListHtml += '<div name="buttons"><button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button></div></div>';
 				itemListHtml += '<ul>';
-				itemListHtml += '<li>カテゴリ:' + cate + '</li>';
-				itemListHtml += '<li>コメント:' + desc + '</li></ul></div>';
+				itemListHtml += '<li>【' + cate + '】</li>';
+				itemListHtml += '<li>' + desc + '</li></ul></div>';
 			}
 			itemListHtml += '</span></div></div>';
-			itemListHtml += '<input type="button" id="narrow" disabled="disabled" value="絞り込む" onclick="narrowItems()" class="pure-button pure-button-small">';
-			itemListHtml += '<input type="button" id="reset" disabled="disabled" value="絞り込み解除" onclick="resetItem()" class="pure-button pure-button-small">';
-			itemListHtml += '<input type="button" id="decide" value="最終決定" onclick="decideItem()" class="pure-button pure-button-small">';
-			itemListHtml += "</form></p>";
+			itemListHtml += "</form>";
 		} else {
 			itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
 		}
