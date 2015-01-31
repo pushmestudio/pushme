@@ -339,6 +339,7 @@ function updateStoredDataOnClipitemlist(offClipName){
 		}else{//カテゴリに該当するアイテムが１つ以上ある時
 			var itemListHtml = makeShownItemListHtml(categorizedData);
 		}
+		storedData=clippedData;
 		reloadqueryIdChangeFunc();
 	}else{//カテゴリ名がALLを指定された時
 		categorizedData = extractByCate(clippedData, targetCate);
@@ -351,6 +352,7 @@ function updateStoredDataOnClipitemlist(offClipName){
 		}else{
 			var itemListHtml = makeShownItemListHtml(clippedData);
 		}
+		storedData=clippedData;
 		reloadqueryIdChangeFunc();
 	}
 	
