@@ -43,6 +43,16 @@ div[name="name"]{
 	padding: 0 .5em 0px .5em;
 }
 
+.subject-list{
+	position: relative;
+	top: -3px;
+}
+
+.subject-decide{
+	position: relative;
+	top: 2px;
+}
+
 div[name="buttons"]{
 	position: absolute;
 	top:.5em;

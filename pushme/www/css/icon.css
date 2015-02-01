@@ -60,13 +60,20 @@ h1 img{
 .star-icon {
 	display: inline;
 }
+
 .star-icon button{
 	background: none;
 	border: none;
 	padding: 2px 0 0 0;
 }
 
-
+.home{
+	position: absolute;
+	top:.5em;
+	right:.5em;
+	background: none;
+	border: none;
+}
 
 
 
