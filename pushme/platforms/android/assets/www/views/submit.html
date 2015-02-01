@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Submit | Push Me!</title>
+	<title>Submit | PushMe!</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="../css/pure-min.css">
-	<link rel="stylesheet" href="../css/extend-pure.css" type="text/css">
-	<link rel="stylesheet" href="../css/style.css" type="text/css">
-	<link rel="stylesheet" href="../css/side_menu.css" type="text/css">
-	<link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css">
+	<meta name="copyright" content="(c) PushMe Studio 2015">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<link rel="stylesheet" href="../css/external/pure-min.css" type="text/css">
+	<link rel="stylesheet" href="../css/pure-extended.css" type="text/css">
+	<link rel="stylesheet" href="../css/common.css" type="text/css">
+	<link rel="stylesheet" href="../css/sidemenu.css" type="text/css">
+	<link rel="stylesheet" href="../css/external/jquery-ui.min.css" type="text/css">
 	<link rel="stylesheet" href="../css/smartphone.css" type="text/css">
 	<link rel="stylesheet" href="../css/icon.css" type="text/css">
-	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 </head>
 <body>
-	<div id="layout"> 
-	<!-- Menu toggle -->
-	<a href="#menu" id="menuLink" class="menu-link">
-	<!-- Hamburger icon -->
-	<span></span>
-	</a>
+	<div id="layout">
+		<!-- Menu toggle -->
+		<a href="#menu" id="menuLink" class="menu-link">
+			<!-- Hamburger icon -->
+			<span></span>
+		</a>
 		<div id="menu" class="active">
 			<div class="pure-menu pure-menu-open">
 				<ul>
-					<li><a href="index.html"><img src="../img/menu_top.png"></a></li>
 					<li><a href="submit.html"><img src="../img/menu_register.png"></a></li>
 					<li><a href="decide.html"><img src="../img/menu_decide.png"></a></li>
-					<li><a href="listclips.html"><img src="../img/menu_clip.png"></a></li>
-					<li><a href="regitemslist.html"><img src="../img/menu_list.png"></a></li>
+					<li><a href="itemlist.html"><img src="../img/menu_list.png"></a></li>
 					<li><a href="support.html"><img src="../img/menu_feedbk.png"></a></li>
 				</ul>
 			</div>
@@ -35,13 +34,19 @@
 	<div class="main">
 		<div class="header">
 			<h1>Register<img src="../img/mark_register.png"></h1>
+			<a href="index.html"><img  class="home" src="../img/home.png"></a>
 		</div>
 		<div class="content">
+			<div id="notification">
+				<div id="addComplete" class="fade" style="display: none;"><h3>Register Complete!</h3></div>
+				<div id="addFailCuzAlreadyExists" class="fade" style="display: none;"><h3>Register Failed...<br>'Subject' is already exists.<br>Try again to chage 'Subject'.</h3></div>
+				<div id="addFailCuzEmptyElementExists" class="fade" style="display: none;"><h3>Register Failed...<br>'Category' and 'Subject' are mandatory terms.<br>Please fill 'Category' and 'Subject' terms.</h3></div>
+			</div>
        		<form id="regForm" class="pure-form pure-form-aligned">
 				<div class="input-block">
 					<h2 class="content-subhead">*Category</h2>
-                    <select id="options">
-                    </select>
+					<select id="options">
+					</select>
 					<h2 class="content-subhead">*Subject</h2>
 					<p><input type="text" id="name" placeholder="Subject" /></p>
 					<h2 class="content-subhead">Description</h2>
@@ -50,21 +55,17 @@
 						<button type="button" id="confirmAdd" class="pure-button pure-button-primary"><img src="../img/register.png"></button>
 					</div>
 					<div class="message-area">
-					<div id="regConfirm" title="Add Confirm"></div>
-					<div id="regComplete" title="Complete" >Complete!</div>
-					<div id="requireAlart" title="Alert" >Please fill in required sections</div>
-					<div id="repregComplete" title="Complete" >Complete!</div>
+						<div id="regConfirm" title="Add Confirm"></div>
 					</div>
 				</div>
-            </form>
-        </div>
-        <div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div>
+			</form>
+		</div>
+		<div id="ads"><script type="text/javascript">var nend_params = {"media":22843,"site":116935,"spot":305355,"type":1,"oriented":3};</script></div>
 	</div>
-<script src="../js/jquery.min.js" type="text/javascript" ></script>
-<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="../js/database.js"></script>
-<script src="../js/side_menu.js"></script>
-<script src="../js/submit.js"></script>
-<script src="../js/utils/ads_utils.js" type="text/javascript"></script>
-
+	<script src="../js/external/jquery.min.js" type="text/javascript" ></script>
+	<script src="../js/external/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="../js/utils/sidemenu_utils.js" type="text/javascript"></script>
+	<script src="../js/utils/database_utils.js" type="text/javascript"></script>
+	<script src="../js/utils/ads_utils.js" type="text/javascript"></script>
+	<script src="../js/submit.js" type="text/javascript"></script>
 </body>
