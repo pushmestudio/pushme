@@ -294,11 +294,13 @@ function updateStoredDataForDeleteProcess(delname){
 		$('#queryId').replaceWith(newCateHtml);
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}else{//カテゴリに該当するアイテムが１つ以上ある時
-		$('#queryId').html(makeCateOptionsHtml(storedData));
+
 		if (($('#queryId').val())!=""){
+			$('#queryId').html(makeCateOptionsHtml(storedData));
 			$('#queryId').val(targetCate);
 			var itemListHtml = makeShownItemListHtml(categorizedData);
 		}else{
+			$('#queryId').html(makeCateOptionsHtml(storedData));
 			var itemListHtml = makeShownItemListHtml(storedData);
 		}	
 	}
