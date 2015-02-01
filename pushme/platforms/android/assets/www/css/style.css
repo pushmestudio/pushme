@@ -2,7 +2,7 @@
 	font-size: 14px;
 	font-family: Helvetica, Arial, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, sans-serif;
 	background-color: #fff;
-	background-image: linear-gradient(#eee .1em, transparent .1em);
+	//background-image: linear-gradient(#eee .1em, transparent .1em);
 /*	linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px), */
 	background-size: 100% 2.0em;
 }
@@ -18,15 +18,15 @@ textarea {
 }
 
 button.img-button {
-        width: auto;
-        overflow: visible;
-        background: none;
-        margin-top: 10px;
-        margin-left: 5px;
-        border: 0;
-        padding: 0;
-        line-height: 0;
-        font-size: 0;
+    width: auto;
+    overflow: visible;
+    background: none;
+    margin-top: 10px;
+    margin-left: 5px;
+    border: 0;
+    padding: 0;
+    line-height: 0;
+    font-size: 0;
 }
 
 .custom-combobox {
@@ -49,16 +49,11 @@ button.img-button {
     width: 8em;
 }
 
+/* 通常だとpure-formが優先されてカテゴリ選択のプルダウンが改行されてしまう(display:block)ため、ここだけ上書きする */
 @media only screen and (max-width: 480px) {
-    .custom-combobox-input {
-        display: inline-block;    
-    }
-    
-    .custom-combobox-button {
-        display: inline-block;
-    }
-
     input#category{
         display: inline-block;
     }
+#ads {
+    margin: auto;
 }

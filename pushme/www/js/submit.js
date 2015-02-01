@@ -55,6 +55,7 @@ $(function(){
 				.appendTo(this.wrapper) 		// wrapper直下にこれを追加
 				.val(value)						// input要素のvalue属性にvalueを代入
 				.attr("id", "category")				// id属性にcategoryをセット
+                .attr("placeholder", "Category")    // placeholderとして"Category"と表示されるようにセット
 				.addClass("custom-combobox-input")	// 自作クラスをセット
 				// Comboboxの内容をautocompleteで一覧表示する
 				.autocomplete({

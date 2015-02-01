@@ -1,7 +1,11 @@
 @media screen and (min-width:49em){
 
  .content {
-	max-width: 50%
+	max-width: 50%;
+ }
+ 
+ .input-block{
+	margin: 2em 20%;
  }
 
 }
@@ -9,7 +13,11 @@
 @media screen and (max-width:48em){
 
  .content {
- 	max-width: 80%
+ 	max-width: 80%;
+ }
+
+ .input-block{
+	margin: 2em 1em;
  }
 
 }
@@ -29,11 +37,10 @@ input[name="item"],
 div[name="name"],
 div[name="buttons"] {
 	display:inline-block;
-	vertical-align: middle;
 }
 
 div[name="name"]{
-	padding:0 .5em 0px .5em;
+	padding: 0 .5em 0px .5em;
 }
 
 div[name="buttons"]{
@@ -42,9 +49,27 @@ div[name="buttons"]{
 	right:5px;
 }
 
+#addCategory,
+div[name="buttons"] button,
 input[type="button"]{
-	margin: 0 5px 0 0;
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 2px 5px 0 0;
 }
 
+input[type="text"],
+textarea{
+	width: 100%;
+}
 
+.input-category select{
+	font-size: 14px;
+	width: 190px;
+}
+
+.input-category input[type="text"],
+.input-category button{
+	display: inline-block;
+	vertical-align: middle;
 }
