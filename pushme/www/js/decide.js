@@ -4,7 +4,7 @@
 
 decideAjax = (function(){
 	var storedData; // データの取得を一度に抑えるために共通で使う
-	var first8Data; //絞り込み前の状態を保存
+	var originalData; //絞り込み前の状態を保存
 
 	/**
 	　* decideAjax.jsが読み込まれる際に呼び出される。
@@ -24,7 +24,6 @@ decideAjax = (function(){
 				var categoryOptionsHtml = makeCateOptionsHtml(storedData);
 				$('#queryId').append(categoryOptionsHtml);
 				getRandomItem();
-				console.dir(storedData);
 			}, function(err){
 				console.error(err);
 			});
@@ -35,16 +34,21 @@ decideAjax = (function(){
 
 	/**
 	 * カテゴリの選択が行われた際に呼び出される。
+	 * 選択肢をランダムに取得し直す。
 	 */
 	$('#queryId').change(function(){
 		getRandomItem();
 	});
 
+	/**
+	 * 表示する件数の設定
+	 */
 	var fewAmount = 4;
 	var normalAmount = 8;
 	var manyAmount = 12;
 	/**
-	 * 件数が変更されたとき呼び出される
+	 * 件数が変更されたとき呼び出される。
+	 * 件数を更新し、ランダムに取得し直す。
 	 */
 	$('#view_few').click(function(){
 		setExtractAmount(fewAmount);
@@ -69,26 +73,28 @@ decideAjax = (function(){
 	 * extractByCate()に時間がかかる可能性があるため、ajaxによる処理が必要。
 	 */
 	var getRandomItem = function(){
+		//decisionブロックのクリア
 		if(decideAnimtion != null){
 			clearInterval(decideAnimtion);
 			decideAnimtion = null;
 		}
 		$('#decision').html("");
+		//ボタンの初期設定
 		$('#narrow').prop("disabled", true);
 		$('#reset').prop("disabled", true);
 		$('#clip').prop("disabled", true);
 		$('#share').prop("disabled", true);
 		$('#decide').prop("disabled", false);
 		var queryData = {"tag" : $('#queryId').val()};
-		console.log(queryData);
 		$.ajax({
 			type: "GET",
 			success: function(){
 				var categorisedData = extractByCate(storedData, queryData.tag);
 				var extData = randomExtract(categorisedData);
-				first8Data = extData;
+				originalData = extData;
 				var itemListHtml = makeItemListHtml(extData);
 				$('#itemlist').html(itemListHtml);
+				//各種イベント付与
 				makeAccordion();
                 extendLabel();
 				makeIsChecked();
@@ -102,13 +108,14 @@ decideAjax = (function(){
 
 	/**
 	* 絞り込み解除が押下された際に呼び出される。
+	* 絞り込み前の状態に戻す。
 	*/
 	resetItem = function(){
 		$('#reset').prop("disabled", true);
 		$.ajax({
 			type: "GET",
 			success: function(){
-				var itemListHtml = makeItemListHtml(first8Data);
+				var itemListHtml = makeItemListHtml(originalData);
 				$('#itemlist').html(itemListHtml);
 
 				makeAccordion();
@@ -122,12 +129,19 @@ decideAjax = (function(){
 		});
 	};
 
+	/**
+	* クリップが押下された際に呼び出される。
+	* 決定された選択肢をクリップ
+	*/
 	clipItem = function(){
 		clipName=$('#id').val();
-		console.log("clipName : " +clipName);
 		addClip(clipName);//database.jsのaddClipメソッド呼出し
 	};
 
+	/**
+	* チェックによる絞り込みを行う。
+	* チェックされた選択肢のみを残す。
+	*/
 	narrowItems = function(){
 		$('#narrow').prop("disabled", true);
 		$('#reset').prop("disabled", false);
@@ -153,7 +167,12 @@ decideAjax = (function(){
 	*  getRandomItemが呼び出されるたびnullがセットされる。
 	*/
 	var decideAnimtion;
-	
+
+	/**
+	* 最終決定を行う。
+	* ランダムな抽選15回と決定後5回点滅。
+	* 決定した選択肢はdecisionブロックにhiddenで記録。
+	*/
 	decideItem = function(){
 		$('#decide').prop("disabled", true);
 		$('#narrow').prop("disabled", true);
@@ -183,7 +202,6 @@ decideAjax = (function(){
 				//お店の名前(title)を取得
 				decision = "";
 				choice = $(itemlist.get(hitCardNo)).children('div[name="name"]').text();
-				console.log(choice);
 
 				decision += '<form id="addclip" action="/addclip" method="post" class="pure-form">';
 				decision += '<input type="hidden" id="id" name="name" value="' + choice + '">';
@@ -200,7 +218,6 @@ decideAjax = (function(){
 	/**
      * 詳細表示
      * makeAccordion自体は、clickに対しイベントリスナを付加するだけである点に注意
-     * 処理時間を考慮し、clickされてから1秒後に広告位置をセットし直す
      */
 	var makeAccordion = function(){
 		$(function(){
@@ -212,8 +229,8 @@ decideAjax = (function(){
 	};
 	
 	 /**
-     * ラベル領域の拡張
-     * カードのクリックでチェックボックスのつけはずしを行う
+     * ラベル領域の拡張。
+     * カードのクリックでチェックボックスのつけはずしを行う。
      * ただし、カードの部品（チェックボックス、ラベル、詳細ボタン）がクリックされた場合は
      * この関数内でのチェックボックス状態の変更は行わない。
      */
@@ -281,28 +298,22 @@ decideAjax = (function(){
 		}
 		var extractedData = new Array();
 		var originalDataLength = originalData.length;
-		console.debug("original data length is : " + originalDataLength);
 
 		if(originalDataLength <= extractAmount){
 			extractedData = originalData; // 実データ数が抽出したい数以下のため抽出する必要がない
-			console.debug("no need to extract");
 
 		} else {
 			var extractNumberArray = new Array();
 			for(var i = 0; i < extractAmount; i++){
 				var candidateNumber = Math.round(Math.random() * (originalDataLength - 1));// Lengthと同じ値のインデックスだと配列の長さを超える
-				console.debug("candidateNumber is : " + candidateNumber);
 				if(extractNumberArray.indexOf(candidateNumber) != -1){
 					i--;//今回の回をなかったことにしてもう一度やり直させる
-					console.debug("dupulicated number is detected. Abort the canditate and try again.");
 				}else{
-					console.debug(originalData[candidateNumber]);
 					extractNumberArray.push(candidateNumber); // 重複を防ぐ
 					extractedData.push(originalData[candidateNumber]); // 抽出したデータを挿入
 				}
 			}
 		}
-		console.debug("returning data length is : " + extractedData.length);
 		return extractedData;
 	};
 
@@ -321,7 +332,6 @@ decideAjax = (function(){
 			for(var i = 0, n = originalData.length; i < n; i++){
 				if(query === originalData[i].category){
 					categorisedData.push(originalData[i]);
-					console.debug(originalData[i]);
 				}
 			}
 		}
