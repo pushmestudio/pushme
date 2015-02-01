@@ -266,12 +266,14 @@ function addClip(clipName){
 			var clipFlagTrue = store.put(updateItem);
 			clipFlagTrue.onsuccess = function(){
 				console.log("CLIP ADD SUCCESS");
-				alert("クリップ追加しました");
+				                $('#clipComplete').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#33CCFF');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
+				//alert("クリップ追加しました");
 				//resolve();
 			};
 			clipFlagTrue.onerror = function(){
 				console.log("CLIP ADD FAILURE");
-				alert("クリップ追加できませんでした");
+				//$('#clipAlreadyClipped').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#FFAD90');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時), #FFAD90(クリップが既に存在。失敗ではないため、別の色を指定)
+				//alert("クリップ追加できませんでした");
 				//reject();
 			};
 		};
@@ -340,13 +342,14 @@ function offClipfromDB(offClipName){
 			var clipFlagFalse = store.put(updateItem);
 			clipFlagFalse.onsuccess = function(){
 				console.log("CLIP Changed to FALSE is SUCCESS");
-				alert("クリップを削除しました");
+				//alert("クリップを削除しました");
+								                $('#unclipComplete').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#33CCFF');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
 				console.dir("offClip時のstoredData: "+storedData.value);
 				//resolve();
 			};
 			clipFlagFalse.onerror = function(){
 				console.log("CLIP Changed to FALSE is FAILURE");
-				alert("クリップを削除できませんでした");
+				//alert("クリップを削除できませんでした");
 				//reject();
 			};
 		};
