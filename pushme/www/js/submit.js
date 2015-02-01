@@ -165,23 +165,27 @@ $('#regConfirm').dialog({
 	height: 250,
 	width: 300,
 	buttons: {
-		"Yes": function(){
+		/*"Done": function(){
 			$(this).dialog("close");
 			openDB().then(function(){
 				addItemtoDB(cate, name, desc).then(function(){
         			$('#regComplete').dialog("open");
+        			//$('#addComplete').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#33CCFF');//登録成功時の通知//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
+        			//location.href = "./index.html";
 				}, function(err){
 					alert(err);
 				});
 			});
-		},
-		"resubmit": function(){
+		},*/
+		"Done": function(){
 			$(this).dialog("close");
 			openDB().then(function(){
 				addItemtoDB(cate, name, desc).then(function(){
-        			$('#repregComplete').dialog("open");
+        			//$('#repregComplete').dialog("open");
+        			$('#name').val("");
+					$('#description').val("");
 				}, function(err){
-					alert(err);
+					//alert(err);
 				});
 			});
 		},
@@ -190,7 +194,7 @@ $('#regConfirm').dialog({
 		}
 	}
 });
-
+/*
 $('#regComplete').dialog({
     autoOpen: false,
     resizable: false,
@@ -203,8 +207,8 @@ $('#regComplete').dialog({
             location.href = "./index.html";
         }
     }
-});
-
+});*/
+/*
 $('#repregComplete').dialog({
     autoOpen: false,
 	resizable: false,
@@ -218,8 +222,8 @@ $('#repregComplete').dialog({
 			$('#description').val("");
         }
     }
-});
-
+});*/
+/*
 $('#requireAlart').dialog({
     autoOpen: false,
     resizable: false,
@@ -231,14 +235,15 @@ $('#requireAlart').dialog({
             $(this).dialog("close");
         }
     }
-});
+});*/
 
 $('#confirmAdd').click(function(){
 	cate = $('#category').val();
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	$('#requireAlart').dialog("open");
+    	//$('#requireAlart').dialog("open");
+    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
     } else {
 		$('#regConfirm').html("以下の項目で登録しますか？<br>カテゴリ: " + cate + "<br>名前: " + name + "<br>説明: " + desc);
 		$('#regConfirm').dialog("open");

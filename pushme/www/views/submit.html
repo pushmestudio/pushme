@@ -37,6 +37,9 @@
 			<h1>Register<img src="../img/mark_register.png"></h1>
 		</div>
 		<div class="content">
+			<div id="addComplete" class="fade" style="display: none;"><h3>Register Complete!</h3></div>
+			<div id="addFailCuzAlreadyExists" class="fade" style="display: none;"><h3>Register Failed...<br>'Subject' is already exists.<br>Try again to chage 'Subject'.</h3></div>
+			<div id="addFailCuzEmptyElementExists" class="fade" style="display: none;"><h3>Register Failed...<br>'Category' and 'Subject' are mandatory terms.<br>Please fill 'Category' and 'Subject' terms.</h3></div>
        		<form id="regForm" class="pure-form pure-form-aligned">
 				<div class="input-block">
 					<h2 class="content-subhead">*Category</h2>
@@ -50,10 +53,12 @@
 						<button type="button" id="confirmAdd" class="pure-button pure-button-primary"><img src="../img/register.png"></button>
 					</div>
 					<div class="message-area">
+					
 					<div id="regConfirm" title="Add Confirm"></div>
-					<div id="regComplete" title="Complete" >Complete!</div>
-					<div id="requireAlart" title="Alert" >Please fill in required sections</div>
-					<div id="repregComplete" title="Complete" >Complete!</div>
+					<!--<div id="regComplete" title="Complete" >Complete!</div>
+					<div id="requireAlart" title="Alert" >Please fill in required sections</div>>
+					<div id="repregComplete" title="Complete" >Complete!</div>-->
+					
 					</div>
 				</div>
             </form>

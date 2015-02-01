@@ -55,10 +55,12 @@ function addItemtoDB(cate, name, desc){
 
     objectStoreRequet.onsuccess = function(e){
         console.log("New item added to database");
+        $('#addComplete').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#33CCFF');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
         deferred.resolve();
     };
     objectStoreRequet.onerror = function(e){
         console.log("objectStoreRequest error: " + e.message);
+                $('#addFailCuzAlreadyExists').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
         deferred.reject("objectStoreRequest error");
     };
     return deferred.promise();
@@ -90,10 +92,12 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
                 console.log("Update the item");
+                			$('#editComplete').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#33CCFF');//編集成功時の通知//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
                 deferred.resolve();
             };
             objectStoreRequest.onerror = function(e){
                 console.log("objectStoreRequet error: " + e.message);
+                $('#editFail').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
                 deferred.reject("objectStoreRequest error: " + e.message);
             };
         }
@@ -218,6 +222,7 @@ function delItemFromDB(){
 		var delReq = store.delete(result.value.timeStamp);
 		delReq.onsuccess = function(){
 			console.log("DELETE SUCCESS");
+			$('#deleteComplete').stop().fadeIn(1000).delay(5000).fadeOut(1000).css('color','#33CCFF');//編集成功時の通知//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
 			deferred.resolve();
 		};
 		delReq.onerror = function(){
