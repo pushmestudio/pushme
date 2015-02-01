@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Decide | Push Me!</title>
+	<title>Decide | PushMe!</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../css/pure-min.css">
-	<link rel="stylesheet" href="../css/extend-pure.css" type="text/css">
-	<link rel="stylesheet" href="../css/style.css" type="text/css">
-	<link rel="stylesheet" href="../css/side_menu.css" type="text/css">
+	<meta name="copyright" content="(c) PushMe Studio 2015">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<link rel="stylesheet" href="../css/external/pure-min.css" type="text/css">
+	<link rel="stylesheet" href="../css/external/grids-responsive-min.css" type="text/css">
+	<link rel="stylesheet" href="../css/pure-extended.css" type="text/css">
+	<link rel="stylesheet" href="../css/common.css" type="text/css">
+	<link rel="stylesheet" href="../css/sidemenu.css" type="text/css">
 	<link rel="stylesheet" href="../css/accordion.css" type="text/css">
-	<link rel="stylesheet" href="../css/grids-responsive-min.css">
 	<link rel="stylesheet" href="../css/smartphone.css" type="text/css">
 	<link rel="stylesheet" href="../css/icon.css" type="text/css">
 </head>
 <body>
 	<div id="layout">
-	<!-- Menu toggle -->
+		<!-- Menu toggle -->
 	<a href="#menu" id="menuLink" class="menu-link">
 	<!-- Hamburger icon -->
 	<span></span>
@@ -23,10 +24,9 @@
 		<div id="menu" class="active">
 			<div class="pure-menu pure-menu-open">
 				<ul>
-					<li><a href="index.html"><img src="../img/menu_top.png"></a></li>
 					<li><a href="submit.html"><img src="../img/menu_register.png"></a></li>
 					<li><a href="decide.html"><img src="../img/menu_decide.png"></a></li>
-					<li><a href="regitemslist.html"><img src="../img/menu_list.png"></a></li>
+					<li><a href="itemlist.html"><img src="../img/menu_list.png"></a></li>
 					<li><a href="support.html"><img src="../img/menu_feedbk.png"></a></li>
 				</ul>
 			</div>
@@ -47,7 +47,6 @@
 				</fieldset>
 				</div>
 				<div class="category">
-				Category:
 				<select id="queryId">
 					<option value="">ALL</option>
 				</select>
@@ -56,33 +55,27 @@
 				<div class="icon-area option">
 					<button type="button" id="narrow" onclick="narrowItems()" disabled="disabled" class="pure-button"><img src="../img/filterbycheck.png"></button>
 					<button type="button" id="reset" onclick="resetItem()" disabled="disabled" class="pure-button"><img src="../img/unfilter.png"></button>
-					<button type="button" id="clip" onclick="clipItem()" disabled="disabled" class="pure-button"><img src="../img/clip.png"></button>
+					<button type="button" id="clip" disabled="disabled" class="pure-button"><img src="../img/clip.png"></button>
 					<button type="button" id="share" onclick="shareItem()" disabled="disabled" class="pure-button"><img src="../img/share.png"></button>
 				</div>
 
 			</form>
-			
+
 			<div id="itemlist"></div>
 			<div class="icon-area main">
 				<button type="button" id="decide" onclick="decideItem()" class="pure-button"><img src="../img/decide.png"></button>
 			</div>
 			<div id="decision"></div>
-			
+
 		</div>
-                <div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div>
+                <div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div><!-- disp test -->
 	</div>
-	<script src="../js/jquery.min.js" type="text/javascript" ></script>
-	<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
-	<script src="../js/utils/common_utils.js"></script>
-  <script src="../js/decide.js"></script>
-  <script src="../js/database.js"></script>
-  <script src="../js/getFromDB.js"></script>
-  <script src="../js/side_menu.js"></script>
-	<script>
-	$(function() {
-		$('#jquery-ui-button-radio').buttonset();
-	});
-	</script>
-        <script src="../js/utils/ads_utils.js" type="text/javascript"></script>
+	<script src="../js/external/jquery.min.js" type="text/javascript" ></script>
+	<script src="../js/external/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="../js/utils/common_utils.js" type="text/javascript"></script>
+    <script src="../js/utils/sidemenu_utils.js" type="text/javascript"></script>
+    <script src="../js/utils/database_utils.js" type="text/javascript"></script>
+    <script src="../js/utils/ads_utils.js" type="text/javascript"></script>
+    <script src="../js/decide.js" type="text/javascript"></script>
 </body>
 </html>
