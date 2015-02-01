@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Add transition to containers so they can push in and out.
 * */
 #layout,
@@ -30,16 +30,16 @@
 /* id="layout" class="active"に適用 */
 #layout.active {
 	position: relative;
-	left: 150px;
+	left: 120px;
 }
 /* id="layout" class="active"下にあるid="menu"に適用 */
 #layout.active #menu {
-	left: 150px;
-	width: 150px;
+	left: 120px;
+	width: 120px;
 }
 /* id="layout" class="active"下にあるclass="menu-link"に適用 */
 #layout.active .menu-link {
-	left: 150px;
+	left: 120px;
 }
 
 /*
@@ -86,14 +86,14 @@
 * */
 
 #menu {
-	margin-left: -150px; /* "#menu" width */
-	width: 150px;
+	margin-left: -120px; /* "#menu" width */
+	width: 120px;
 	position: fixed;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	z-index: 1000; /* so the menu or its navicon stays above all content */
-	background: #191818;
+	background: #005000;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 }
@@ -103,7 +103,8 @@
 #menu a {
 	color: #999;
 	border: none;
-	padding: 0.6em 0 0.6em 0.6em;
+	text-align: center;
+	//padding: 0.6em 0 0.6em 0.6em;
 }
 
 /*
@@ -127,7 +128,7 @@
 *                 */
 #menu .pure-menu li a:hover,
 #menu .pure-menu li a:focus {
-	background: #333;
+	background: #1f8dd6;
 }
 
 /*
@@ -135,7 +136,8 @@
 *         */
 #menu .pure-menu-selected,
 #menu .pure-menu-heading {
-	background: #1f8dd6;
+	text-align: center;
+	//background: #1f8dd6;
 }
 /*
 *         This styles a link within a selected menu item `<li>`.
@@ -221,20 +223,20 @@
 }
 
 #layout {
-	padding-left: 150px; /* left col width "#menu" */
+	padding-left: 120px; /* left col width "#menu" */
 	left: 0;
 }
 #menu {
-	left: 150px;
+	left: 120px;
 }
 
 .menu-link {
 	position: fixed;
-	left: 150px;
+	left: 120px;
 	display: none;
 }
 
 #layout.active .menu-link {
-	left: 150px;
+	left: 120px;
 }
 }

@@ -24,6 +24,7 @@ $(function(){
 			makeAccordion();
 			makeEdit();
 			makeDel();
+			clipOnRegitemlist();
 
 			// queryIdが変化したら呼ぶ
 			$('#queryId').change(function(){
@@ -36,6 +37,7 @@ $(function(){
 				makeAccordion();
 				makeEdit();
 				makeDel();
+				clipOnRegitemlist();
 			});
 
 			// submitが押されたら呼ぶ
@@ -50,6 +52,7 @@ $(function(){
 				makeAccordion();
 				makeEdit();
 				makeDel();
+				clipOnRegitemlist();
 			});
 
 			console.dir(storedData);
@@ -110,7 +113,7 @@ function makeCateOptionsHtml(originalData){
  */
  function makeEdit(){
  	var name = "";
- 	$('input[name="edititem"]').click(function(){
+ 	$('button[name="edititem"]').click(function(){
  		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
@@ -128,7 +131,7 @@ function makeCateOptionsHtml(originalData){
  */
 function makeDel(){
  	var name = "";
- 	$('input[name="deleteitem"]').click(function(){
+ 	$('button[name="deleteitem"]').click(function(){
  		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
@@ -142,10 +145,44 @@ function makeDel(){
  */
 function makeAccordion(){
 	$(function(){
-		$('.accordion input[name="detail"]').click(function(){
+		$('.accordion button[name="detail"]').click(function(){
 			$(this).parents('div[name="card"]').next("ul").slideToggle();
 			$(this).toggleClass("open");
 		});
+	});
+}
+
+//下記、現在未実装
+/**
+ * 登録データ一覧画面で UnClip/Clipボタン押下時のボタン表示/非表示操作。およびDBのclip属性の変更メソッド呼出
+ */
+function clipOnRegitemlist(){
+	for(var i = 0, n = storedData.length; i < n; i++){
+		//name=="true"の時、既にクリップ済なので、UnClipボタンを表示
+		if($('#clipFlagTrue_'+i).attr("name")=="true"){
+			$('#clipFlagTrue_'+i).css("display", "inline");//UnClipボタン-->表示
+			$('#clipFlagFalse_'+i).css("display", "none");//Clipボタン-->非表示
+		//name=="false"の時、未クリップなので、Clipボタンを表示
+		}else if ($('#clipFlagTrue_'+i).attr("name")=="false"){
+			$('#clipFlagTrue_'+i).css("display", "none");//UnClipボタン-->非表示
+			$('#clipFlagFalse_'+i).css("display", "inline");//Clipボタン-->表示
+		}
+	}
+	//UnClipボタン押下で、UnClipをnoneに、Clipをinlineに変更
+	$('button[value="UnClip"]').click(function(){
+			$('#'+$(this).attr("id")).css("display","none");//UnClipボタン-->非表示に変更
+			$('#'+$(this).next().attr("id")).css("display","inline");//Clipボタン-->表示に変更
+			var clip2false = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+			offClipfromDB(clip2false);//DBのclip属性をfalseにするメソッド呼出(database.js)
+			updateStoredDataForClipOnRegitemlist(clip2false, "false");//itemlist更新
+	});
+	//Clipボタン押下で、Clipをnoneに、UnClipをinlineに変更
+	$('button[value="Clip"]').click(function(){
+			$('#'+$(this).attr("id")).css("display","none");//Clipボタン-->非表示に変更
+			$('#'+$(this).prev().attr("id")).css("display","inline");//UnClipボタン-->表示に変更
+			var clip2true = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+			addClip(clip2true);//DBのclip属性をtrueにするメソッド呼出(database.js)
+			updateStoredDataForClipOnRegitemlist(clip2true, "true");//itemlist更新
 	});
 }
 
@@ -160,32 +197,40 @@ function makeShownItemListHtml(extData){
 		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
 		itemListHtml += '<div class="pure-g">';
 		itemListHtml += '<span class="accordion">';
-
+		
 		for(var i = 0, n = extData.length; i < n; i++){
 			var name = extData[i].name;
 			var cate = extData[i].category;
 			var desc = extData[i].description;
-
+			clipFlag = extData[i].clip;
+			console.log("clipFlag : " + i + " : " + clipFlag);
+			
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
+			
+			itemListHtml += '<div class="star-icon">';
+			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
+			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
+			itemListHtml += '</div>';
+			
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
+
 			itemListHtml += '<div name="buttons">';
-			itemListHtml += '<input type="button" name="detail" value="詳細">';
-			itemListHtml += '<input type="button" name="edititem" value="編集">'
-			itemListHtml += '<input type="button" name="deleteitem" value="削除">';
-			itemListHtml += '</div></div><ul>';
-			itemListHtml += '<li>カテゴリ:<span name="cate">' + cate + '</span></li>';
-			itemListHtml += '<li>説明:<span name="desc">' + desc + '</span></li></ul></div>';
+			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
+			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
+			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button>';
+			itemListHtml += '</div>';
+			itemListHtml += '</div><ul>';
+			itemListHtml += '<li>【<span name="cate">' + cate + '</span>】</li>';
+			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';	
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
 	} else {
 		itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
 	}
-
 	return itemListHtml;
 }
-
 
 /**
  * sotredDataの中身を更新(再取得)する
@@ -215,6 +260,7 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 	makeAccordion();
 	makeEdit();
 	makeDel();
+	clipOnRegitemlist();
 }
 
 /**
@@ -236,7 +282,6 @@ function updateStoredDataForDeleteProcess(delname){
 			console.log("delete from storedData");
 		}
 	});
-	//var queryData = {"tag" : $('#queryId').val()};
 	categorizedData = extractByCate(storedData, targetCate);//queryData.tag
 	if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
 		var newCateHtml = '<select id="queryId">';
@@ -260,6 +305,7 @@ var reloadqueryIdChangeFunc = function(){
 	makeAccordion();
 	makeEdit();
 	makeDel();
+	clipOnRegitemlist();
 	$('#queryId').change(function(){
 		var queryData = {"tag" : $('#queryId').val()};
 		categorizedData = extractByCate(storedData, queryData.tag);
@@ -268,5 +314,26 @@ var reloadqueryIdChangeFunc = function(){
 		makeAccordion();
 		makeEdit();
 		makeDel();
+		clipOnRegitemlist();
 	});
+}
+
+function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChanged){
+	for(var i = 0, n = storedData.length; i < n; i++){
+		if(clipNameOfFlagChanged === storedData[i].name){
+			storedData[i].clip = clipFlagChanged;
+		}
+	}
+	if (($('#queryId').val())!=""){
+		var cateOfClip = $('#queryId').val()
+		categorizedData = extractByCate(storedData, cateOfClip);
+		var itemListHtml = makeShownItemListHtml(categorizedData);
+	}else{
+		var itemListHtml = makeShownItemListHtml(storedData);
+	}
+	$('#itemlist').html(itemListHtml);
+	makeAccordion();
+	makeEdit();
+	makeDel();
+	clipOnRegitemlist();
 }
