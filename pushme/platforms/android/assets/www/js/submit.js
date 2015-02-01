@@ -109,11 +109,8 @@ $(function(){
 					},
 					text: false
 				})
-//				.css('background-image', 'none')
-//				.css('background-color', '#dcdcdc')
 				.removeClass("ui-corner-all")	// 不要なclassを取り除き、必要なclassを追加する
 				.addClass("ui-corner-right ui-button-icon custom-combobox-button")
-//				.addClass("custom-combobox-button")
 				.mousedown(function(){			// ボタンが押されたら、autocompleteが表示されているか確認
 					wasOpen = input.autocomplete("widget").is(":visible");
 				})
@@ -165,23 +162,13 @@ $('#regConfirm').dialog({
 	height: 250,
 	width: 300,
 	buttons: {
-		"Yes": function(){
+		"Done": function(){
 			$(this).dialog("close");
 			openDB().then(function(){
 				addItemtoDB(cate, name, desc).then(function(){
-        			$('#regComplete').dialog("open");
+        			$('#name').val("");
+					$('#description').val("");
 				}, function(err){
-					alert(err);
-				});
-			});
-		},
-		"resubmit": function(){
-			$(this).dialog("close");
-			openDB().then(function(){
-				addItemtoDB(cate, name, desc).then(function(){
-        			$('#repregComplete').dialog("open");
-				}, function(err){
-					alert(err);
 				});
 			});
 		},
@@ -191,56 +178,15 @@ $('#regConfirm').dialog({
 	}
 });
 
-$('#regComplete').dialog({
-    autoOpen: false,
-    resizable: false,
-    modal: true,
-    height: 200,
-    width: 250,
-    buttons: {
-        "OK": function(){
-            $(this).dialog("close");
-            location.href = "./index.html";
-        }
-    }
-});
-
-$('#repregComplete').dialog({
-    autoOpen: false,
-	resizable: false,
-    modal: true,
-    height: 200,
-    width: 250,
-    buttons: {
-        "OK": function(){
-			$(this).dialog("close");
-			$('#name').val("");
-			$('#description').val("");
-        }
-    }
-});
-
-$('#requireAlart').dialog({
-    autoOpen: false,
-    resizable: false,
-    modal: true,
-    height: 200,
-    width: 250,
-    buttons: {
-        "OK": function(){
-            $(this).dialog("close");
-        }
-    }
-});
-
 $('#confirmAdd').click(function(){
 	cate = $('#category').val();
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	$('#requireAlart').dialog("open");
+    	//$('#requireAlart').dialog("open");
+    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
     } else {
-		$('#regConfirm').html("以下の項目で登録しますか？<br>カテゴリ: " + cate + "<br>名前: " + name + "<br>説明: " + desc);
+		$('#regConfirm').html("Add the following item ?<br>【Category】: " + cate + "<br>【Subject】: " + name + "<br>【Description】: " + desc);
 		$('#regConfirm').dialog("open");
 	}
 });
