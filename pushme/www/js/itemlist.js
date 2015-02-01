@@ -156,7 +156,6 @@ function makeAccordion(){
 	});
 }
 
-//下記、現在未実装
 /**
  * 登録データ一覧画面で UnClip/Clipボタン押下時のボタン表示/非表示操作。およびDBのclip属性の変更メソッド呼出
  */
@@ -279,7 +278,7 @@ function updateStoredDataForDeleteProcess(delname){
 		if(delname === storedData[i].name){
 			check = i;
 			targetCate = storedData[i].category;
-		};
+		}
 	}
 	storedData.some(function(v,check){
 		if (v.name==delname){
@@ -296,8 +295,12 @@ function updateStoredDataForDeleteProcess(delname){
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}else{//カテゴリに該当するアイテムが１つ以上ある時
 		$('#queryId').html(makeCateOptionsHtml(storedData));
-		$('#queryId').val(targetCate);
-		var itemListHtml = makeShownItemListHtml(categorizedData);
+		if (($('#queryId').val())!=""){
+			$('#queryId').val(targetCate);
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}else{
+			var itemListHtml = makeShownItemListHtml(storedData);
+		}	
 	}
 	$('#itemlist').html(itemListHtml);
 	reloadqueryIdChangeFunc();//queryIdを再定義したため、リロード
