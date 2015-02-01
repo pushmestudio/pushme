@@ -1,3 +1,8 @@
+/**
+ * @fileOverview 
+ * @copyright PushMe Studio 2015
+ */
+
 // database.jsが読み込まれたページでは、常にこのdb変数を元に操作を行う
 var db = null;
 var version = 2;	//注意: Versionが変わると、既存の保存データなどはクリアされます

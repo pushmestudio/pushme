@@ -1,3 +1,7 @@
+﻿/**
+ * @fileOverview サイドバーを簡単に導入するためのjs
+ * @copyright PushMe Studio 2015
+ */
 (function (window, document) {
 		var layout   = document.getElementById('layout'),
 		menu     = document.getElementById('menu'),

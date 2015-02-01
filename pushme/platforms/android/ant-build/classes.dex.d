@@ -1,10 +1,4 @@
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes.dex : \
-C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\co\push\BuildConfig.class \
-C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\co\push\R$attr.class \
-C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\co\push\R$drawable.class \
-C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\co\push\R$string.class \
-C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\co\push\R$xml.class \
-C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\co\push\R.class \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\BuildConfig.class \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\PushMe$JSHandler.class \
 C:\cygwin64\home\AA354472\gitMyDev\decision2014.pushme\pushme\platforms\android\ant-build\classes\jp\pushme\PushMe.class \

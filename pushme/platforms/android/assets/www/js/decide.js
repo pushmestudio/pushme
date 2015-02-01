@@ -1,5 +1,6 @@
 /**
  * @fileOverview データを取得して必要な件数を抽出し、HTML出力します。
+ * @copyright PushMe Studio 2015
  */
 
 decideAjax = (function(){
