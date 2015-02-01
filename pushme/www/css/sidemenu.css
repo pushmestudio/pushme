@@ -1,6 +1,7 @@
 ﻿/*
-* Add transition to containers so they can push in and out.
-* */
+ * Copyright (c) PushMe Studio 2015
+ * Add transition to containers so they can push in and out.
+ */
 #layout,
 #menu,
 .menu-link {
@@ -19,8 +20,9 @@
 }
 
 /*
-* This is the parent `<div>` that contains the menu and the content area.
-* */
+ * This is the parent `<div>` that contains the menu and the content area.
+ *
+ */
 /* 小さいmenuが押されたときに、大きいmenuを表示するための記述 */
 /* id="layout"に適用 */
 #layout {

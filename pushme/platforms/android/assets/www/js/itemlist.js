@@ -1,5 +1,6 @@
 /**
  * @fileOverview データを取得して必要な件数を抽出し、HTML出力します。
+ * @copyright PushMe Studio 2015
  */
  // データの取得を一度に抑えるために、DB内の全データを格納する
 var storedData;

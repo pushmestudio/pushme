@@ -1,5 +1,6 @@
 /**
  * @fileOverview 共通機能として使う関数を集めたファイルです
+ * @copyright PushMe Studio 2015
  */
 
 /**

@@ -40,12 +40,12 @@
 		</div>
 		<div class="content">
 			<div id="notification">
-				<div id="editComplete" class="fade" style="display: none;"><h3>Edit Complete!</h3></div>
-				<div id="editFail" class="fade" style="display: none;"><h3>Edit Failed...<br>'Subject' is already exists.<br>Try again to chage 'Subject'.</h3></div>
-				<div id="deleteComplete" class="fade" style="display: none;"><h3>Delete Complete!</h3></div>
-				<div id="deleteFail" class="fade" style="display: none;"><h3>Delete Failed...</h3></div>
-				<div id="clipComplete" class="fade" style="display: none;"><h3>Clip Complete!</h3></div>
-				<div id="unclipComplete" class="fade" style="display: none;"><h3>UnClip Complete!</h3></div>
+				<div id="editComplete" class="fade" style="display: none;"><h3>Edited!</h3></div>
+				<div id="editFail" class="fade" style="display: none;"><h3>Subject is duplicated. Change it and try again.</h3></div>
+				<div id="deleteComplete" class="fade" style="display: none;"><h3>Deleted!</h3></div>
+				<div id="deleteFail" class="fade" style="display: none;"><h3>Delete Failed... try again later.</h3></div>
+				<div id="clipComplete" class="fade" style="display: none;"><h3>Clipped!</h3></div>
+				<div id="unclipComplete" class="fade" style="display: none;"><h3>Unclipped!</h3></div>
 			</div>
 			<form id="formId" class="pure-form">
 				<div class="category">
@@ -57,19 +57,16 @@
 		</div>
 		<div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div><!-- disp test -->
 		<div id="requireAlart" title="Alert" >Please fill in required sections</div>
-		<div id="editRegItem" title="Modify confirm">
+		<div id="editRegItem" title="Edit item">
 			<form>
 				<table>
 					<tr>
-						<td>*Category</td>
-						<td><input type="text" id="newcate" placeholder="Category"></td>
+						<td><input type="text" id="newcate" placeholder="*Category"></td>
 					</tr>
 					<tr>
-						<td>*Subject</td>
-						<td><input type="text" id="newname" placeholder="Subject"></td>
+						<td><input type="text" id="newname" placeholder="*Subject"></td>
 					</tr>
 					<tr>
-						<td>Description</td>
 						<td><textarea id="newdesc" cols="20" rows="7" style="resize: none;" placeholder="Description"></textarea></td>
 					</tr>
 				</table>

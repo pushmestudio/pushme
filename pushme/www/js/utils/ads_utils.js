@@ -8,6 +8,7 @@
  * <div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div>
  * 本番用
  * <div id="ads"><script type="text/javascript">var nend_params = {"media":22843,"site":116935,"spot":305355,"type":1,"oriented":3};</script></div>
+ * @copyright PushMe Studio 2015
  */
 // id="ads"をフッターとして指定
 var footerId = "ads";
