@@ -135,7 +135,7 @@ function makeDel(){
  		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
- 		$('#delItem').html("カテゴリ: " + delcate + "<br>名前: " + delname + "<br>説明: " + deldesc);
+ 		$('#delItem').html("【Category】: " + delcate + "<br>【Subject】: " + delname + "<br>【Description】: " + deldesc);
  		$('#delItem').dialog("open");
  	});
 }
@@ -227,7 +227,7 @@ function makeShownItemListHtml(extData){
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
 	} else {
-		itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
+		itemListHtml = '<p name="itemlist">Results not found</p>';
 	}
 	return itemListHtml;
 }
@@ -338,9 +338,6 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 	clipOnRegitemlist();
 }
 
-var oldname;
-var oldcate;
-var olddesc;
 var delcate;
 var delname;
 var deldesc;
@@ -365,7 +362,7 @@ var deldesc;
 		height: 400,
 		width: 300,
 		buttons: {
-			"この内容で編集する": function(){
+			"Modify": function(){
 				var newname = $('#newname').val();
 				var newcate = $('#newcate').val();
 				var newdesc = $('#newdesc').val();
@@ -387,12 +384,7 @@ var deldesc;
 					});
 				}
 			},
-			"キャンセル": function(){
-				/*
-				$('#newname').val("");
-				$('#newcate').val("");
-				$('#newdesc').val("");
-				*/
+			"Cancel": function(){
 				$(this).dialog("close");
 			}
 		}
@@ -418,7 +410,7 @@ var deldesc;
 		height: 250,
 		width: 300,
 		buttons: {
-			"削除": function(){
+			"Delete": function(){
 				$(this).dialog("close");
 				openDB().then(function(){
 					delItemFromDB().then(function(){
@@ -426,7 +418,7 @@ var deldesc;
 					});
 				});
 			},
-			"キャンセル": function(){
+			"Cancel": function(){
 				$(this).dialog("close");
 			}
 		}

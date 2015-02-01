@@ -109,11 +109,8 @@ $(function(){
 					},
 					text: false
 				})
-//				.css('background-image', 'none')
-//				.css('background-color', '#dcdcdc')
 				.removeClass("ui-corner-all")	// 不要なclassを取り除き、必要なclassを追加する
 				.addClass("ui-corner-right ui-button-icon custom-combobox-button")
-//				.addClass("custom-combobox-button")
 				.mousedown(function(){			// ボタンが押されたら、autocompleteが表示されているか確認
 					wasOpen = input.autocomplete("widget").is(":visible");
 				})
@@ -240,7 +237,7 @@ $('#confirmAdd').click(function(){
     if( cate == "" || name == ""){
     	$('#requireAlart').dialog("open");
     } else {
-		$('#regConfirm').html("以下の項目で登録しますか？<br>カテゴリ: " + cate + "<br>名前: " + name + "<br>説明: " + desc);
+		$('#regConfirm').html("Add following item ?<br>【Category】: " + cate + "<br>【Subject】: " + name + "<br>【Description】: " + desc);
 		$('#regConfirm').dialog("open");
 	}
 });

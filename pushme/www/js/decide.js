@@ -372,7 +372,7 @@ decideAjax = (function(){
 			itemListHtml += '</span></div></div>';
 			itemListHtml += "</form>";
 		} else {
-			itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
+			itemListHtml = '<p name="itemlist">Results not found</p>';
 		}
 		return itemListHtml;
 	};
