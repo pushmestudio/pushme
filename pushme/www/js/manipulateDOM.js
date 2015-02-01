@@ -213,7 +213,7 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
 			itemListHtml += '</div>';
 			
-			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
+			itemListHtml += '<div name="name" class="subject-list"><label for="item' + i + '">' + name + '</label></div>';
 
 			itemListHtml += '<div name="buttons">';
 			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
