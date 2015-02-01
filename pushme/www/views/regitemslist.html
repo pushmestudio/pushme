@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,12 @@
 		<div class="header">
 			<h1>Data List<img src="../img/mark_list.png"></h1>
 		</div>
+
 		<div class="content">
+			<div id="editComplete" class="fade" style="display: none;"><h3>Edit Complete!</h3></div>
+			<div id="editFail" class="fade" style="display: none;"><h3>Edit Failed...<br>'Subject' is already exists.<br>Try again to chage 'Subject'.</h3></div>
+			<div id="deleteComplete" class="fade" style="display: none;"><h3>Delete Complete!</h3></div>
+			<div id="deleteFail" class="fade" style="display: none;"><h3>Delete Failed...</h3></div>
 			<form id="formId" class="pure-form">
 				<div class="category">
 					Category:
@@ -121,7 +127,7 @@
 							$('#newname').val("");
 							$('#newcate').val("");
 							$('#newdesc').val("");
-							$('#editComplete').dialog("open");
+							//$('#editComplete').dialog("open");
 						});
 					});
 				}
@@ -136,7 +142,7 @@
 			}
 		}
 	});
-
+	/*
 	$('#editComplete').dialog({
 	    autoOpen: false,
 	    resizable: false,
@@ -148,7 +154,7 @@
 	            $(this).dialog("close");
 	        }
 	    }
-	});
+	});*/
 
 	$('#delItem').dialog({
 		autoOpen: false,
