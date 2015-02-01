@@ -207,11 +207,15 @@ function makeShownItemListHtml(extData){
 			
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
+			
+			itemListHtml += '<div class="star-icon">';
+			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
+			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
+			itemListHtml += '</div>';
+			
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
 
 			itemListHtml += '<div name="buttons">';
-			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" tyle="display: none;"><img src="../img/accordion.png"></button>';
-			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/accordion.png"></button>';
 			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
 			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
 			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button>';
