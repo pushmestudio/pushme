@@ -135,7 +135,7 @@ function makeDel(){
  		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
- 		$('#delItem').html("カテゴリ: " + delcate + "<br>名前: " + delname + "<br>説明: " + deldesc);
+ 		$('#delItem').html("【Category】: " + delcate + "<br>【Subject】: " + delname + "<br>【Description】: " + deldesc);
  		$('#delItem').dialog("open");
  	});
 }
@@ -197,22 +197,22 @@ function makeShownItemListHtml(extData){
 		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
 		itemListHtml += '<div class="pure-g">';
 		itemListHtml += '<span class="accordion">';
-		
+
 		for(var i = 0, n = extData.length; i < n; i++){
 			var name = extData[i].name;
 			var cate = extData[i].category;
 			var desc = extData[i].description;
 			clipFlag = extData[i].clip;
 			console.log("clipFlag : " + i + " : " + clipFlag);
-			
+
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
-			
+
 			itemListHtml += '<div class="star-icon">';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
 			itemListHtml += '</div>';
-			
+
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
 
 			itemListHtml += '<div name="buttons">';
@@ -222,12 +222,12 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '</div>';
 			itemListHtml += '</div><ul>';
 			itemListHtml += '<li>【<span name="cate">' + cate + '</span>】</li>';
-			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';	
+			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
 	} else {
-		itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
+		itemListHtml = '<p name="itemlist">Results not found</p>';
 	}
 	return itemListHtml;
 }
@@ -338,96 +338,89 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 	clipOnRegitemlist();
 }
 
-var oldname;
-var oldcate;
-var olddesc;
+
 var delcate;
 var delname;
 var deldesc;
 
-	$('#requireAlart').dialog({
-		autoOpen: false,
-		resizable: false,
-		modal: true,
-		height: 200,
-		width: 250,
-		buttons: {
-			"OK": function(){
-				$(this).dialog("close");
-			}
+$('#requireAlart').dialog({
+	autoOpen: false,
+	resizable: false,
+	modal: true,
+	height: 200,
+	width: 250,
+	buttons: {
+		"OK": function(){
+			$(this).dialog("close");
 		}
-	});
+	}
+});
 
-	$('#editRegItem').dialog({
-		autoOpen: false,
-		resizable: false,
-		modal: true,
-		height: 400,
-		width: 300,
-		buttons: {
-			"この内容で編集する": function(){
-				var newname = $('#newname').val();
-				var newcate = $('#newcate').val();
-				var newdesc = $('#newdesc').val();
+$('#editRegItem').dialog({
+	autoOpen: false,
+	resizable: false,
+	modal: true,
+	height: 400,
+	width: 300,
+	buttons: {
+		"Modify": function(){
+			var newname = $('#newname').val();
+			var newcate = $('#newcate').val();
+			var newdesc = $('#newdesc').val();
 
-				if( newname === "" || newcate === ""){
-					$(this).dialog("close");
-					$('#requireAlart').dialog("open");
-				} else {
-					$(this).dialog("close");
-					console.log("oldname is: " + oldname + ", newname is: " + newname);
-					openDB().then(function(){
-						updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
-							updateStoredData(oldname, newcate, newname, newdesc);
-							$('#newname').val("");
-							$('#newcate').val("");
-							$('#newdesc').val("");
-							$('#editComplete').dialog("open");
-						});
-					});
-				}
-			},
-			"キャンセル": function(){
-				/*
-				$('#newname').val("");
-				$('#newcate').val("");
-				$('#newdesc').val("");
-				*/
+			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
-			}
-		}
-	});
-
-	$('#editComplete').dialog({
-		autoOpen: false,
-		resizable: false,
-		modal: true,
-		height: 200,
-		width: 250,
-		buttons: {
-			"OK": function(){
+				$('#requireAlart').dialog("open");
+			} else {
 				$(this).dialog("close");
-			}
-		}
-	});
-
-	$('#delItem').dialog({
-		autoOpen: false,
-		resizable: false,
-		modal: true,
-		height: 250,
-		width: 300,
-		buttons: {
-			"削除": function(){
-				$(this).dialog("close");
+				console.log("oldname is: " + oldname + ", newname is: " + newname);
 				openDB().then(function(){
-					delItemFromDB().then(function(){
-						updateStoredDataForDeleteProcess(delname);
+					updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
+						updateStoredData(oldname, newcate, newname, newdesc);
+						$('#newname').val("");
+						$('#newcate').val("");
+						$('#newdesc').val("");
+						$('#editComplete').dialog("open");
 					});
 				});
-			},
-			"キャンセル": function(){
-				$(this).dialog("close");
 			}
+		},
+		"Cancel": function(){
+			$(this).dialog("close");
 		}
-	});
+	}
+});
+
+$('#editComplete').dialog({
+	autoOpen: false,
+	resizable: false,
+	modal: true,
+	height: 200,
+	width: 250,
+	buttons: {
+		"OK": function(){
+			$(this).dialog("close");
+		}
+	}
+});
+
+$('#delItem').dialog({
+	autoOpen: false,
+	resizable: false,
+	modal: true,
+	height: 250,
+	width: 300,
+	buttons: {
+		"Delete": function(){
+			$(this).dialog("close");
+			openDB().then(function(){
+				delItemFromDB().then(function(){
+					updateStoredDataForDeleteProcess(delname);
+				});
+			});
+		},
+		"Cancel": function(){
+			$(this).dialog("close");
+		}
+	}
+});

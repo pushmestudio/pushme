@@ -294,7 +294,7 @@ decideAjax = (function(){
 	 */
 	var randomExtract = function(originalData, extractAmount){
 		if(typeof extractAmount === "undefined"){
-			extractAmount = getExtractAmount(); // Cookieにセットしてある抽出件数を用いている
+			extractAmount = getExtractAmount();
 		}
 		var extractedData = new Array();
 		var originalDataLength = originalData.length;
