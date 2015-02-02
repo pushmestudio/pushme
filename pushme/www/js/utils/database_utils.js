@@ -60,12 +60,11 @@ function addItemtoDB(cate, name, desc){
 
     objectStoreRequet.onsuccess = function(e){
         console.log("New item added to database");
-        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
-        deferred.resolve();
+        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');        deferred.resolve();
     };
     objectStoreRequet.onerror = function(e){
         console.log("objectStoreRequest error: " + e.message);
-                $('#addFailCuzAlreadyExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
+                $('#addFailCuzAlreadyExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');
         deferred.reject("objectStoreRequest error");
     };
     return deferred.promise();
@@ -97,13 +96,11 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
                 console.log("Update the item");
-                			$('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');//編集成功時の通知//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
-                deferred.resolve();
+                			$('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');                deferred.resolve();
             };
             objectStoreRequest.onerror = function(e){
                 console.log("objectStoreRequet error: " + e.message);
-                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
-                deferred.reject("objectStoreRequest error: " + e.message);
+                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');                deferred.reject("objectStoreRequest error: " + e.message);
             };
         }
     };
@@ -204,93 +201,73 @@ function getTimeStamp(){
 }
 
 /**
- * データ一覧表示で削除ボタンをクリックされたアイテムをDBから削除
- * 1. DBに対象のアイテムがあるか検索
- * 2. Yesなら削除 (db.transaction.objectStore.delete()を使用)
+ * DBからアイテムを削除するメソッド：
+ * itemlist.jsから呼ばれ、delname(=登録データ一覧画面の削除ボタンが押下されたアイテム名)のアイテムをDBから削除する
  */
 function delItemFromDB(){
-	var name = delname; //regitemslist.htmlにあるグローバル変数
-	console.log("delname in database.js: " + name);
+	var name = delname; //itemlist.jsで定義されているグローバル変数
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
-
     var deferred = new jQuery.Deferred();
 	var index = store.index("name");
 	var keyRange = IDBKeyRange.only(name);
 	index.openCursor(keyRange).onsuccess = function(e) {
 		var result = e.target.result;
 		if(result === null || result === undefined){
-			console.log("name: " + name + " is not found");
-		} else {
-			console.log("result.value.name " + result.value.name);
-		};
+		} else {}
 		var delReq = store.delete(result.value.timeStamp);
 		delReq.onsuccess = function(){
-			console.log("DELETE SUCCESS");
-			$('#deleteComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');//編集成功時の通知//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
+			$('#deleteComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
 			deferred.resolve();
 		};
 		delReq.onerror = function(){
-			console.log("DELETE FAILURE");
 			deferred.reject();
 		};
 	};
 	index.openCursor(keyRange).onerror = function(e){
-		console.log("cursorRequest error: " + e.message);
 		deferred.reject("cursorRequest error: " + e.message);
 	};
     return deferred.promise();
 };
 
 /**
- * クリップを保存するメソッド
- * 選択時の最終決定時に「クリップする」ボタン押下で呼ばれる
+ * クリップを保存するメソッド (DBのclip属性をtrueに変更する)
+ * 1. 選択時の最終決定時にクリップボタン押下で呼ばれる
+ * 2. 登録データ一覧画面でクリップされていない状態(=☆)の時に、クリップボタン押下で呼ばれる
  */
 function addClip(clipName){
-		var name = clipName; //regitemslist.htmlにあるグローバル変数
-		var trans = db.transaction(["items"], "readwrite");
-		var store = trans.objectStore("items");
-		var index = store.index("name");
-		var keyRange = IDBKeyRange.only(name);
-		var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
-		
-		index.openCursor(keyRange).onsuccess = function(e) {
-			var result = e.target.result;
-			if(result === null || result === undefined){
-				console.log("name: " + name + " is not found");
-			} else {
-				console.log("result.value.name " + result.value.name);
-			};
-				updateItem = result.value;
-                updateItem.category = result.value.category;
-                updateItem.name = result.value.name;
-                updateItem.description = result.value.description;
-                updateItem.clip = "true";
-                console.log("updateItem.category: " + updateItem.category + ", updateItem.name: " + updateItem.name + ", updateItem.description: " + updateItem.description + "clip : " + updateItem.clip);
-			
-			var clipFlagTrue = store.put(updateItem);
-			clipFlagTrue.onsuccess = function(){
-				console.log("CLIP ADD SUCCESS");
-				                $('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
-			};
-			clipFlagTrue.onerror = function(){
-				console.log("CLIP ADD FAILURE");
-			};
-		};
-		index.openCursor(keyRange).onerror = function(e){
-			console.log("cursorRequest error: " + e.message);
-		};	
+	var name = clipName; //regitemslist.htmlにあるグローバル変数
+	var trans = db.transaction(["items"], "readwrite");
+	var store = trans.objectStore("items");
+	var index = store.index("name");
+	var keyRange = IDBKeyRange.only(name);
+	var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};	
+	index.openCursor(keyRange).onsuccess = function(e) {
+		var result = e.target.result;
+		if(result === null || result === undefined){} else {};
+		updateItem = result.value;
+        updateItem.category = result.value.category;
+        updateItem.name = result.value.name;
+        updateItem.description = result.value.description;
+        updateItem.clip = "true";			
+		var clipFlagTrue = store.put(updateItem);
+		clipFlagTrue.onsuccess = function(){
+			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');			};
+		clipFlagTrue.onerror = function(){};
+	};
+	index.openCursor(keyRange).onerror = function(e){};	
 }
 
 /**
+ * 【未使用メソッド】
  * クリップ一覧を表示する際に、clip属性がtrueのデータのみ抽出するメソッド
+ * クリップフィルタリングで利用可能なので、このまま置いておく。
  */
 function getClippedItemsfromDB(){
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
     var clipFlag = "true";
     var keyRange = IDBKeyRange.only(clipFlag);
-
     var promise = new Promise(function(resolve, reject){
     	var req = store.index("clip").openCursor(keyRange);
     	var allClippedItems = [];
@@ -299,14 +276,11 @@ function getClippedItemsfromDB(){
     		if(result === null || result === undefined){
 				resolve(allClippedItems);
 			} else {
-				console.log("result.value.name " + result.value.name);
-				console.log(result.value);
             	allClippedItems.push(result.value);
             	result.continue();
 			}
 		};
 		req.onerror = function(e){
-			console.log("clipReq error: " + e.message);
 			reject("clipReq error: " + e.message);
 		};
 	});
@@ -314,41 +288,29 @@ function getClippedItemsfromDB(){
 }
 
 /**
- * クリップ一覧で、「UnClipボタン」押下時にDBのclip属性をfalseに変更するメソッド
+ * クリップを削除するメソッド (DBのclip属性をfalseに変更する)
+ * 登録データ一覧画面でクリップされている状態(=★)の時に、クリップボタン押下で呼ばれる
  */
 function offClipfromDB(offClipName){
-		var name = offClipName;
-		var trans = db.transaction(["items"], "readwrite");
-		var store = trans.objectStore("items");
-		var index = store.index("name");
-		var keyRange = IDBKeyRange.only(name);
-		var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
-		
-		index.openCursor(keyRange).onsuccess = function(e) {
-			var result = e.target.result;
-			if(result === null || result === undefined){
-				console.log("name: " + name + " is not found");
-			} else {
-				console.log("result.value.name " + result.value.name);
-			};
-				updateItem = result.value;
-                updateItem.category = result.value.category;
-                updateItem.name = result.value.name;
-                updateItem.description = result.value.description;
-                updateItem.clip = "false";
-                console.log("updateItem.category: " + updateItem.category + ", updateItem.name: " + updateItem.name + ", updateItem.description: " + updateItem.description + "clip : " + updateItem.clip);
-			
-			var clipFlagFalse = store.put(updateItem);
-			clipFlagFalse.onsuccess = function(){
-				console.log("CLIP Changed to FALSE is SUCCESS");
-								                $('#unclipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
-				console.dir("offClip時のstoredData: "+storedData.value);
-			};
-			clipFlagFalse.onerror = function(){
-				console.log("CLIP Changed to FALSE is FAILURE");
-			};
+	var name = offClipName;
+	var trans = db.transaction(["items"], "readwrite");
+	var store = trans.objectStore("items");
+	var index = store.index("name");
+	var keyRange = IDBKeyRange.only(name);
+	var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
+	index.openCursor(keyRange).onsuccess = function(e) {
+		var result = e.target.result;
+		if(result === null || result === undefined){} else {};
+		updateItem = result.value;
+        updateItem.category = result.value.category;
+        updateItem.name = result.value.name;
+        updateItem.description = result.value.description;
+        updateItem.clip = "false";
+  		var clipFlagFalse = store.put(updateItem);
+		clipFlagFalse.onsuccess = function(){
+			$('#unclipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
 		};
-		index.openCursor(keyRange).onerror = function(e){
-			console.log("cursorRequest error: " + e.message);
-		};	
+		clipFlagFalse.onerror = function(){};
+	};
+	index.openCursor(keyRange).onerror = function(e){};	
 }
