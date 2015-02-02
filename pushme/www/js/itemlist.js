@@ -26,7 +26,6 @@ $(function(){
 			makeEdit();
 			makeDel();
 			clipOnRegitemlist();
-			footerFixed();
 
 			// queryIdが変化したら呼ぶ
 			$('#queryId').change(function(){
@@ -40,7 +39,7 @@ $(function(){
 				makeEdit();
 				makeDel();
 				clipOnRegitemlist();
-				footerFixed();
+				
 			});
 
 			// submitが押されたら呼ぶ
@@ -56,7 +55,6 @@ $(function(){
 				makeEdit();
 				makeDel();
 				clipOnRegitemlist();
-				footerFixed();
 			});
 
 			console.dir(storedData);
@@ -325,7 +323,7 @@ var reloadqueryIdChangeFunc = function(){
 	makeEdit();
 	makeDel();
 	clipOnRegitemlist();
-	footerFixed();
+	
 	$('#queryId').change(function(){
 		var queryData = {"tag" : $('#queryId').val()};
 		categorizedData = extractByCate(storedData, queryData.tag);
@@ -335,7 +333,7 @@ var reloadqueryIdChangeFunc = function(){
 		makeEdit();
 		makeDel();
 		clipOnRegitemlist();
-		footerFixed();
+		
 	});
 }
 
@@ -362,7 +360,7 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 	makeEdit();
 	makeDel();
 	clipOnRegitemlist();
-	footerFixed();
+	
 }
 
 

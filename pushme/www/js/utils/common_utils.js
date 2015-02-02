@@ -3,6 +3,30 @@
  * @copyright PushMe Studio 2015
  */
 
+ 
+/**
+ * 実際に広告を配信する際は、このjsを読み込むと共に下記コードをhtml上に追加すること
+ * テスト環境用
+ * <div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div>
+ * 本番用
+ * <div id="ads"><script type="text/javascript">var nend_params = {"media":22843,"site":116935,"spot":305355,"type":1,"oriented":3};</script></div>
+ * 
+ * #ads {
+ * 	position: fixed;
+ * 	bottom: 0px;
+ * 	width: 100%;
+ * 	margin: 0 auto;
+ * }
+ * 上記をcssに足すことで広告表示を、ページ下部中央固定にできる
+ */
+new function() {
+  var adsHtml;
+  adsHtml = '<div>';
+  adsHtml += '<script type="text/javascript" src="http://js1.nend.net/js/nendAdLoader.js"></script>';
+  adsHtml += '</div>';
+  $('#ads').append(adsHtml);
+}
+
 /**
  * 他のアプリにインテントを渡しデータを共有する。
  * 共有のためのデータの整形も行う。
@@ -28,36 +52,4 @@ function formatForSend(txt){
   var formattedTxt = "";
   formattedTxt = "今回決まったのは [" + txt + "] です！";
   return formattedTxt;
-}
-
-
-/**
- * クッキーをセットする
- * @param {String} cname セットしたいCookieのkey
- * @param {String} cvalue セットしたいCookieのvalue
- * @param {Integer} exdays Cookieの有効日数
- */
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000)); //日数*24時間*60分*60秒*1000ミリ秒
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + "; " + expires;
-  
-  console.debug(name + "=" + cvalue + "; " + expires);
-}
-
-/**
- * クッキーから値をゲットする
- * @param {String} cname Cookieからゲットしたいvalueのkey
- * @return {String} cnameとマッチしたCookieのvalue
- */
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';'); // Cookie分解
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1); // 先頭文字だけ除く
-    if (c.indexOf(name) == 0) return c.substring(name.length, c.length); // nameにいれたものとマッチすれば返す
-  }
-  return ""; // for文内で全てマッチしなかったら空値を返す
 }

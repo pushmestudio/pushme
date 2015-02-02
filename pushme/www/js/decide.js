@@ -99,7 +99,6 @@ decideAjax = (function(){
 				makeAccordion();
                 extendLabel();
 				makeIsChecked();
-				footerFixed();
 			},
 			error: function(err){
                 console.error(err);
@@ -122,7 +121,7 @@ decideAjax = (function(){
 				makeAccordion();
                 extendLabel();
 				makeIsChecked();
-                footerFixed();
+                
 			},
 			error: function(err){
                 console.error(err);
@@ -154,7 +153,7 @@ decideAjax = (function(){
 				$(this).parents('div[name="arrow"]').remove();
 			}
 		});
-        footerFixed();
+        
 	};
 	
 	/**utilityに選択肢を連携*/
@@ -212,7 +211,7 @@ decideAjax = (function(){
 				$('#share').prop("disabled", false);
 			}
 			//Ajax処理の最後で広告を表示
-            footerFixed();
+            
 		}, 300)
 	};
 
