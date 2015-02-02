@@ -131,7 +131,8 @@ function makeCateOptionsHtml(originalData){
 }
 
 /**
- * 削除ボタンのクリック時にコールされる
+ * 削除ボタン押下でコールされるメソッド
+ * 削除時に必要な削除対象の名前を抽出し、削除操作の確認ダイアログを呼出す
  */
 function makeDel(){
  	var name = "";
@@ -157,7 +158,8 @@ function makeAccordion(){
 }
 
 /**
- * 登録データ一覧画面で UnClip/Clipボタン押下時のボタン表示/非表示操作。およびDBのclip属性の変更メソッド呼出
+ * [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★<-->☆)を切替えるメソッド
+ * [DB操作] ControllerとしてDBのclip属性を変更するメソッド呼出しを行うメソッド
  */
 function clipOnRegitemlist(){
 	for(var i = 0, n = storedData.length; i < n; i++){
@@ -200,24 +202,18 @@ function makeShownItemListHtml(extData){
 		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
 		itemListHtml += '<div class="pure-g">';
 		itemListHtml += '<span class="accordion">';
-
 		for(var i = 0, n = extData.length; i < n; i++){
 			var name = extData[i].name;
 			var cate = extData[i].category;
 			var desc = extData[i].description;
 			clipFlag = extData[i].clip;
-			console.log("clipFlag : " + i + " : " + clipFlag);
-
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
-
 			itemListHtml += '<div class="star-icon">';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
 			itemListHtml += '</div>';
-
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
-
 			itemListHtml += '<div name="buttons">';
 			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
 			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
@@ -251,26 +247,41 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 			storedData[i].description = newdesc;
 		}
 	}
-	// カテゴリ一覧を更新
 	categorizedData = extractByCate(storedData, newcate);
-	var categoryOptionsHtml = makeCateOptionsHtml(storedData);
-	$('#queryId').html(categoryOptionsHtml);
-	$('#queryId').val(newcate);
-	var itemListHtml = makeShownItemListHtml(categorizedData);
+	oldCategorizedData = extractByCate(storedData, oldcate);
+	if (oldCategorizedData.length==0){//カテゴリに該当するアイテムが０の時
+		if (($('#queryId').val())!=""){
+			var newCateHtml = '<select id="queryId">';
+			newCateHtml += makeCateOptionsHtml(storedData);
+			newCateHtml += '</select>';
+			$('#queryId').replaceWith(newCateHtml);
+			$('#queryId').val(newcate);
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}else{
+			var newCateHtml = '<select id="queryId">';
+			newCateHtml += makeCateOptionsHtml(storedData);
+			newCateHtml += '</select>';
+			$('#queryId').replaceWith(newCateHtml);
+			var itemListHtml = makeShownItemListHtml(storedData);
+		}
+	}else{//カテゴリに該当するアイテムが１つ以上ある時
+		if (($('#queryId').val())!=""){
+			$('#queryId').html(makeCateOptionsHtml(storedData));
+			$('#queryId').val(newcate);
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}else{
+			$('#queryId').html(makeCateOptionsHtml(storedData));
+			var itemListHtml = makeShownItemListHtml(storedData);
+		}	
+	}
 	$('#itemlist').html(itemListHtml);
-
-	// 各種ボタン機能の埋め込み
-	makeAccordion();
-	makeEdit();
-	makeDel();
-	clipOnRegitemlist();
-	footerFixed();
+	reloadqueryIdChangeFunc();
 }
 
 /**
- * DBからアイテムを削除した際に、DOMで扱うstoredDataの中身を削除
- * 対象カテゴリに該当するアイテムがない場合はカテゴリ自体を削除
- *
+ * [画面操作] storedDataの中身を更新するメソッド
+ * 削除後の基本動作：削除した際のカテゴリのアイテムを再描画
+ * 削除後アイテム数が０の場合の動作：カテゴリALLのアイテムを再描画
  */
 function updateStoredDataForDeleteProcess(delname){
 	var check, targetCate;
@@ -283,10 +294,9 @@ function updateStoredDataForDeleteProcess(delname){
 	storedData.some(function(v,check){
 		if (v.name==delname){
 			storedData.splice(check,1);
-			console.log("delete from storedData");
 		}
 	});
-	categorizedData = extractByCate(storedData, targetCate);//queryData.tag
+	categorizedData = extractByCate(storedData, targetCate);
 	if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
 		var newCateHtml = '<select id="queryId">';
 		newCateHtml += makeCateOptionsHtml(storedData);
@@ -294,7 +304,6 @@ function updateStoredDataForDeleteProcess(delname){
 		$('#queryId').replaceWith(newCateHtml);
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}else{//カテゴリに該当するアイテムが１つ以上ある時
-
 		if (($('#queryId').val())!=""){
 			$('#queryId').html(makeCateOptionsHtml(storedData));
 			$('#queryId').val(targetCate);
@@ -309,7 +318,7 @@ function updateStoredDataForDeleteProcess(delname){
 }
 
 /**
- * queryIdの再定義に伴い、queryId変更時のアクションをリロードするメソッド
+ * [画面操作] プルダウンメニューのカテゴリを操作した際に、自動的にカテゴリに合致したアイテムを再描画するメソッド
  */
 var reloadqueryIdChangeFunc = function(){
 	makeAccordion();
@@ -330,6 +339,11 @@ var reloadqueryIdChangeFunc = function(){
 	});
 }
 
+/**
+ * [画面操作] 登録データ一覧画面でクリップ(★<-->☆)のOn/Offを反映させ、アイテムを再描画するメソッド
+ * @param {string} clipNameOfFlagChanged : On/Offされた対象のアイテム名
+ * @param {string} clipFlagChanged : "true" or "false"
+ */
 function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChanged){
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(clipNameOfFlagChanged === storedData[i].name){
@@ -352,9 +366,9 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 }
 
 
-var delcate;
-var delname;
-var deldesc;
+var delcate;   //削除確認時にカテゴリ名を出力するための変数
+var delname; //削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
+var deldesc;  //削除確認時に詳細を出力するための変数
 
 $('#requireAlart').dialog({
 	autoOpen: false,
@@ -403,6 +417,11 @@ $('#editRegItem').dialog({
 	}
 });
 
+/**
+ * 削除ボタン押下時に確認を促すダイアログ
+ * [DB操作] Controllerとして、対象アイテムを削除するメソッドを呼出す
+ * [画面操作] Controllerとして、削除後の画面を再描画させるメソッドを呼出す
+ */
 $('#delItem').dialog({
 	autoOpen: false,
 	resizable: false,

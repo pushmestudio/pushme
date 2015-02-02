@@ -184,8 +184,7 @@ $('#confirmAdd').click(function(){
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	//$('#requireAlart').dialog("open");
-    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
+    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');
     } else {
 		$('#regConfirm').html("Add the following item ?<br>【Category】: " + cate + "<br>【Subject】: " + name + "<br>【Description】: " + desc);
 		$('#regConfirm').dialog("open");
