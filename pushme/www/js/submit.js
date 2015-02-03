@@ -184,7 +184,7 @@ $('#confirmAdd').click(function(){
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');
+    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
     } else {
 		$('#regConfirm').html("Add the following item ?<br>【Category】: " + cate + "<br>【Subject】: " + name + "<br>【Description】: " + desc);
 		$('#regConfirm').dialog("open");
