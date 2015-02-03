@@ -395,7 +395,7 @@ $('#editRegItem').dialog({
 
 			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
-				$('#requireAlart').dialog("open");
+				$('#editFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
 			} else {
 				$(this).dialog("close");
 				console.log("oldname is: " + oldname + ", newname is: " + newname);
