@@ -60,11 +60,11 @@ function addItemtoDB(cate, name, desc){
 
     objectStoreRequet.onsuccess = function(e){
         console.log("New item added to database");
-        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');        deferred.resolve();
+        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');        deferred.resolve();
     };
     objectStoreRequet.onerror = function(e){
         console.log("objectStoreRequest error: " + e.message);
-                $('#addFailCuzAlreadyExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');
+                $('#addFailCuzAlreadyExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
         deferred.reject("objectStoreRequest error");
     };
     return deferred.promise();
@@ -96,11 +96,11 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
                 console.log("Update the item");
-                			$('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');                deferred.resolve();
+                			$('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');                deferred.resolve();
             };
             objectStoreRequest.onerror = function(e){
                 console.log("objectStoreRequet error: " + e.message);
-                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');                deferred.reject("objectStoreRequest error: " + e.message);
+                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');                deferred.reject("objectStoreRequest error: " + e.message);
             };
         }
     };
@@ -217,7 +217,7 @@ function delItemFromDB(){
 		} else {}
 		var delReq = store.delete(result.value.timeStamp);
 		delReq.onsuccess = function(){
-			$('#deleteComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
+			$('#deleteComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
 			deferred.resolve();
 		};
 		delReq.onerror = function(){
@@ -252,7 +252,7 @@ function addClip(clipName){
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
-			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');			};
+			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');			};
 		clipFlagTrue.onerror = function(){};
 	};
 	index.openCursor(keyRange).onerror = function(e){};	
@@ -308,7 +308,7 @@ function offClipfromDB(offClipName){
         updateItem.clip = "false";
   		var clipFlagFalse = store.put(updateItem);
 		clipFlagFalse.onsuccess = function(){
-			$('#unclipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
+			$('#unclipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
 		};
 		clipFlagFalse.onerror = function(){};
 	};
