@@ -42,29 +42,23 @@ function initDB(e){
     store.createIndex("name", "name", { unique: true});
     store.createIndex("description", "description", { unique: false});
     store.createIndex("clip","clip", {unique:false});
-    console.log("ObjectStore #items# created");
 }
 
 function addItemtoDB(cate, name, desc){
     var time = getTimeStamp();
     var newItem = { timeStamp: time, category: cate, name: name, description: desc, clip: "false" };
-
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
-
     var deferred = new jQuery.Deferred();
     // add newItem to the objectStore
-    console.log("NewItem {category: " + newItem.category + ", name: " + newItem.name + ", description: " + newItem.description + "}");
     var objectStoreRequet = store.add(newItem);
-
     objectStoreRequet.onsuccess = function(e){
-        console.log("New item added to database");
-        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');        deferred.resolve();
+        $('#addComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
+        deferred.resolve();
     };
     objectStoreRequet.onerror = function(e){
-        console.log("objectStoreRequest error: " + e.message);
-                $('#addFailCuzAlreadyExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
+                $('#addFailCuzAlreadyExists').stop().fadeIn(500).delay(2000).fadeOut(500);
         deferred.reject("objectStoreRequest error");
     };
     return deferred.promise();
@@ -73,11 +67,9 @@ function addItemtoDB(cate, name, desc){
 function updateItemtoDB(oldname, newcate, newname, newdesc){
     var time = getTimeStamp();
     var updateItem = { timeStamp: time, category: newcate, name: newname, description: newdesc };
-
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
-
     var deferred = new jQuery.Deferred();
     // 名前が一致するデータを取得する
     var range = IDBKeyRange.only(oldname);
@@ -85,27 +77,23 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
     index.openCursor(range).onsuccess = function(e){
         var cursorResult = e.target.result;
         if(cursorResult === null || cursorResult === undefined){
-            console.log("item is not found");
         } else {
             updateItem = cursorResult.value;
             updateItem.category = newcate;
             updateItem.name = newname;
             updateItem.description = newdesc;
-            console.log("updateItem.category: " + updateItem.category + ", updateItem.name: " + updateItem.name + ", updateItem.description: " + updateItem.description);
-
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
-                console.log("Update the item");
-                			$('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');                deferred.resolve();
+                $('#editComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
+                deferred.resolve();
             };
             objectStoreRequest.onerror = function(e){
-                console.log("objectStoreRequet error: " + e.message);
-                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');                deferred.reject("objectStoreRequest error: " + e.message);
+                $('#editFail').stop().fadeIn(500).delay(2000).fadeOut(500);
+                deferred.reject("objectStoreRequest error: " + e.message);
             };
         }
     };
     index.openCursor(range).onerror = function(e){
-        console.log("cursorRequest error: " + e.message);
         deferred.reject("cursorRequest error: " + e.message);
     };
     return deferred.promise();
@@ -115,7 +103,6 @@ function getAllItemsfromDB(){
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
     var allItems = [];
-    
     var deferred = new jQuery.Deferred();
     var cursorRequest = store.openCursor();
     cursorRequest.onsuccess = function(e){
@@ -123,13 +110,11 @@ function getAllItemsfromDB(){
         if(cursorResult === null || cursorResult === undefined){
             deferred.resolve(allItems);
         } else {
-            console.log(cursorResult.value);
             allItems.push(cursorResult.value);
             cursorResult.continue();
         }
     };
     cursorRequest.onerror = function(e){
-        console.log("cursorRequest error: " + e.message);
         deferred.reject("cursorRequest error: " + e.message);
     };
     return deferred.promise();
@@ -137,10 +122,8 @@ function getAllItemsfromDB(){
 
 function getCategorizedItemsfromDB(query){
     var categorizedItems = [];
-
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
-
     var deferred = new jQuery.Deferred();
     // カテゴリに一致するもののみをフィルターする
     var range = IDBKeyRange.only(query);
@@ -150,13 +133,11 @@ function getCategorizedItemsfromDB(query){
         if(cursorResult === null || cursorResult === undefined){
             deferred.resolve(categorizedItems);
         } else {
-            console.log(cursorResult.value);
             categorizedItems.push(cursorResult.value);
             cursorResult.continue();
         }
     };
     index.openCursor(range).onerror = function(e){
-        console.log("cursorRequest error: " + e.message);
         deferred.reject("cursorRequest error: " + e.message);
     };
     return deferred.promise();
@@ -166,7 +147,6 @@ function getUniqueItemfromDB(name){
     var trans = db.transaction(["items"], "readwrite");
     var store = trans.objectStore("items");
     var item;
-
     var deferred = new jQuery.Deferred();
     // 名前が一致するデータを取得する
     var range = IDBKeyRange.only(name);
@@ -174,14 +154,12 @@ function getUniqueItemfromDB(name){
     index.openCursor(range).onsuccess = function(e){
         var cursorResult = e.target.result;
         if(cursorResult === null || cursorResult === undefined){
-            console.log("name: " + name + " is not found");
         } else {
             item = cursorResult.value;
         }
         deferred.resolve(item);
     };
     index.openCursor(range).onerror = function(e){
-        console.log("cursorRequest error: " + e.message);
         deferred.reject("cursorRequest error: " + e.message);
     };
     return deferred.promise();
@@ -196,7 +174,6 @@ function getTimeStamp(){
     var min = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes();
     var sec = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
     var timeStamp = "" + year + month + day + hour + min +sec;
-    console.log("timeStamp is:" + timeStamp);
     return timeStamp;
 }
 
@@ -217,7 +194,7 @@ function delItemFromDB(){
 		} else {}
 		var delReq = store.delete(result.value.timeStamp);
 		delReq.onsuccess = function(){
-			$('#deleteComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
+			$('#deleteComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
 			deferred.resolve();
 		};
 		delReq.onerror = function(){
@@ -252,7 +229,8 @@ function addClip(clipName){
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
-			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');			};
+			$('#clipComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
+		};
 		clipFlagTrue.onerror = function(){};
 	};
 	index.openCursor(keyRange).onerror = function(e){};	
@@ -308,7 +286,7 @@ function offClipfromDB(offClipName){
         updateItem.clip = "false";
   		var clipFlagFalse = store.put(updateItem);
 		clipFlagFalse.onsuccess = function(){
-			$('#unclipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
+			$('#unclipComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
 		};
 		clipFlagFalse.onerror = function(){};
 	};

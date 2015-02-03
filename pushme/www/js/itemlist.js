@@ -39,7 +39,6 @@ $(function(){
 				makeEdit();
 				makeDel();
 				clipOnRegitemlist();
-				
 			});
 
 			// submitが押されたら呼ぶ
@@ -56,14 +55,8 @@ $(function(){
 				makeDel();
 				clipOnRegitemlist();
 			});
-
-			console.dir(storedData);
-		}, function(err){
-			alert(err);
-		});
-	}, function(err){
-		alert(err);
-	});
+		}, function(err){});
+	}, function(err){});
 });
 
 /**
@@ -81,7 +74,6 @@ var extractByCate = function(originalData, query){
 		for(var i = 0, n = originalData.length; i < n; i++){
 			if(query === originalData[i].category){
 				categorisedData.push(originalData[i]);
-				console.debug(originalData[i]);
 			}
 		}
 	}
@@ -119,11 +111,9 @@ function makeCateOptionsHtml(originalData){
  		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
-
 		$('#newname').val(oldname);
 		$('#newcate').val(oldcate);
 		$('#newdesc').val(olddesc);
-
  		$('#editRegItem').dialog("open");
  	});
 }
@@ -323,7 +313,6 @@ var reloadqueryIdChangeFunc = function(){
 	makeEdit();
 	makeDel();
 	clipOnRegitemlist();
-	
 	$('#queryId').change(function(){
 		var queryData = {"tag" : $('#queryId').val()};
 		categorizedData = extractByCate(storedData, queryData.tag);
@@ -333,7 +322,6 @@ var reloadqueryIdChangeFunc = function(){
 		makeEdit();
 		makeDel();
 		clipOnRegitemlist();
-		
 	});
 }
 
@@ -360,26 +348,12 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 	makeEdit();
 	makeDel();
 	clipOnRegitemlist();
-	
 }
 
 
 var delcate;   //削除確認時にカテゴリ名を出力するための変数
 var delname; //削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
 var deldesc;  //削除確認時に詳細を出力するための変数
-
-$('#requireAlart').dialog({
-	autoOpen: false,
-	resizable: false,
-	modal: true,
-	height: 200,
-	width: 250,
-	buttons: {
-		"OK": function(){
-			$(this).dialog("close");
-		}
-	}
-});
 
 $('#editRegItem').dialog({
 	autoOpen: false,
@@ -392,10 +366,9 @@ $('#editRegItem').dialog({
 			var newname = $('#newname').val();
 			var newcate = $('#newcate').val();
 			var newdesc = $('#newdesc').val();
-
 			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
-				$('#editFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#000000');
+				$('#editFailCuzEmptyElementExists').stop().fadeIn(500).delay(2000).fadeOut(500);
 			} else {
 				$(this).dialog("close");
 				console.log("oldname is: " + oldname + ", newname is: " + newname);
