@@ -58,6 +58,8 @@ button.img-button {
     input#category{
         display: inline-block;
     }
+}
+
 #ads {
 	position: fixed;
 	bottom: 0px;
