@@ -5,7 +5,7 @@
 
 // database.jsが読み込まれたページでは、常にこのdb変数を元に操作を行う
 var db = null;
-var version = 2;	//注意: Versionが変わると、既存の保存データなどはクリアされます
+var version = 3;	//注意: Versionが変わると、既存の保存データなどはクリアされます
 
 function openDB(){
     var deferred = new jQuery.Deferred();
@@ -42,6 +42,20 @@ function initDB(e){
     store.createIndex("name", "name", { unique: true});
     store.createIndex("description", "description", { unique: false});
     store.createIndex("clip","clip", {unique:false});
+
+    // サンプルデータ作成
+    var samples = [
+        {timeStamp: "00000000000001", category: "Sample-Action", name: "Do now!", description: "I do it now!", clip: "false"},
+        {timeStamp: "00000000000002", category: "Sample-Action", name: "Do later...", description: "I'll do it later...", clip: "false"},
+        {timeStamp: "00000000000003", category: "Sample-Dinner", name: "Japanese", description: "I feel like eating Japanese food.", clip: "false"},
+        {timeStamp: "00000000000004", category: "Sample-Dinner", name: "Italian", description: "I feel like eating Italian food.", clip: "false"},
+        {timeStamp: "00000000000005", category: "Sample-Dinner", name: "French", description: "I feel like eating French food.", clip: "false"},
+        {timeStamp: "00000000000006", category: "Sample-Dinner", name: "Chinese", description: "I feel like eating Chinese food.", clip: "false"},
+
+    ];
+    for(var i = 0; i < samples.length; i++){
+        store.add(samples[i]);
+    }
     console.log("ObjectStore #items# created");
 }
 
@@ -60,7 +74,8 @@ function addItemtoDB(cate, name, desc){
 
     objectStoreRequet.onsuccess = function(e){
         console.log("New item added to database");
-        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');        deferred.resolve();
+        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
+        deferred.resolve();
     };
     objectStoreRequet.onerror = function(e){
         console.log("objectStoreRequest error: " + e.message);
@@ -96,11 +111,13 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
                 console.log("Update the item");
-                			$('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');                deferred.resolve();
+                $('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
+                deferred.resolve();
             };
             objectStoreRequest.onerror = function(e){
                 console.log("objectStoreRequet error: " + e.message);
-                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');                deferred.reject("objectStoreRequest error: " + e.message);
+                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');
+                deferred.reject("objectStoreRequest error: " + e.message);
             };
         }
     };
@@ -252,7 +269,8 @@ function addClip(clipName){
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
-			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');			};
+			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
+        };
 		clipFlagTrue.onerror = function(){};
 	};
 	index.openCursor(keyRange).onerror = function(e){};	
