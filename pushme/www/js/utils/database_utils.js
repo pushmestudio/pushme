@@ -42,8 +42,6 @@ function initDB(e){
     store.createIndex("name", "name", { unique: true});
     store.createIndex("description", "description", { unique: false});
     store.createIndex("clip","clip", {unique:false});
-<<<<<<< HEAD
-=======
 
     // サンプルデータ作成
     var samples = [
@@ -59,7 +57,6 @@ function initDB(e){
         store.add(samples[i]);
     }
     console.log("ObjectStore #items# created");
->>>>>>> master
 }
 
 function addItemtoDB(cate, name, desc){
@@ -72,12 +69,7 @@ function addItemtoDB(cate, name, desc){
     // add newItem to the objectStore
     var objectStoreRequet = store.add(newItem);
     objectStoreRequet.onsuccess = function(e){
-<<<<<<< HEAD
         $('#addComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
-=======
-        console.log("New item added to database");
-        $('#addComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
->>>>>>> master
         deferred.resolve();
     };
     objectStoreRequet.onerror = function(e){
@@ -107,21 +99,11 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
             updateItem.description = newdesc;
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
-<<<<<<< HEAD
                 $('#editComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
                 deferred.resolve();
             };
             objectStoreRequest.onerror = function(e){
                 $('#editFail').stop().fadeIn(500).delay(2000).fadeOut(500);
-=======
-                console.log("Update the item");
-                $('#editComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
-                deferred.resolve();
-            };
-            objectStoreRequest.onerror = function(e){
-                console.log("objectStoreRequet error: " + e.message);
-                $('#editFail').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');
->>>>>>> master
                 deferred.reject("objectStoreRequest error: " + e.message);
             };
         }
@@ -262,13 +244,8 @@ function addClip(clipName){
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
-<<<<<<< HEAD
 			$('#clipComplete').stop().fadeIn(500).delay(2000).fadeOut(500);
 		};
-=======
-			$('#clipComplete').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#33CCFF');
-        };
->>>>>>> master
 		clipFlagTrue.onerror = function(){};
 	};
 	index.openCursor(keyRange).onerror = function(e){};	
