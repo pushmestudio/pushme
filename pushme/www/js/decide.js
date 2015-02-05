@@ -210,8 +210,6 @@ decideAjax = (function(){
 				$('#clip').prop("disabled", false);
 				$('#share').prop("disabled", false);
 			}
-			//Ajax処理の最後で広告を表示
-            
 		}, 300)
 	};
 
@@ -382,7 +380,7 @@ decideAjax = (function(){
 				itemListHtml += '<div name="name" class="subject-decide"><label for="item' + i + '">' + name + '</label></div>';
 				itemListHtml += '<div name="buttons"><button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button></div></div>';
 				itemListHtml += '<ul>';
-				itemListHtml += '<li>【' + cate + '】</li>';
+				itemListHtml += '<li>[' + cate + ']</li>';
 				itemListHtml += '<li>' + desc + '</li></ul></div>';
 			}
 			itemListHtml += '</span></div></div>';
