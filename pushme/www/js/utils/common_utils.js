@@ -38,8 +38,8 @@ function shareText(txt){
   if (ua.search(/Android/) != -1) {
     Bridge.shareText(formatForSend(txt));// Android native定義の機能を呼び出す
   } else {
-    alert("申し訳ございませんが、非対応端末です");
-    console.debug("Nothing to do in shareText()");
+    alert("Sorry, your application is not supported.");
+    console.warn("Nothing to do in shareText()");
   }
 }
 
@@ -50,6 +50,6 @@ function shareText(txt){
  */
 function formatForSend(txt){
   var formattedTxt = "";
-  formattedTxt = "今回決まったのは [" + txt + "] です！";
+  formattedTxt = "[" + txt + "] is chosen from the list! Have a nice day~:D";
   return formattedTxt;
 }

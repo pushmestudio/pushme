@@ -128,7 +128,7 @@ function makeDel(){
  		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
  		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
  		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
- 		$('#delItem').html("【Category】: " + delcate + "<br>【Subject】: " + delname + "<br>【Description】: " + deldesc);
+ 		$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Description]: " + deldesc);
  		$('#delItem').dialog("open");
  	});
 }
@@ -208,7 +208,7 @@ function makeShownItemListHtml(extData){
 			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button>';
 			itemListHtml += '</div>';
 			itemListHtml += '</div><ul>';
-			itemListHtml += '<li>【<span name="cate">' + cate + '</span>】</li>';
+			itemListHtml += '<li>[<span name="cate">' + cate + '</span>]</li>';
 			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
