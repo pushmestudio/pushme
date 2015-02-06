@@ -22,9 +22,6 @@ $(function(){
 			var itemListHtml = makeShownItemListHtml(storedData);
 			$('#itemlist').html(itemListHtml);
 			// 各種ボタン機能の埋め込み
-			makeAccordion();
-			makeEdit();
-			makeDel();
 			clipOnRegitemlist();
 
 			// queryIdが変化したら呼ぶ
@@ -35,9 +32,6 @@ $(function(){
 				var itemListHtml = makeShownItemListHtml(categorizedData);
 				$('#itemlist').html(itemListHtml);
 				// 各種ボタン機能の埋め込み
-				makeAccordion();
-				makeEdit();
-				makeDel();
 				clipOnRegitemlist();
 			});
 
@@ -48,11 +42,7 @@ $(function(){
 				// DOMを更新
 				var itemListHtml = makeShownItemListHtml(categorizedData);
 				$('#itemlist').html(itemListHtml);
-	//			showCategorizedItems();
 				// 各種ボタン機能の埋め込み
-				makeAccordion();
-				makeEdit();
-				makeDel();
 				clipOnRegitemlist();
 			});
 		}, function(err){});
@@ -103,47 +93,37 @@ function makeCateOptionsHtml(originalData){
 }
 
 /**
- * 編集が押されたときの処理を記述する。
+ * 編集が押されたときの処理を記述する
  */
- function makeEdit(){
- 	var name = "";
- 	$('button[name="edititem"]').click(function(){
- 		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
- 		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
- 		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
-		$('#newname').val(oldname);
-		$('#newcate').val(oldcate);
-		$('#newdesc').val(olddesc);
- 		$('#editRegItem').dialog("open");
- 	});
-}
+$('#itemlist').on("click", 'button[name="edititem"]', function(){
+ 	oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+	oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+	olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
+	$('#newname').val(oldname);
+	$('#newcate').val(oldcate);
+	$('#newdesc').val(olddesc);
+	$('#editRegItem').dialog("open");
+});
 
 /**
  * 削除ボタン押下でコールされるメソッド
  * 削除時に必要な削除対象の名前を抽出し、削除操作の確認ダイアログを呼出す
  */
-function makeDel(){
- 	var name = "";
- 	$('button[name="deleteitem"]').click(function(){
- 		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
- 		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
- 		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
- 		$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Description]: " + deldesc);
- 		$('#delItem').dialog("open");
- 	});
-}
+$('#itemlist').on("click", 'button[name="deleteitem"]', function(){
+	delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+	delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+	deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
+	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Description]: " + deldesc);
+	$('#delItem').dialog("open");
+});
 
 /**
- * 詳細情報を表示するアコーディオンを作成する。
+ * 詳細情報を表示するアコーディオンを作成する
  */
-function makeAccordion(){
-	$(function(){
-		$('.accordion button[name="detail"]').click(function(){
-			$(this).parents('div[name="card"]').next("ul").slideToggle();
-			$(this).toggleClass("open");
-		});
-	});
-}
+$('#itemlist').on("click", '.accordion button[name="detail"]', function(){
+	$(this).parents('div[name="card"]').next("ul").slideToggle();
+	$(this).toggleClass("open");
+});
 
 /**
  * [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★<-->☆)を切替えるメソッド
@@ -309,18 +289,12 @@ function updateStoredDataForDeleteProcess(delname){
  * [画面操作] プルダウンメニューのカテゴリを操作した際に、自動的にカテゴリに合致したアイテムを再描画するメソッド
  */
 var reloadqueryIdChangeFunc = function(){
-	makeAccordion();
-	makeEdit();
-	makeDel();
 	clipOnRegitemlist();
 	$('#queryId').change(function(){
 		var queryData = {"tag" : $('#queryId').val()};
 		categorizedData = extractByCate(storedData, queryData.tag);
 		var itemListHtml = makeShownItemListHtml(categorizedData);
 		$('#itemlist').html(itemListHtml);
-		makeAccordion();
-		makeEdit();
-		makeDel();
 		clipOnRegitemlist();
 	});
 }
@@ -344,17 +318,16 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}
 	$('#itemlist').html(itemListHtml);
-	makeAccordion();
-	makeEdit();
-	makeDel();
 	clipOnRegitemlist();
 }
-
 
 var delcate;   //削除確認時にカテゴリ名を出力するための変数
 var delname; //削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
 var deldesc;  //削除確認時に詳細を出力するための変数
 
+/**
+ * 編集ボタン押下時に確認を促すダイアログ
+ */
 $('#editRegItem').dialog({
 	autoOpen: false,
 	resizable: false,
@@ -368,18 +341,21 @@ $('#editRegItem').dialog({
 			var newdesc = $('#newdesc').val();
 			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
-				$('#editFailCuzEmptyElementExists').stop().fadeIn(500).delay(2000).fadeOut(500);
+				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 			} else {
 				$(this).dialog("close");
-				console.log("oldname is: " + oldname + ", newname is: " + newname);
-				openDB().then(function(){
+//				openDB().then(function(){
 					updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
 						updateStoredData(oldname, newcate, newname, newdesc);
+		                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 						$('#newname').val("");
 						$('#newcate').val("");
 						$('#newdesc').val("");
+
+					}, function(err){
+              			$('#editFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 					});
-				});
+//				});
 			}
 		},
 		"Cancel": function(){
@@ -405,6 +381,9 @@ $('#delItem').dialog({
 			openDB().then(function(){
 				delItemFromDB().then(function(){
 					updateStoredDataForDeleteProcess(delname);
+					$('#deleteComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+				}, function(err){
+              		$('#deleteFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 				});
 			});
 		},

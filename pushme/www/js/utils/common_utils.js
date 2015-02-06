@@ -53,3 +53,19 @@ function formatForSend(txt){
   formattedTxt = "[" + txt + "] is chosen from the list! Have a nice day~:D";
   return formattedTxt;
 }
+
+/**
+ * 呼び出された時点の時刻を取得する。
+　* @return {String} yyyymmddhhnnssの形式で表現される時刻
+ */
+function getTimeStamp(){
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours();
+    var min = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes();
+    var sec = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
+    var timeStamp = "" + year + month + day + hour + min +sec;
+    return timeStamp;
+}
