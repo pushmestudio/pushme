@@ -96,7 +96,6 @@ decideAjax = (function(){
 				var itemListHtml = makeItemListHtml(extData);
 				$('#itemlist').html(itemListHtml);
 				//各種イベント付与
-				makeAccordion();
                 extendLabel();
 				makeIsChecked();
 			},
@@ -118,7 +117,6 @@ decideAjax = (function(){
 				var itemListHtml = makeItemListHtml(originalData);
 				$('#itemlist').html(itemListHtml);
 
-				makeAccordion();
                 extendLabel();
 				makeIsChecked();
                 
@@ -213,18 +211,11 @@ decideAjax = (function(){
 		}, 300)
 	};
 
-	/**
-     * 詳細表示
-     * makeAccordion自体は、clickに対しイベントリスナを付加するだけである点に注意
-     */
-	var makeAccordion = function(){
-		$(function(){
-			$('.accordion button[name="detail"]').click(function(){
-				$(this).parents('div[name="card"]').next("ul").slideToggle();
-				$(this).toggleClass("open");
-			});
-		});
-	};
+	// 詳細表示
+	$('#itemlist').on("click", '.accordion button[name="detail"]', function(){
+		$(this).parents('div[name="card"]').next("ul").slideToggle();
+		$(this).toggleClass("open");
+	});
 	
 	 /**
      * ラベル領域の拡張。

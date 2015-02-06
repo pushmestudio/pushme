@@ -24,14 +24,13 @@ $(function(){
 			var categoryOptionsHtml = makeCateOptionsHtmlExceptAll(storedData);
 			$('#options').append(categoryOptionsHtml);
 		}, function(err){
-			alert(err);
+			$('#getItemFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 		});
 	}, function(err){
-		alert(err);
+		$('#openFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 	});
 
 	// ここからcustom comboboxのためのwidget定義
-	
 	$.widget("ui.combobox", {
 		// 以下メソッド定義
 		_create: function(){
@@ -157,6 +156,9 @@ function makeCateOptionsHtmlExceptAll(originalData){
 	return cateOption;
 }
 
+/**
+ * 本当に入力された項目で登録してよいか確認を促すダイアログ
+ */
 $('#regConfirm').dialog({
 	autoOpen: false,
 	resizable: false,
@@ -166,13 +168,15 @@ $('#regConfirm').dialog({
 	buttons: {
 		"Done": function(){
 			$(this).dialog("close");
-			openDB().then(function(){
+//			openDB().then(function(){
 				addItemtoDB(cate, name, desc).then(function(){
+					$('#addComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
         			$('#name').val("");
 					$('#description').val("");
 				}, function(err){
+					$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 				});
-			});
+//			});
 		},
 		"Cancel": function(){
 			$(this).dialog("close");
@@ -180,12 +184,13 @@ $('#regConfirm').dialog({
 	}
 });
 
+// 必須項目が入力されているか確認する
 $('#confirmAdd').click(function(){
 	cate = $('#category').val();
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(500).delay(2000).fadeOut(500);
+    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
     } else {
 		var regHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
 		regHtml += '<tr><td>[Subject]:</td><td>'+ name +'</td></tr>'
