@@ -6,17 +6,17 @@
 #menu,
 .menu-link {
 	/* この辺りはブラウザ対応のための処理 */
-	-webkit-transition: all 0.2s ease-out;
-	-moz-transition: all 0.2s ease-out;
-	-ms-transition: all 0.2s ease-out;
-	-o-transition: all 0.2s ease-out;
+	-webkit-transition: all 0.05s ease-out;
+	-moz-transition: all 0.05s ease-out;
+	-ms-transition: all 0.05s ease-out;
+	-o-transition: all 0.05s ease-out;
 	/* transitionはアニメーションの動きを制御する */
 	/* transition:
 	 * 第1引数		:どの要素を変化させるか
 	 * 第2引数		:どのくらいの時間をかけて変化させるか
 	 * 第3引数		:変化の具合をどうするか
 	 */
-	transition: all 0.2s ease-out;
+	transition: all 0.05s ease-out;
 }
 
 /*
@@ -139,7 +139,7 @@
 #menu .pure-menu-selected,
 #menu .pure-menu-heading {
 	text-align: center;
-	//background: #1f8dd6;
+	/*background: #1f8dd6;*/
 }
 /*
 *         This styles a link within a selected menu item `<li>`.
