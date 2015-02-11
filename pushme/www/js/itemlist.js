@@ -341,19 +341,19 @@ $('#editRegItem').dialog({
 			var newdesc = $('#newdesc').val();
 			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
-				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			} else {
 				$(this).dialog("close");
 //				openDB().then(function(){
 					updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
 						updateStoredData(oldname, newcate, newname, newdesc);
-		                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+		                $('#editComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 						$('#newname').val("");
 						$('#newcate').val("");
 						$('#newdesc').val("");
 
 					}, function(err){
-              			$('#editFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+              			$('#editFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 					});
 //				});
 			}
@@ -381,9 +381,9 @@ $('#delItem').dialog({
 			openDB().then(function(){
 				delItemFromDB().then(function(){
 					updateStoredDataForDeleteProcess(delname);
-					$('#deleteComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+					$('#deleteComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 				}, function(err){
-              		$('#deleteFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+              		$('#deleteFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 				});
 			});
 		},

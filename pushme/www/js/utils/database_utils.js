@@ -259,7 +259,7 @@ function addClip(clipName){
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
-			$('#clipComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+			$('#clipComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 		};
 		clipFlagTrue.onerror = function(){};
 	};
@@ -316,7 +316,7 @@ function offClipfromDB(offClipName){
         updateItem.clip = "false";
   		var clipFlagFalse = store.put(updateItem);
 		clipFlagFalse.onsuccess = function(){
-			$('#unclipComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+			$('#unclipComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 		};
 		clipFlagFalse.onerror = function(){};
 	};

@@ -6,17 +6,17 @@
 #menu,
 .menu-link {
 	/* この辺りはブラウザ対応のための処理 */
-	-webkit-transition: all 0.05s ease-out;
-	-moz-transition: all 0.05s ease-out;
-	-ms-transition: all 0.05s ease-out;
-	-o-transition: all 0.05s ease-out;
+	-webkit-transition: all 0.1s ease-out;
+	-moz-transition: all 0.1s ease-out;
+	-ms-transition: all 0.1s ease-out;
+	-o-transition: all 0.1s ease-out;
 	/* transitionはアニメーションの動きを制御する */
 	/* transition:
 	 * 第1引数		:どの要素を変化させるか
 	 * 第2引数		:どのくらいの時間をかけて変化させるか
 	 * 第3引数		:変化の具合をどうするか
 	 */
-	transition: all 0.05s ease-out;
+	transition: all 0.1s ease-out;
 }
 
 /*

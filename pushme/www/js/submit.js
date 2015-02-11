@@ -24,10 +24,10 @@ $(function(){
 			var categoryOptionsHtml = makeCateOptionsHtmlExceptAll(storedData);
 			$('#options').append(categoryOptionsHtml);
 		}, function(err){
-			$('#getItemFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+			$('#getItemFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 		});
 	}, function(err){
-		$('#openFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+		$('#openFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 	});
 
 	// ここからcustom comboboxのためのwidget定義
@@ -170,11 +170,11 @@ $('#regConfirm').dialog({
 			$(this).dialog("close");
 //			openDB().then(function(){
 				addItemtoDB(cate, name, desc).then(function(){
-					$('#addComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+					$('#addComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
         			$('#name').val("");
 					$('#description').val("");
 				}, function(err){
-					$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+					$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 				});
 //			});
 		},
@@ -190,7 +190,7 @@ $('#confirmAdd').click(function(){
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
     } else {
 		var regHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
 		regHtml += '<tr><td>[Subject]:</td><td>'+ name +'</td></tr>'
