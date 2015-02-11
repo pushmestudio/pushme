@@ -50,7 +50,7 @@ function shareText(txt){
  */
 function formatForSend(txt){
   var formattedTxt = "";
-  formattedTxt = "[" + txt + "] is chosen from the list! Have a nice day~:D";
+  formattedTxt = "[" + txt + "] is chosen from the list! Have a nice day~:D #PushMe";
   return formattedTxt;
 }
 
