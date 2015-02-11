@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) PushMe Studio 2015
  * Add transition to containers so they can push in and out.
  */
@@ -94,9 +94,10 @@
 	top: 0;
 	left: 0;
 	bottom: 0;
+	padding-top: 5px;
 	z-index: 1000; /* so the menu or its navicon stays above all content */
 	background: #005000;
-	overflow-y: auto;
+	//overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 }
 /*
@@ -104,9 +105,8 @@
 *         */
 #menu a {
 	color: #005000;
-	border: none;
 	text-align: center;
-	width: 67%;
+	padding: 5px 0 0 0;
 }
 
 /*
@@ -123,7 +123,7 @@
 *         */
 #menu .pure-menu ul,
 #menu .pure-menu .menu-item-divided {
-	border-top: 1px solid #333;
+	//border-top: 1px solid #333;
 }
 /*
 *         Change color of the anchor links on hover/focus.
