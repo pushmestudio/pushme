@@ -6,17 +6,17 @@
 #menu,
 .menu-link {
 	/* この辺りはブラウザ対応のための処理 */
-	-webkit-transition: all 0.2s ease-out;
-	-moz-transition: all 0.2s ease-out;
-	-ms-transition: all 0.2s ease-out;
-	-o-transition: all 0.2s ease-out;
+	-webkit-transition: all 0.1s ease-out;
+	-moz-transition: all 0.1s ease-out;
+	-ms-transition: all 0.1s ease-out;
+	-o-transition: all 0.1s ease-out;
 	/* transitionはアニメーションの動きを制御する */
 	/* transition:
 	 * 第1引数		:どの要素を変化させるか
 	 * 第2引数		:どのくらいの時間をかけて変化させるか
 	 * 第3引数		:変化の具合をどうするか
 	 */
-	transition: all 0.2s ease-out;
+	transition: all 0.1s ease-out;
 }
 
 /*
@@ -94,19 +94,19 @@
 	top: 0;
 	left: 0;
 	bottom: 0;
+	padding-top: 5px;
 	z-index: 1000; /* so the menu or its navicon stays above all content */
 	background: #005000;
-	overflow-y: auto;
+	/*overflow-y: auto;*/
 	-webkit-overflow-scrolling: touch;
 }
 /*
 *     All anchors inside the menu should be styled like this.
 *         */
 #menu a {
-	color: #999;
-	border: none;
+	color: #005000;
 	text-align: center;
-	//padding: 0.6em 0 0.6em 0.6em;
+	padding: 5px 0 0 0;
 }
 
 /*
@@ -123,7 +123,7 @@
 *         */
 #menu .pure-menu ul,
 #menu .pure-menu .menu-item-divided {
-	border-top: 1px solid #333;
+	/*border-top: 1px solid #333;*/
 }
 /*
 *         Change color of the anchor links on hover/focus.
@@ -139,7 +139,7 @@
 #menu .pure-menu-selected,
 #menu .pure-menu-heading {
 	text-align: center;
-	//background: #1f8dd6;
+	/*background: #1f8dd6;*/
 }
 /*
 *         This styles a link within a selected menu item `<li>`.

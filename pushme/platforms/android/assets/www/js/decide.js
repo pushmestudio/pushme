@@ -96,10 +96,8 @@ decideAjax = (function(){
 				var itemListHtml = makeItemListHtml(extData);
 				$('#itemlist').html(itemListHtml);
 				//各種イベント付与
-				makeAccordion();
                 extendLabel();
 				makeIsChecked();
-				footerFixed();
 			},
 			error: function(err){
                 console.error(err);
@@ -119,10 +117,9 @@ decideAjax = (function(){
 				var itemListHtml = makeItemListHtml(originalData);
 				$('#itemlist').html(itemListHtml);
 
-				makeAccordion();
                 extendLabel();
 				makeIsChecked();
-                footerFixed();
+                
 			},
 			error: function(err){
                 console.error(err);
@@ -154,7 +151,7 @@ decideAjax = (function(){
 				$(this).parents('div[name="arrow"]').remove();
 			}
 		});
-        footerFixed();
+        
 	};
 	
 	/**utilityに選択肢を連携*/
@@ -211,23 +208,14 @@ decideAjax = (function(){
 				$('#clip').prop("disabled", false);
 				$('#share').prop("disabled", false);
 			}
-			//Ajax処理の最後で広告を表示
-            footerFixed();
 		}, 300)
 	};
 
-	/**
-     * 詳細表示
-     * makeAccordion自体は、clickに対しイベントリスナを付加するだけである点に注意
-     */
-	var makeAccordion = function(){
-		$(function(){
-			$('.accordion button[name="detail"]').click(function(){
-				$(this).parents('div[name="card"]').next("ul").slideToggle();
-				$(this).toggleClass("open");
-			});
-		});
-	};
+	// 詳細表示
+	$('#itemlist').on("click", '.accordion button[name="detail"]', function(){
+		$(this).parents('div[name="card"]').next("ul").slideToggle();
+		$(this).toggleClass("open");
+	});
 	
 	 /**
      * ラベル領域の拡張。
@@ -383,7 +371,7 @@ decideAjax = (function(){
 				itemListHtml += '<div name="name" class="subject-decide"><label for="item' + i + '">' + name + '</label></div>';
 				itemListHtml += '<div name="buttons"><button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button></div></div>';
 				itemListHtml += '<ul>';
-				itemListHtml += '<li>【' + cate + '】</li>';
+				itemListHtml += '<li>[' + cate + ']</li>';
 				itemListHtml += '<li>' + desc + '</li></ul></div>';
 			}
 			itemListHtml += '</span></div></div>';

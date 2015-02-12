@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) PushMe Studio 2015
  */
 
@@ -6,7 +6,7 @@ body {
 	font-size: 14px;
 	font-family: Helvetica, Arial, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, sans-serif;
 	background-color: #fff;
-	//background-image: linear-gradient(#eee .1em, transparent .1em);
+	/* //background-image: linear-gradient(#eee .1em, transparent .1em); */
 /*	linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px), */
 	background-size: 100% 2.0em;
 }
@@ -58,6 +58,66 @@ button.img-button {
     input#category{
         display: inline-block;
     }
+}
+
 #ads {
-    margin: auto;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+#notification{
+	font-size: 13pt;
+	text-align: center;
+	color: #c6eddb;
+	line-height: 30px;
+}
+
+#notification .fadeComp {
+	display: none;
+	position:fixed;
+	top:0px; 
+	left:0px; 
+	width:100%; 
+	height:69px;
+	background-color:#555555;
+	z-index: 100;
+}
+
+#notification .fadeComp div:before{
+	content: url("../img/clip_true.png");
+}
+
+#notification .fadeComp div{
+	position: absolute;
+	top: 30%;
+	left: 15%;
+	width: 70%;
+	height: 100%;
+	word-break: normal;
+}
+
+#notification .fadeFail {
+	display: none; 
+	position:fixed; 
+	top:0px; 
+	left:0px;
+	width:100%; 
+	height:69px; 
+	background-color:#555555;
+	z-index: 100;
+}
+
+#notification .fadeFail div:before{
+	content: url("../img/notifyFail.png");
+}
+
+#notification .fadeFail div{
+	position: absolute;
+	top: 7%;
+	left: 15%;
+	width: 70%;
+	height: 100%;
+	word-break: normal;
 }
