@@ -307,49 +307,6 @@ decideAjax = (function(){
 	};
 
 	/**
-	 * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
-	 * クエリが空だった場合には受け取ったデータをそのまま返す。
-	 * @param {String|Array} originalData 抽出対象となる元データ
-	 * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
-	 * @return {String|Array} クエリの条件に合致したデータ
-	 */
-	var extractByCate = function(originalData, query){
-		var categorisedData = new Array();
-		if(typeof query === "undefined" || query.length <= 0){
-			categorisedData = originalData;
-		} else {
-			for(var i = 0, n = originalData.length; i < n; i++){
-				if(query === originalData[i].category){
-					categorisedData.push(originalData[i]);
-				}
-			}
-		}
-		return categorisedData;
-	};
-
-
-	/**
-	 * 受け取ったデータから重複のないカテゴリ一覧抽出する。
-	 * 抽出したカテゴリ一覧はhtmlのselectのoptionとして書き出す。
-	 * @param {String|Array} originalData カテゴリ抽出対象となる元データ
-	 * @return {String} 抽出したカテゴリから構成される<option>タグ
-	 */
-	var makeCateOptionsHtml = function(originalData){
-		var cateArray = new Array();
-		var cateOption;
-			for(var i = 0, n = originalData.length; i < n; i++){
-				var cate = originalData[i].category;
-				if(cateArray.indexOf(cate) != -1){
-					continue;//既にカテゴリ内にあるので追加しない
-				} else {
-					cateArray.push(cate); // カテゴリ一覧にカテゴリを追加
-					cateOption += '<option value="' + cate + '" name="' + cate + '">' + cate + '</option>';
-				}
-			}
-		return cateOption;
-	};
-
-	/**
 	 * 受け取ったデータからhtml上にリストを作成する
 	 * @param {String|Array} extData 抽出済みのデータ
 	 * @return {String} itemListを構成するタグ
@@ -377,7 +334,7 @@ decideAjax = (function(){
 			itemListHtml += '</span></div></div>';
 			itemListHtml += "</form>";
 		} else {
-			itemListHtml = '<p name="itemlist">結果が見つかりませんでした。</p>';
+			itemListHtml = '<p name="itemlist">Results not found</p>';
 		}
 		return itemListHtml;
 	};
