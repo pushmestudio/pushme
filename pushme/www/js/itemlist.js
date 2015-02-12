@@ -333,21 +333,11 @@ $('#delItem').dialog({
 	buttons: {
 		"Delete": function(){
 			$(this).dialog("close");
-<<<<<<< HEAD
-			openDB().then(function(){
-				delItemFromDB().then(function(){
-					updateStoredDataForDeleteProcess(delname);
-					$('#deleteComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
-				}, function(err){
-              		$('#deleteFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
-				});
-=======
 			delItemFromDB().then(function(){
 				updateStoredDataForDeleteProcess(delname);
-				$('#deleteComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+				$('#deleteComplete').stop(true, true).fadeIn(250).delay(250).fadeOut(250);
 			}, function(err){
-          		$('#deleteFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
->>>>>>> 60b5719af371a589e6805cf494b5e9eb412d4216
+          		$('#deleteFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			});
 		},
 		"Cancel": function(){
