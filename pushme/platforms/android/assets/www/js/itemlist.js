@@ -22,11 +22,7 @@ $(function(){
 			var itemListHtml = makeShownItemListHtml(storedData);
 			$('#itemlist').html(itemListHtml);
 			// 各種ボタン機能の埋め込み
-			makeAccordion();
-			makeEdit();
-			makeDel();
 			clipOnRegitemlist();
-			footerFixed();
 
 			// queryIdが変化したら呼ぶ
 			$('#queryId').change(function(){
@@ -36,11 +32,7 @@ $(function(){
 				var itemListHtml = makeShownItemListHtml(categorizedData);
 				$('#itemlist').html(itemListHtml);
 				// 各種ボタン機能の埋め込み
-				makeAccordion();
-				makeEdit();
-				makeDel();
 				clipOnRegitemlist();
-				footerFixed();
 			});
 
 			// submitが押されたら呼ぶ
@@ -50,22 +42,11 @@ $(function(){
 				// DOMを更新
 				var itemListHtml = makeShownItemListHtml(categorizedData);
 				$('#itemlist').html(itemListHtml);
-	//			showCategorizedItems();
 				// 各種ボタン機能の埋め込み
-				makeAccordion();
-				makeEdit();
-				makeDel();
 				clipOnRegitemlist();
-				footerFixed();
 			});
-
-			console.dir(storedData);
-		}, function(err){
-			alert(err);
-		});
-	}, function(err){
-		alert(err);
-	});
+		}, function(err){});
+	}, function(err){});
 });
 
 /**
@@ -83,7 +64,6 @@ var extractByCate = function(originalData, query){
 		for(var i = 0, n = originalData.length; i < n; i++){
 			if(query === originalData[i].category){
 				categorisedData.push(originalData[i]);
-				console.debug(originalData[i]);
 			}
 		}
 	}
@@ -113,52 +93,41 @@ function makeCateOptionsHtml(originalData){
 }
 
 /**
- * 編集が押されたときの処理を記述する。
+ * 編集が押されたときの処理を記述する
  */
- function makeEdit(){
- 	var name = "";
- 	$('button[name="edititem"]').click(function(){
- 		oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
- 		oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
- 		olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
-
-		$('#newname').val(oldname);
-		$('#newcate').val(oldcate);
-		$('#newdesc').val(olddesc);
-
- 		$('#editRegItem').dialog("open");
- 	});
-}
+$('#itemlist').on("click", 'button[name="edititem"]', function(){
+ 	oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+	oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+	olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
+	$('#newname').val(oldname);
+	$('#newcate').val(oldcate);
+	$('#newdesc').val(olddesc);
+	$('#editRegItem').dialog("open");
+});
 
 /**
- * 削除ボタンのクリック時にコールされる
+ * 削除ボタン押下でコールされるメソッド
+ * 削除時に必要な削除対象の名前を抽出し、削除操作の確認ダイアログを呼出す
  */
-function makeDel(){
- 	var name = "";
- 	$('button[name="deleteitem"]').click(function(){
- 		delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
- 		delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
- 		deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
- 		$('#delItem').html("【Category】: " + delcate + "<br>【Subject】: " + delname + "<br>【Description】: " + deldesc);
- 		$('#delItem').dialog("open");
- 	});
-}
+$('#itemlist').on("click", 'button[name="deleteitem"]', function(){
+	delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+	delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
+	deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
+	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Description]: " + deldesc);
+	$('#delItem').dialog("open");
+});
 
 /**
- * 詳細情報を表示するアコーディオンを作成する。
+ * 詳細情報を表示するアコーディオンを作成する
  */
-function makeAccordion(){
-	$(function(){
-		$('.accordion button[name="detail"]').click(function(){
-			$(this).parents('div[name="card"]').next("ul").slideToggle();
-			$(this).toggleClass("open");
-		});
-	});
-}
+$('#itemlist').on("click", '.accordion button[name="detail"]', function(){
+	$(this).parents('div[name="card"]').next("ul").slideToggle();
+	$(this).toggleClass("open");
+});
 
-//下記、現在未実装
 /**
- * 登録データ一覧画面で UnClip/Clipボタン押下時のボタン表示/非表示操作。およびDBのclip属性の変更メソッド呼出
+ * [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★<-->☆)を切替えるメソッド
+ * [DB操作] ControllerとしてDBのclip属性を変更するメソッド呼出しを行うメソッド
  */
 function clipOnRegitemlist(){
 	for(var i = 0, n = storedData.length; i < n; i++){
@@ -201,31 +170,25 @@ function makeShownItemListHtml(extData){
 		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
 		itemListHtml += '<div class="pure-g">';
 		itemListHtml += '<span class="accordion">';
-
 		for(var i = 0, n = extData.length; i < n; i++){
 			var name = extData[i].name;
 			var cate = extData[i].category;
 			var desc = extData[i].description;
 			clipFlag = extData[i].clip;
-			console.log("clipFlag : " + i + " : " + clipFlag);
-
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
-
 			itemListHtml += '<div class="star-icon">';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
 			itemListHtml += '</div>';
-
 			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
-
 			itemListHtml += '<div name="buttons">';
 			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
 			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
 			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button>';
 			itemListHtml += '</div>';
 			itemListHtml += '</div><ul>';
-			itemListHtml += '<li>【<span name="cate">' + cate + '</span>】</li>';
+			itemListHtml += '<li>[<span name="cate">' + cate + '</span>]</li>';
 			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
@@ -252,26 +215,41 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 			storedData[i].description = newdesc;
 		}
 	}
-	// カテゴリ一覧を更新
 	categorizedData = extractByCate(storedData, newcate);
-	var categoryOptionsHtml = makeCateOptionsHtml(storedData);
-	$('#queryId').html(categoryOptionsHtml);
-	$('#queryId').val(newcate);
-	var itemListHtml = makeShownItemListHtml(categorizedData);
+	oldCategorizedData = extractByCate(storedData, oldcate);
+	if (oldCategorizedData.length==0){//カテゴリに該当するアイテムが０の時
+		if (($('#queryId').val())!=""){
+			var newCateHtml = '<select id="queryId">';
+			newCateHtml += makeCateOptionsHtml(storedData);
+			newCateHtml += '</select>';
+			$('#queryId').replaceWith(newCateHtml);
+			$('#queryId').val(newcate);
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}else{
+			var newCateHtml = '<select id="queryId">';
+			newCateHtml += makeCateOptionsHtml(storedData);
+			newCateHtml += '</select>';
+			$('#queryId').replaceWith(newCateHtml);
+			var itemListHtml = makeShownItemListHtml(storedData);
+		}
+	}else{//カテゴリに該当するアイテムが１つ以上ある時
+		if (($('#queryId').val())!=""){
+			$('#queryId').html(makeCateOptionsHtml(storedData));
+			$('#queryId').val(newcate);
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}else{
+			$('#queryId').html(makeCateOptionsHtml(storedData));
+			var itemListHtml = makeShownItemListHtml(storedData);
+		}	
+	}
 	$('#itemlist').html(itemListHtml);
-
-	// 各種ボタン機能の埋め込み
-	makeAccordion();
-	makeEdit();
-	makeDel();
-	clipOnRegitemlist();
-	footerFixed();
+	reloadqueryIdChangeFunc();
 }
 
 /**
- * DBからアイテムを削除した際に、DOMで扱うstoredDataの中身を削除
- * 対象カテゴリに該当するアイテムがない場合はカテゴリ自体を削除
- *
+ * [画面操作] storedDataの中身を更新するメソッド
+ * 削除後の基本動作：削除した際のカテゴリのアイテムを再描画
+ * 削除後アイテム数が０の場合の動作：カテゴリALLのアイテムを再描画
  */
 function updateStoredDataForDeleteProcess(delname){
 	var check, targetCate;
@@ -279,15 +257,14 @@ function updateStoredDataForDeleteProcess(delname){
 		if(delname === storedData[i].name){
 			check = i;
 			targetCate = storedData[i].category;
-		};
+		}
 	}
 	storedData.some(function(v,check){
 		if (v.name==delname){
 			storedData.splice(check,1);
-			console.log("delete from storedData");
 		}
 	});
-	categorizedData = extractByCate(storedData, targetCate);//queryData.tag
+	categorizedData = extractByCate(storedData, targetCate);
 	if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
 		var newCateHtml = '<select id="queryId">';
 		newCateHtml += makeCateOptionsHtml(storedData);
@@ -295,36 +272,38 @@ function updateStoredDataForDeleteProcess(delname){
 		$('#queryId').replaceWith(newCateHtml);
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}else{//カテゴリに該当するアイテムが１つ以上ある時
-		$('#queryId').html(makeCateOptionsHtml(storedData));
-		$('#queryId').val(targetCate);
-		var itemListHtml = makeShownItemListHtml(categorizedData);
+		if (($('#queryId').val())!=""){
+			$('#queryId').html(makeCateOptionsHtml(storedData));
+			$('#queryId').val(targetCate);
+			var itemListHtml = makeShownItemListHtml(categorizedData);
+		}else{
+			$('#queryId').html(makeCateOptionsHtml(storedData));
+			var itemListHtml = makeShownItemListHtml(storedData);
+		}	
 	}
 	$('#itemlist').html(itemListHtml);
 	reloadqueryIdChangeFunc();//queryIdを再定義したため、リロード
 }
 
 /**
- * queryIdの再定義に伴い、queryId変更時のアクションをリロードするメソッド
+ * [画面操作] プルダウンメニューのカテゴリを操作した際に、自動的にカテゴリに合致したアイテムを再描画するメソッド
  */
 var reloadqueryIdChangeFunc = function(){
-	makeAccordion();
-	makeEdit();
-	makeDel();
 	clipOnRegitemlist();
-	footerFixed();
 	$('#queryId').change(function(){
 		var queryData = {"tag" : $('#queryId').val()};
 		categorizedData = extractByCate(storedData, queryData.tag);
 		var itemListHtml = makeShownItemListHtml(categorizedData);
 		$('#itemlist').html(itemListHtml);
-		makeAccordion();
-		makeEdit();
-		makeDel();
 		clipOnRegitemlist();
-		footerFixed();
 	});
 }
 
+/**
+ * [画面操作] 登録データ一覧画面でクリップ(★<-->☆)のOn/Offを反映させ、アイテムを再描画するメソッド
+ * @param {string} clipNameOfFlagChanged : On/Offされた対象のアイテム名
+ * @param {string} clipFlagChanged : "true" or "false"
+ */
 function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChanged){
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(clipNameOfFlagChanged === storedData[i].name){
@@ -339,31 +318,16 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}
 	$('#itemlist').html(itemListHtml);
-	makeAccordion();
-	makeEdit();
-	makeDel();
 	clipOnRegitemlist();
-	footerFixed();
 }
 
+var delcate;   //削除確認時にカテゴリ名を出力するための変数
+var delname; //削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
+var deldesc;  //削除確認時に詳細を出力するための変数
 
-var delcate;
-var delname;
-var deldesc;
-
-$('#requireAlart').dialog({
-	autoOpen: false,
-	resizable: false,
-	modal: true,
-	height: 200,
-	width: 250,
-	buttons: {
-		"OK": function(){
-			$(this).dialog("close");
-		}
-	}
-});
-
+/**
+ * 編集ボタン押下時に確認を促すダイアログ
+ */
 $('#editRegItem').dialog({
 	autoOpen: false,
 	resizable: false,
@@ -375,21 +339,23 @@ $('#editRegItem').dialog({
 			var newname = $('#newname').val();
 			var newcate = $('#newcate').val();
 			var newdesc = $('#newdesc').val();
-
 			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
-				$('#requireAlart').dialog("open");
+				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			} else {
 				$(this).dialog("close");
-				console.log("oldname is: " + oldname + ", newname is: " + newname);
-				openDB().then(function(){
+//				openDB().then(function(){
 					updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
 						updateStoredData(oldname, newcate, newname, newdesc);
+		                $('#editComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 						$('#newname').val("");
 						$('#newcate').val("");
 						$('#newdesc').val("");
+
+					}, function(err){
+              			$('#editFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 					});
-				});
+//				});
 			}
 		},
 		"Cancel": function(){
@@ -398,6 +364,11 @@ $('#editRegItem').dialog({
 	}
 });
 
+/**
+ * 削除ボタン押下時に確認を促すダイアログ
+ * [DB操作] Controllerとして、対象アイテムを削除するメソッドを呼出す
+ * [画面操作] Controllerとして、削除後の画面を再描画させるメソッドを呼出す
+ */
 $('#delItem').dialog({
 	autoOpen: false,
 	resizable: false,
@@ -410,6 +381,9 @@ $('#delItem').dialog({
 			openDB().then(function(){
 				delItemFromDB().then(function(){
 					updateStoredDataForDeleteProcess(delname);
+					$('#deleteComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
+				}, function(err){
+              		$('#deleteFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 				});
 			});
 		},

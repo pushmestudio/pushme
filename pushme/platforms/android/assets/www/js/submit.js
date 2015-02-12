@@ -1,5 +1,5 @@
 /**
- * @fileOverview データを取得して必要な件数を抽出し、HTML出力します。
+ * @fileOverview アイテム登録します。登録内容の確認にはWidgetを使用しています。
  * @copyright PushMe Studio 2015
  */
  // データの取得を一度に抑えるために、DB内の全データを格納する
@@ -24,14 +24,13 @@ $(function(){
 			var categoryOptionsHtml = makeCateOptionsHtmlExceptAll(storedData);
 			$('#options').append(categoryOptionsHtml);
 		}, function(err){
-			alert(err);
+			$('#getItemFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 		});
 	}, function(err){
-		alert(err);
+		$('#openFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 	});
 
 	// ここからcustom comboboxのためのwidget定義
-	
 	$.widget("ui.combobox", {
 		// 以下メソッド定義
 		_create: function(){
@@ -56,7 +55,7 @@ $(function(){
 				.appendTo(this.wrapper) 		// wrapper直下にこれを追加
 				.val(value)						// input要素のvalue属性にvalueを代入
 				.attr("id", "category")				// id属性にcategoryをセット
-                .attr("placeholder", "Category")    // placeholderとして"Category"と表示されるようにセット
+                .attr("placeholder", "*Category")    // placeholderとして"Category"と表示されるようにセット
 				.addClass("custom-combobox-input")	// 自作クラスをセット
 				// Comboboxの内容をautocompleteで一覧表示する
 				.autocomplete({
@@ -133,6 +132,7 @@ $(function(){
 		}
 	});
 	$("#options").combobox();
+	fixAdFooter();
 });
 
 /**
@@ -156,6 +156,9 @@ function makeCateOptionsHtmlExceptAll(originalData){
 	return cateOption;
 }
 
+/**
+ * 本当に入力された項目で登録してよいか確認を促すダイアログ
+ */
 $('#regConfirm').dialog({
 	autoOpen: false,
 	resizable: false,
@@ -165,13 +168,15 @@ $('#regConfirm').dialog({
 	buttons: {
 		"Done": function(){
 			$(this).dialog("close");
-			openDB().then(function(){
+//			openDB().then(function(){
 				addItemtoDB(cate, name, desc).then(function(){
+					$('#addComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
         			$('#name').val("");
 					$('#description').val("");
 				}, function(err){
+					$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 				});
-			});
+//			});
 		},
 		"Cancel": function(){
 			$(this).dialog("close");
@@ -179,15 +184,48 @@ $('#regConfirm').dialog({
 	}
 });
 
+// 必須項目が入力されているか確認する
 $('#confirmAdd').click(function(){
 	cate = $('#category').val();
     name = $('#name').val();
     desc = $('#description').val();
     if( cate == "" || name == ""){
-    	//$('#requireAlart').dialog("open");
-    	  $('#addFailCuzEmptyElementExists').stop().fadeIn(1000).delay(2000).fadeOut(1000).css('color','#FF82B2');//#33CCFF(成功時), #FFABCE(未使用), #FF82B2(失敗時)
+    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
     } else {
-		$('#regConfirm').html("Add the following item ?<br>【Category】: " + cate + "<br>【Subject】: " + name + "<br>【Description】: " + desc);
+		var regHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
+		regHtml += '<tr><td>[Subject]:</td><td>'+ name +'</td></tr>'
+		regHtml += '<tr><td>[Description]:</td><td>'+ desc +'</td></tr></table>'
+	
+		$('#regConfirm').html('Add the following item?<br><br>' + regHtml);
 		$('#regConfirm').dialog("open");
 	}
 });
+
+
+/**
+ * android端末向けに、position fixedではキーボードの上に来てしまう広告位置を修正する
+ */
+function fixAdFooter() {
+	var footerId = "ads";
+	var adsHeight = 50;
+	document.getElementById(footerId).style.position = "initial";
+	
+    // ドキュメントの高さ取得
+    var dh = document.getElementsByTagName("body")[0].clientHeight;
+    // フッターのトップからの位置を指定
+    document.getElementById(footerId).style.top = "0px";
+    var ft = document.getElementById(footerId).offsetTop;
+    // フッターの高さ取得
+    var fh = adsHeight;
+    // ウインドウの高さ取得
+    if (window.innerHeight) {
+        var wh = window.innerHeight;
+    } else if (document.documentElement && document.documentElement.clientHeight != 0) {
+        var wh = document.documentElement.clientHeight;
+    }
+    
+    if(ft + fh < wh) {
+        document.getElementById(footerId).style.position = "relative";
+        document.getElementById(footerId).style.top = (wh - (fh + ft + 3)) + "px";
+    }
+}

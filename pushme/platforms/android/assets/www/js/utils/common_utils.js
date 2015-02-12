@@ -3,6 +3,30 @@
  * @copyright PushMe Studio 2015
  */
 
+ 
+/**
+ * 実際に広告を配信する際は、このjsを読み込むと共に下記コードをhtml上に追加すること
+ * テスト環境用
+ * <div id="ads"><script type="text/javascript">var nend_params = {"media":82,"site":58536,"spot":127513,"type":1,"oriented":1};</script></div>
+ * 本番用
+ * <div id="ads"><script type="text/javascript">var nend_params = {"media":22843,"site":116935,"spot":305355,"type":1,"oriented":3};</script></div>
+ * 
+ * #ads {
+ * 	position: fixed;
+ * 	bottom: 0px;
+ * 	width: 100%;
+ * 	margin: 0 auto;
+ * }
+ * 上記をcssに足すことで広告表示を、ページ下部中央固定にできる
+ */
+new function() {
+  var adsHtml;
+  adsHtml = '<div>';
+  adsHtml += '<script type="text/javascript" src="http://js1.nend.net/js/nendAdLoader.js"></script>';
+  adsHtml += '</div>';
+  $('#ads').append(adsHtml);
+}
+
 /**
  * 他のアプリにインテントを渡しデータを共有する。
  * 共有のためのデータの整形も行う。
@@ -14,8 +38,8 @@ function shareText(txt){
   if (ua.search(/Android/) != -1) {
     Bridge.shareText(formatForSend(txt));// Android native定義の機能を呼び出す
   } else {
-    alert("申し訳ございませんが、非対応端末です");
-    console.debug("Nothing to do in shareText()");
+    alert("Sorry, your application is not supported.");
+    console.warn("Nothing to do in shareText()");
   }
 }
 
@@ -26,38 +50,22 @@ function shareText(txt){
  */
 function formatForSend(txt){
   var formattedTxt = "";
-  formattedTxt = "今回決まったのは [" + txt + "] です！";
+  formattedTxt = "[" + txt + "] is chosen from the list! Have a nice day~:D #PushMe";
   return formattedTxt;
 }
 
-
 /**
- * クッキーをセットする
- * @param {String} cname セットしたいCookieのkey
- * @param {String} cvalue セットしたいCookieのvalue
- * @param {Integer} exdays Cookieの有効日数
+ * 呼び出された時点の時刻を取得する。
+　* @return {String} yyyymmddhhnnssの形式で表現される時刻
  */
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000)); //日数*24時間*60分*60秒*1000ミリ秒
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + "; " + expires;
-  
-  console.debug(name + "=" + cvalue + "; " + expires);
-}
-
-/**
- * クッキーから値をゲットする
- * @param {String} cname Cookieからゲットしたいvalueのkey
- * @return {String} cnameとマッチしたCookieのvalue
- */
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';'); // Cookie分解
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1); // 先頭文字だけ除く
-    if (c.indexOf(name) == 0) return c.substring(name.length, c.length); // nameにいれたものとマッチすれば返す
-  }
-  return ""; // for文内で全てマッチしなかったら空値を返す
+function getTimeStamp(){
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours();
+    var min = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes();
+    var sec = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
+    var timeStamp = "" + year + month + day + hour + min +sec;
+    return timeStamp;
 }
