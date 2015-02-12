@@ -141,7 +141,7 @@ $(function(){
  * @param {String|Array} originalData カテゴリ抽出対象となる元データ
  * @return {String} 抽出したカテゴリから構成される<option>タグ
  */
-function makeCateOptionsHtmlExceptAll(originalData){
+var makeCateOptionsHtmlExceptAll = function(originalData){
 	var cateArray = new Array();
 	var cateOption = '';
 		for(var i = 0, n = originalData.length; i < n; i++){
@@ -154,7 +154,7 @@ function makeCateOptionsHtmlExceptAll(originalData){
 			}
 		}
 	return cateOption;
-}
+};
 
 /**
  * 本当に入力された項目で登録してよいか確認を促すダイアログ
@@ -168,15 +168,13 @@ $('#regConfirm').dialog({
 	buttons: {
 		"Done": function(){
 			$(this).dialog("close");
-//			openDB().then(function(){
-				addItemtoDB(cate, name, desc).then(function(){
-					$('#addComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-        			$('#name').val("");
-					$('#description').val("");
-				}, function(err){
-					$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-				});
-//			});
+			addItemtoDB(cate, name, desc).then(function(){
+				$('#addComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+    			$('#name').val("");
+				$('#description').val("");
+			}, function(err){
+				$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+			});
 		},
 		"Cancel": function(){
 			$(this).dialog("close");
@@ -205,7 +203,7 @@ $('#confirmAdd').click(function(){
 /**
  * android端末向けに、position fixedではキーボードの上に来てしまう広告位置を修正する
  */
-function fixAdFooter() {
+var fixAdFooter = function() {
 	var footerId = "ads";
 	var adsHeight = 50;
 	document.getElementById(footerId).style.position = "initial";
