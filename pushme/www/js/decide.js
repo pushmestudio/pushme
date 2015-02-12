@@ -321,7 +321,7 @@ decideAjax = (function(){
 			for(var i = 0, n = extData.length; i < n; i++){
 				var name = extData[i].name;
 				var cate = extData[i].category;
-				var desc = extData[i].description;
+				var note = extData[i].note;
 
 				itemListHtml += '<div name="arrow" class="pure-u-1">';
 				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
@@ -329,7 +329,7 @@ decideAjax = (function(){
 				itemListHtml += '<div name="buttons"><button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button></div></div>';
 				itemListHtml += '<ul>';
 				itemListHtml += '<li>[' + cate + ']</li>';
-				itemListHtml += '<li>' + desc + '</li></ul></div>';
+				itemListHtml += '<li>' + note + '</li></ul></div>';
 			}
 			itemListHtml += '</span></div></div>';
 			itemListHtml += "</form>";

@@ -55,10 +55,10 @@ $(function(){
 $('#itemlist').on("click", 'button[name="edititem"]', function(){
  	oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
 	oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
-	olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
+	oldnote = $(this).parents('div[name="card"]').next().find('span[name="note"]').text();
 	$('#newname').val(oldname);
 	$('#newcate').val(oldcate);
-	$('#newdesc').val(olddesc);
+	$('#newnote').val(oldnote);
 	$('#editRegItem').dialog("open");
 });
 
@@ -69,8 +69,8 @@ $('#itemlist').on("click", 'button[name="edititem"]', function(){
 $('#itemlist').on("click", 'button[name="deleteitem"]', function(){
 	delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
 	delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
-	deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
-	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Description]: " + deldesc);
+	delnote = $(this).parents('div[name="card"]').next().find('span[name="note"]').text();
+	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Note]: " + delnote);
 	$('#delItem').dialog("open");
 });
 
@@ -130,7 +130,7 @@ var makeShownItemListHtml = function(extData){
 		for(var i = 0, n = extData.length; i < n; i++){
 			var name = extData[i].name;
 			var cate = extData[i].category;
-			var desc = extData[i].description;
+			var note = extData[i].note;
 			clipFlag = extData[i].clip;
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
@@ -146,7 +146,7 @@ var makeShownItemListHtml = function(extData){
 			itemListHtml += '</div>';
 			itemListHtml += '</div><ul>';
 			itemListHtml += '<li>[<span name="cate">' + cate + '</span>]</li>';
-			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';
+			itemListHtml += '<li><span name="note">' + note + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
@@ -162,14 +162,14 @@ var makeShownItemListHtml = function(extData){
  * @param {String} oldname 編集前の名前
  * @param {String} newcate 編集後のカテゴリ
  * @param {String} newname 編集後の名前
- * @param {String} newdesc 編集後の説明
+ * @param {String} newnote 編集後の説明
  */
-var updateStoredData = function(oldname, newcate, newname, newdesc){
+var updateStoredData = function(oldname, newcate, newname, newnote){
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(oldname === storedData[i].name){
 			storedData[i].category = newcate;
 			storedData[i].name = newname;
-			storedData[i].description = newdesc;
+			storedData[i].note = newnote;
 		}
 	}
 	categorizedData = extractByCate(storedData, newcate);
@@ -280,7 +280,7 @@ var updateStoredDataForClipOnRegitemlist = function(clipNameOfFlagChanged,clipFl
 
 var delcate;	//削除確認時にカテゴリ名を出力するための変数
 var delname;	//削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
-var deldesc; 	//削除確認時に詳細を出力するための変数
+var delnote; 	//削除確認時に詳細を出力するための変数
 
 /**
  * 編集ボタン押下時に確認を促すダイアログ
@@ -295,18 +295,18 @@ $('#editRegItem').dialog({
 		"Modify": function(){
 			var newname = $('#newname').val();
 			var newcate = $('#newcate').val();
-			var newdesc = $('#newdesc').val();
+			var newnote = $('#newnote').val();
 			if( newname === "" || newcate === ""){
 				$(this).dialog("close");
 				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 			} else {
 				$(this).dialog("close");
-				updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
-					updateStoredData(oldname, newcate, newname, newdesc);
+				updateItemtoDB(oldname, newcate, newname, newnote).then(function(){
+					updateStoredData(oldname, newcate, newname, newnote);
 	                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 					$('#newname').val("");
 					$('#newcate').val("");
-					$('#newdesc').val("");
+					$('#newnote').val("");
 
 				}, function(err){
           			$('#editFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
