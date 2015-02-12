@@ -50,49 +50,6 @@ $(function(){
 });
 
 /**
- * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
- * クエリが空だった場合には受け取ったデータをそのまま返す。
- * @param {String|Array} originalData 抽出対象となる元データ
- * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
- * @return {String|Array} クエリの条件に合致したデータ
- */
-var extractByCate = function(originalData, query){
-	var categorisedData = new Array();
-	if(typeof query === "undefined" || query.length <= 0){
-		categorisedData = originalData;
-	} else {
-		for(var i = 0, n = originalData.length; i < n; i++){
-			if(query === originalData[i].category){
-				categorisedData.push(originalData[i]);
-			}
-		}
-	}
-	return categorisedData;
-};
-
-
-/**
- * 受け取ったデータから重複のないカテゴリ一覧抽出する。
- * 抽出したカテゴリ一覧はhtmlのselectのoptionとして書き出す。
- * @param {String|Array} originalData カテゴリ抽出対象となる元データ
- * @return {String} 抽出したカテゴリから構成される<option>タグ
- */
-function makeCateOptionsHtml(originalData){
-	var cateArray = new Array();
-	var cateOption = '<option value="">ALL</option>';
-		for(var i = 0, n = originalData.length; i < n; i++){
-			var cate = originalData[i].category;
-			if(cateArray.indexOf(cate) != -1){
-				continue;//既にカテゴリ内にあるので追加しない
-			} else {
-				cateArray.push(cate); // カテゴリ一覧にカテゴリを追加
-				cateOption += '<option value="' + cate + '" name="' + cate + '">' + cate + '</option>';
-			}
-		}
-	return cateOption;
-}
-
-/**
  * 編集が押されたときの処理を記述する
  */
 $('#itemlist').on("click", 'button[name="edititem"]', function(){
@@ -129,7 +86,7 @@ $('#itemlist').on("click", '.accordion button[name="detail"]', function(){
  * [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★<-->☆)を切替えるメソッド
  * [DB操作] ControllerとしてDBのclip属性を変更するメソッド呼出しを行うメソッド
  */
-function clipOnRegitemlist(){
+var clipOnRegitemlist = function(){
 	for(var i = 0, n = storedData.length; i < n; i++){
 		//name=="true"の時、既にクリップ済なので、UnClipボタンを表示
 		if($('#clipFlagTrue_'+i).attr("name")=="true"){
@@ -157,14 +114,14 @@ function clipOnRegitemlist(){
 			addClip(clip2true);//DBのclip属性をtrueにするメソッド呼出(database.js)
 			updateStoredDataForClipOnRegitemlist(clip2true, "true");//itemlist更新
 	});
-}
+};
 
 /**
  * 受け取ったデータからhtml上に、一覧表示で使用するリストを作成する
  * @param {String|Array} extData 抽出済みのデータ
  * @return {String} itemListを構成するタグ
  */
-function makeShownItemListHtml(extData){
+var makeShownItemListHtml = function(extData){
 	var itemListHtml = "";
 	if(extData.length > 0){
 		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
@@ -197,7 +154,7 @@ function makeShownItemListHtml(extData){
 		itemListHtml = '<p name="itemlist">Results not found</p>';
 	}
 	return itemListHtml;
-}
+};
 
 /**
  * sotredDataの中身を更新(再取得)する
@@ -207,7 +164,7 @@ function makeShownItemListHtml(extData){
  * @param {String} newname 編集後の名前
  * @param {String} newdesc 編集後の説明
  */
-function updateStoredData(oldname, newcate, newname, newdesc){
+var updateStoredData = function(oldname, newcate, newname, newdesc){
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(oldname === storedData[i].name){
 			storedData[i].category = newcate;
@@ -244,14 +201,14 @@ function updateStoredData(oldname, newcate, newname, newdesc){
 	}
 	$('#itemlist').html(itemListHtml);
 	reloadqueryIdChangeFunc();
-}
+};
 
 /**
  * [画面操作] storedDataの中身を更新するメソッド
  * 削除後の基本動作：削除した際のカテゴリのアイテムを再描画
  * 削除後アイテム数が０の場合の動作：カテゴリALLのアイテムを再描画
  */
-function updateStoredDataForDeleteProcess(delname){
+var updateStoredDataForDeleteProcess = function(delname){
 	var check, targetCate;
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(delname === storedData[i].name){
@@ -283,7 +240,7 @@ function updateStoredDataForDeleteProcess(delname){
 	}
 	$('#itemlist').html(itemListHtml);
 	reloadqueryIdChangeFunc();//queryIdを再定義したため、リロード
-}
+};
 
 /**
  * [画面操作] プルダウンメニューのカテゴリを操作した際に、自動的にカテゴリに合致したアイテムを再描画するメソッド
@@ -297,14 +254,14 @@ var reloadqueryIdChangeFunc = function(){
 		$('#itemlist').html(itemListHtml);
 		clipOnRegitemlist();
 	});
-}
+};
 
 /**
  * [画面操作] 登録データ一覧画面でクリップ(★<-->☆)のOn/Offを反映させ、アイテムを再描画するメソッド
  * @param {string} clipNameOfFlagChanged : On/Offされた対象のアイテム名
  * @param {string} clipFlagChanged : "true" or "false"
  */
-function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChanged){
+var updateStoredDataForClipOnRegitemlist = function(clipNameOfFlagChanged,clipFlagChanged){
 	for(var i = 0, n = storedData.length; i < n; i++){
 		if(clipNameOfFlagChanged === storedData[i].name){
 			storedData[i].clip = clipFlagChanged;
@@ -319,11 +276,11 @@ function updateStoredDataForClipOnRegitemlist(clipNameOfFlagChanged,clipFlagChan
 	}
 	$('#itemlist').html(itemListHtml);
 	clipOnRegitemlist();
-}
+};
 
-var delcate;   //削除確認時にカテゴリ名を出力するための変数
-var delname; //削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
-var deldesc;  //削除確認時に詳細を出力するための変数
+var delcate;	//削除確認時にカテゴリ名を出力するための変数
+var delname;	//削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
+var deldesc; 	//削除確認時に詳細を出力するための変数
 
 /**
  * 編集ボタン押下時に確認を促すダイアログ
@@ -344,18 +301,16 @@ $('#editRegItem').dialog({
 				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 			} else {
 				$(this).dialog("close");
-//				openDB().then(function(){
-					updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
-						updateStoredData(oldname, newcate, newname, newdesc);
-		                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-						$('#newname').val("");
-						$('#newcate').val("");
-						$('#newdesc').val("");
+				updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
+					updateStoredData(oldname, newcate, newname, newdesc);
+	                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+					$('#newname').val("");
+					$('#newcate').val("");
+					$('#newdesc').val("");
 
-					}, function(err){
-              			$('#editFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-					});
-//				});
+				}, function(err){
+          			$('#editFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+				});
 			}
 		},
 		"Cancel": function(){
@@ -378,13 +333,11 @@ $('#delItem').dialog({
 	buttons: {
 		"Delete": function(){
 			$(this).dialog("close");
-			openDB().then(function(){
-				delItemFromDB().then(function(){
-					updateStoredDataForDeleteProcess(delname);
-					$('#deleteComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-				}, function(err){
-              		$('#deleteFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-				});
+			delItemFromDB().then(function(){
+				updateStoredDataForDeleteProcess(delname);
+				$('#deleteComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+			}, function(err){
+          		$('#deleteFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
 			});
 		},
 		"Cancel": function(){
