@@ -5,7 +5,7 @@
 
 // database.jsが読み込まれたページでは、常にこのdb変数を元に操作を行う
 var db = null;
-var version = 3;	//注意: Versionが変わると、既存の保存データなどはクリアされます
+var version = 4;	//注意: Versionが変わると、既存の保存データなどはクリアされます
 
 /**
  * DBへの接続を行う。
@@ -43,17 +43,17 @@ function initDB(e){
     // define what data the objectStore will contain
     store.createIndex("category", "category", { unique: false});
     store.createIndex("name", "name", { unique: true});
-    store.createIndex("description", "description", { unique: false});
+    store.createIndex("note", "note", { unique: false});
     store.createIndex("clip","clip", {unique:false});
 
     // サンプルデータ作成
     var samples = [
-        {timeStamp: "00000000000001", category: "Sample-Action", name: "Do now!", description: "I do it now!", clip: "false"},
-        {timeStamp: "00000000000002", category: "Sample-Action", name: "Do later...", description: "I'll do it later...", clip: "false"},
-        {timeStamp: "00000000000003", category: "Sample-Dinner", name: "Japanese", description: "I feel like eating Japanese food.", clip: "false"},
-        {timeStamp: "00000000000004", category: "Sample-Dinner", name: "Italian", description: "I feel like eating Italian food.", clip: "false"},
-        {timeStamp: "00000000000005", category: "Sample-Dinner", name: "French", description: "I feel like eating French food.", clip: "false"},
-        {timeStamp: "00000000000006", category: "Sample-Dinner", name: "Chinese", description: "I feel like eating Chinese food.", clip: "false"},
+        {timeStamp: "00000000000001", category: "Sample-Action", name: "Do now!", note: "I do it now!", clip: "false"},
+        {timeStamp: "00000000000002", category: "Sample-Action", name: "Do later...", note: "I'll do it later...", clip: "false"},
+        {timeStamp: "00000000000003", category: "Sample-Dinner", name: "Japanese", note: "I feel like eating Japanese food.", clip: "false"},
+        {timeStamp: "00000000000004", category: "Sample-Dinner", name: "Italian", note: "I feel like eating Italian food.", clip: "false"},
+        {timeStamp: "00000000000005", category: "Sample-Dinner", name: "French", note: "I feel like eating French food.", clip: "false"},
+        {timeStamp: "00000000000006", category: "Sample-Dinner", name: "Chinese", note: "I feel like eating Chinese food.", clip: "false"},
 
     ];
     for(var i = 0; i < samples.length; i++){
@@ -65,12 +65,12 @@ function initDB(e){
  * オブジェクトストアへ新しい項目を追加する。
  * @param {String} cate 新しく登録する項目のうち、"Category"の値
  * @param {String} name 新しく登録する項目のうち、"Subject"の値
- * @param {String} desc 新しく登録する項目のうち、"Description"の値
+ * @param {String} note 新しく登録する項目のうち、"note"の値
 　* @return {Promise} addメソッドに対する成否
  */
-function addItemtoDB(cate, name, desc){
+function addItemtoDB(cate, name, note){
     var time = getTimeStamp();
-    var newItem = { timeStamp: time, category: cate, name: name, description: desc, clip: "false" };
+    var newItem = { timeStamp: time, category: cate, name: name, note: note, clip: "false" };
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction("items", "readwrite");
     var store = trans.objectStore("items");
@@ -91,12 +91,12 @@ function addItemtoDB(cate, name, desc){
  * @param {String} oldname 更新前の"Subject"の値。オブジェクトストア内検索用キーとして使用される。
  * @param {String} newcate 更新後の"Category"の値
  * @param {String} newname 更新後の"Subject"の値
- * @param {String} newdesc 更新後の"Description"の値
+ * @param {String} newnote 更新後の"note"の値
 　* @return {Promise} putメソッドに対する成否
  */
-function updateItemtoDB(oldname, newcate, newname, newdesc){
+function updateItemtoDB(oldname, newcate, newname, newnote){
     var time = getTimeStamp();
-    var updateItem = { timeStamp: time, category: newcate, name: newname, description: newdesc };
+    var updateItem = { timeStamp: time, category: newcate, name: newname, note: newnote };
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction("items", "readwrite");
     var store = trans.objectStore("items");
@@ -111,7 +111,7 @@ function updateItemtoDB(oldname, newcate, newname, newdesc){
             updateItem = cursorResult.value;
             updateItem.category = newcate;
             updateItem.name = newname;
-            updateItem.description = newdesc;
+            updateItem.note = newnote;
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
                 deferred.resolve();
@@ -248,14 +248,14 @@ function addClip(clipName){
 	var store = trans.objectStore("items");
 	var index = store.index("name");
 	var keyRange = IDBKeyRange.only(name);
-	var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};	
+	var updateItem = { timeStamp: "", category: "", name: "", note: "", clip: ""};	
 	index.openCursor(keyRange).onsuccess = function(e) {
 		var result = e.target.result;
 		if(result === null || result === undefined){} else {};
 		updateItem = result.value;
         updateItem.category = result.value.category;
         updateItem.name = result.value.name;
-        updateItem.description = result.value.description;
+        updateItem.note = result.value.note;
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
@@ -305,14 +305,14 @@ function offClipfromDB(offClipName){
 	var store = trans.objectStore("items");
 	var index = store.index("name");
 	var keyRange = IDBKeyRange.only(name);
-	var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
+	var updateItem = { timeStamp: "", category: "", name: "", note: "", clip: ""};
 	index.openCursor(keyRange).onsuccess = function(e) {
 		var result = e.target.result;
 		if(result === null || result === undefined){} else {};
 		updateItem = result.value;
         updateItem.category = result.value.category;
         updateItem.name = result.value.name;
-        updateItem.description = result.value.description;
+        updateItem.note = result.value.note;
         updateItem.clip = "false";
   		var clipFlagFalse = store.put(updateItem);
 		clipFlagFalse.onsuccess = function(){
