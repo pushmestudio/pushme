@@ -335,7 +335,7 @@ $('#delItem').dialog({
 			$(this).dialog("close");
 			delItemFromDB().then(function(){
 				updateStoredDataForDeleteProcess(delname);
-				$('#deleteComplete').stop(true, true).fadeIn(250).delay(250).fadeOut(250);
+				$('#deleteComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			}, function(err){
           		$('#deleteFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			});
