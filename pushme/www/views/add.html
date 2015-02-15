@@ -23,7 +23,7 @@
 		<div id="menu" class="active">
 			<div class="pure-menu pure-menu-open">
 				<ul>
-					<li><a href="add.html"><img src="../img/menu_register.png"></a></li>
+					<li><a href="add.html"><img src="../img/menu_add.png"></a></li>
 					<li><a href="decide.html"><img src="../img/menu_decide.png"></a></li>
 					<li><a href="itemlist.html"><img src="../img/menu_list.png"></a></li>
 					<li><a href="support.html"><img src="../img/menu_feedbk.png"></a></li>
@@ -33,28 +33,28 @@
 	</div>
 	<div class="main">
 		<div class="header">
-			<h1>Add<img src="../img/mark_register.png"></h1>
+			<h1>Add<img src="../img/mark_add.png"></h1>
 			<a href="index.html"><img  class="home" src="../img/home.png"></a>
 		</div>
 		<div class="content">
 			<div id="notification">
 				<div id="openFail" class="fadeFail"><div>Connecting to Database failed. <br>Please try again.</div></div>
 				<div id="getItemFail" class="fadeFail"><div>Getting item failed. <br>Please try again.</div></div>
-				<div id="addComplete" class="fadeComp"><div>Registered!</div></div>
+				<div id="addComplete" class="fadeComp"><div>Added!</div></div>
 				<div id="addFailCuzAlreadyExists" class="fadeFail"><div>Subject is duplicated. <br>Change it and try again.</div></div>
 				<div id="addFailCuzEmptyElementExists" class="fadeFail"><div>'Category' and 'Subject' <br>are required.</div></div>
 			</div>
-			<form id="regForm" class="pure-form pure-form-aligned">
+			<form id="addForm" class="pure-form pure-form-aligned">
 				<div class="input-block">
 					<select id="options">
 					</select>
 					<p><input type="text" id="subject" placeholder="*Subject" /></p>
 					<p><textarea rows="10" cols="20" id="note" placeholder="Note"></textarea></p>
 					<div class="icon-area main">
-						<button type="button" id="confirmAdd" class="pure-button pure-button-primary"><img src="../img/register.png"></button>
+						<button type="button" id="confirmAdd" class="pure-button pure-button-primary"><img src="../img/add.png"></button>
 					</div>
 					<div class="message-area">
-						<div id="regConfirm" title="Register Confirm"></div>
+						<div id="addConfirm" title="Add Confirm"></div>
 					</div>
 				</div>
 			</form>

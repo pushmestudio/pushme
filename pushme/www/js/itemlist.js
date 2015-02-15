@@ -59,7 +59,7 @@ $('#itemlist').on("click", 'button[name="edititem"]', function(){
 	$('#newsubj').val(oldsubj);
 	$('#newcate').val(oldcate);
 	$('#newnote').val(oldnote);
-	$('#editRegItem').dialog("open");
+	$('#editItem').dialog("open");
 });
 
 /**
@@ -285,7 +285,7 @@ var delnote; 	//削除確認時に詳細を出力するための変数
 /**
  * 編集ボタン押下時に確認を促すダイアログ
  */
-$('#editRegItem').dialog({
+$('#editItem').dialog({
 	autoOpen: false,
 	resizable: false,
 	modal: true,

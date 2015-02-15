@@ -159,7 +159,7 @@ var makeCateOptionsHtmlExceptAll = function(originalData){
 /**
  * 本当に入力された項目で登録してよいか確認を促すダイアログ
  */
-$('#regConfirm').dialog({
+$('#addConfirm').dialog({
 	autoOpen: false,
 	resizable: false,
 	modal: true,
@@ -190,12 +190,12 @@ $('#confirmAdd').click(function(){
     if( cate == "" || subj == ""){
     	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
     } else {
-		var regHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
-		regHtml += '<tr><td>[Subject]:</td><td>'+ subj +'</td></tr>'
-		regHtml += '<tr><td>[Note]:</td><td>'+ note +'</td></tr></table>'
+		var addHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
+		addHtml += '<tr><td>[Subject]:</td><td>'+ subj +'</td></tr>'
+		addHtml += '<tr><td>[Note]:</td><td>'+ note +'</td></tr></table>'
 	
-		$('#regConfirm').html('Add the following item?<br><br>' + regHtml);
-		$('#regConfirm').dialog("open");
+		$('#addConfirm').html('Add the following item?<br><br>' + addHtml);
+		$('#addConfirm').dialog("open");
 	}
 });
 
