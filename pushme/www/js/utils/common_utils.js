@@ -38,7 +38,7 @@ function shareText(txt){
   if (ua.search(/Android/) != -1) {
     Bridge.shareText(formatForSend(txt));// Android native定義の機能を呼び出す
   } else {
-    $('#shareFail').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+    $('#shareFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
     console.warn("Nothing to do in shareText()");
   }
 }

@@ -169,8 +169,8 @@ $('#regConfirm').dialog({
 		"Done": function(){
 			$(this).dialog("close");
 			addItemtoDB(cate, subj, note).then(function(){
-				$('#addComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
-    			$('#subj').val("");
+				$('#addComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
+    			$('#subject').val("");
 				$('#note').val("");
 			}, function(err){
 				$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
@@ -188,7 +188,7 @@ $('#confirmAdd').click(function(){
     subj = $('#subject').val();
     note = $('#note').val();
     if( cate == "" || subj == ""){
-    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
     } else {
 		var regHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
 		regHtml += '<tr><td>[Subject]:</td><td>'+ subj +'</td></tr>'
