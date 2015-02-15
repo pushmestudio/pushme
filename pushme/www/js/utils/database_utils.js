@@ -243,7 +243,7 @@ function delItemFromDB(){
  * 2. 登録データ一覧画面でクリップされていない状態(=☆)の時に、クリップボタン押下で呼ばれる
  */
 function addClip(clipName){
-	var subj = clipName; //regitemslist.htmlにあるグローバル変数
+	var subj = clipName; //itemslist.htmlにあるグローバル変数
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
 	var index = store.index("subject");
