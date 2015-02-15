@@ -7,8 +7,8 @@ var storedData;
 
 // 登録する情報
 var cate;
-var name;
-var desc;
+var subj;
+var note;
 
 /**
  * DOMロード完了時に呼び出される。
@@ -168,10 +168,10 @@ $('#regConfirm').dialog({
 	buttons: {
 		"Done": function(){
 			$(this).dialog("close");
-			addItemtoDB(cate, name, desc).then(function(){
-				$('#addComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
-    			$('#name').val("");
-				$('#description').val("");
+			addItemtoDB(cate, subj, note).then(function(){
+				$('#addComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+    			$('#subj').val("");
+				$('#note').val("");
 			}, function(err){
 				$('#addFailCuzAlreadyExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			});
@@ -185,14 +185,14 @@ $('#regConfirm').dialog({
 // 必須項目が入力されているか確認する
 $('#confirmAdd').click(function(){
 	cate = $('#category').val();
-    name = $('#name').val();
-    desc = $('#description').val();
-    if( cate == "" || name == ""){
-    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
+    subj = $('#subject').val();
+    note = $('#note').val();
+    if( cate == "" || subj == ""){
+    	  $('#addFailCuzEmptyElementExists').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
     } else {
 		var regHtml = '<table><tr><td>[Category]:</td><td>'+ cate +'</td></tr>'
-		regHtml += '<tr><td>[Subject]:</td><td>'+ name +'</td></tr>'
-		regHtml += '<tr><td>[Description]:</td><td>'+ desc +'</td></tr></table>'
+		regHtml += '<tr><td>[Subject]:</td><td>'+ subj +'</td></tr>'
+		regHtml += '<tr><td>[Note]:</td><td>'+ note +'</td></tr></table>'
 	
 		$('#regConfirm').html('Add the following item?<br><br>' + regHtml);
 		$('#regConfirm').dialog("open");
