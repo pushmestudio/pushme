@@ -303,7 +303,7 @@ $('#editRegItem').dialog({
 				$(this).dialog("close");
 				updateItemtoDB(oldsubj, newcate, newsubj, newnote).then(function(){
 					updateStoredData(oldsubj, newcate, newsubj, newnote);
-	                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+	                $('#editComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 					$('#newsubj').val("");
 					$('#newcate').val("");
 					$('#newnote').val("");

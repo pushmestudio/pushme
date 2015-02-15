@@ -339,13 +339,13 @@ decideAjax = (function(){
 		return itemListHtml;
 	};
 
-	var extractAmount = 8;
+	var extractAmount = 4;
 	/**
 	* 抽出件数をセットする
 	* @param {String} cvalue 抽出件数としてセットしたい値 数値以外や1未満の場合は既定値でセットする
 	*/
 	var setExtractAmount = function(cvalue) {
-		var defaultAmount = 8;
+		var defaultAmount = 4;
 		var configValue = parseInt(cvalue);
 
 		if (typeof configValue === 'number' && configValue > 0) {
