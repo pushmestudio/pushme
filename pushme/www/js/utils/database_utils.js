@@ -5,7 +5,7 @@
 
 // database.jsが読み込まれたページでは、常にこのdb変数を元に操作を行う
 var db = null;
-var version = 3;	//注意: Versionが変わると、既存の保存データなどはクリアされます
+var version = 5;	//注意: Versionが変わると、既存の保存データなどはクリアされます
 
 /**
  * DBへの接続を行う。
@@ -42,18 +42,18 @@ function initDB(e){
     var store = db.createObjectStore("items", { keyPath: "timeStamp"});
     // define what data the objectStore will contain
     store.createIndex("category", "category", { unique: false});
-    store.createIndex("name", "name", { unique: true});
-    store.createIndex("description", "description", { unique: false});
+    store.createIndex("subject", "subject", { unique: true});
+    store.createIndex("note", "note", { unique: false});
     store.createIndex("clip","clip", {unique:false});
 
     // サンプルデータ作成
     var samples = [
-        {timeStamp: "00000000000001", category: "Sample-Action", name: "Do now!", description: "I do it now!", clip: "false"},
-        {timeStamp: "00000000000002", category: "Sample-Action", name: "Do later...", description: "I'll do it later...", clip: "false"},
-        {timeStamp: "00000000000003", category: "Sample-Dinner", name: "Japanese", description: "I feel like eating Japanese food.", clip: "false"},
-        {timeStamp: "00000000000004", category: "Sample-Dinner", name: "Italian", description: "I feel like eating Italian food.", clip: "false"},
-        {timeStamp: "00000000000005", category: "Sample-Dinner", name: "French", description: "I feel like eating French food.", clip: "false"},
-        {timeStamp: "00000000000006", category: "Sample-Dinner", name: "Chinese", description: "I feel like eating Chinese food.", clip: "false"},
+        {timeStamp: "00000000000001", category: "Sample-Action", subject: "Do now!", note: "I do it now!", clip: "false"},
+        {timeStamp: "00000000000002", category: "Sample-Action", subject: "Do later...", note: "I'll do it later...", clip: "false"},
+        {timeStamp: "00000000000003", category: "Sample-Dinner", subject: "Japanese", note: "I feel like eating Japanese food.", clip: "false"},
+        {timeStamp: "00000000000004", category: "Sample-Dinner", subject: "Italian", note: "I feel like eating Italian food.", clip: "false"},
+        {timeStamp: "00000000000005", category: "Sample-Dinner", subject: "French", note: "I feel like eating French food.", clip: "false"},
+        {timeStamp: "00000000000006", category: "Sample-Dinner", subject: "Chinese", note: "I feel like eating Chinese food.", clip: "false"},
 
     ];
     for(var i = 0; i < samples.length; i++){
@@ -64,13 +64,13 @@ function initDB(e){
 /**
  * オブジェクトストアへ新しい項目を追加する。
  * @param {String} cate 新しく登録する項目のうち、"Category"の値
- * @param {String} name 新しく登録する項目のうち、"Subject"の値
- * @param {String} desc 新しく登録する項目のうち、"Description"の値
+ * @param {String} subj 新しく登録する項目のうち、"Subject"の値
+ * @param {String} note 新しく登録する項目のうち、"note"の値
 　* @return {Promise} addメソッドに対する成否
  */
-function addItemtoDB(cate, name, desc){
+function addItemtoDB(cate, subj, note){
     var time = getTimeStamp();
-    var newItem = { timeStamp: time, category: cate, name: name, description: desc, clip: "false" };
+    var newItem = { timeStamp: time, category: cate, subject: subj, note: note, clip: "false" };
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction("items", "readwrite");
     var store = trans.objectStore("items");
@@ -88,30 +88,30 @@ function addItemtoDB(cate, name, desc){
 
 /**
  * オブジェクトストアに登録されている項目を更新する。
- * @param {String} oldname 更新前の"Subject"の値。オブジェクトストア内検索用キーとして使用される。
+ * @param {String} oldsubj 更新前の"Subject"の値。オブジェクトストア内検索用キーとして使用される。
  * @param {String} newcate 更新後の"Category"の値
- * @param {String} newname 更新後の"Subject"の値
- * @param {String} newdesc 更新後の"Description"の値
+ * @param {String} newsubj 更新後の"Subject"の値
+ * @param {String} newnote 更新後の"note"の値
 　* @return {Promise} putメソッドに対する成否
  */
-function updateItemtoDB(oldname, newcate, newname, newdesc){
+function updateItemtoDB(oldsubj, newcate, newsubj, newnote){
     var time = getTimeStamp();
-    var updateItem = { timeStamp: time, category: newcate, name: newname, description: newdesc };
+    var updateItem = { timeStamp: time, category: newcate, subject: newsubj, note: newnote };
     // Open a read/write db transaction, ready for adding the data
     var trans = db.transaction("items", "readwrite");
     var store = trans.objectStore("items");
     var deferred = new jQuery.Deferred();
     // 名前が一致するデータを取得する
-    var range = IDBKeyRange.only(oldname);
-    var index = store.index("name");
+    var range = IDBKeyRange.only(oldsubj);
+    var index = store.index("subject");
     index.openCursor(range).onsuccess = function(e){
         var cursorResult = e.target.result;
         if(cursorResult === null || cursorResult === undefined){
         } else {
             updateItem = cursorResult.value;
             updateItem.category = newcate;
-            updateItem.name = newname;
-            updateItem.description = newdesc;
+            updateItem.subject = newsubj;
+            updateItem.note = newnote;
             var objectStoreRequest = store.put(updateItem);
             objectStoreRequest.onsuccess = function(e){
                 deferred.resolve();
@@ -183,17 +183,17 @@ function getCategorizedItemsfromDB(query){
 
 /**
  * オブジェクトストア内にある、特定の名前をもつデータのみを取得する。※現在未使用
- * @param {String} name フィルターを行う"Subject"の値
+ * @param {String} subj フィルターを行う"Subject"の値
 　* @return {Promise(Object)} openCursorメソッドに対する成否と、指定した名前のデータ
  */
-function getUniqueItemfromDB(name){
+function getUniqueItemfromDB(subj){
     var trans = db.transaction("items", "readwrite");
     var store = trans.objectStore("items");
     var item;
     var deferred = new jQuery.Deferred();
     // 名前が一致するデータを取得する
-    var range = IDBKeyRange.only(name);
-    var index = store.index("name");
+    var range = IDBKeyRange.only(subj);
+    var index = store.index("subject");
     index.openCursor(range).onsuccess = function(e){
         var cursorResult = e.target.result;
         if(cursorResult === null || cursorResult === undefined){
@@ -210,15 +210,15 @@ function getUniqueItemfromDB(name){
 
 /**
  * DBからアイテムを削除するメソッド：
- * itemlist.jsから呼ばれ、delname(=登録データ一覧画面の削除ボタンが押下されたアイテム名)のアイテムをDBから削除する
+ * itemlist.jsから呼ばれ、delsubj(=登録データ一覧画面の削除ボタンが押下されたアイテム名)のアイテムをDBから削除する
  */
 function delItemFromDB(){
-	var name = delname; //itemlist.jsで定義されているグローバル変数
+	var subj = delsubj; //itemlist.jsで定義されているグローバル変数
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
     var deferred = new jQuery.Deferred();
-	var index = store.index("name");
-	var keyRange = IDBKeyRange.only(name);
+	var index = store.index("subject");
+	var keyRange = IDBKeyRange.only(subj);
 	index.openCursor(keyRange).onsuccess = function(e) {
 		var result = e.target.result;
 		if(result === null || result === undefined){
@@ -243,19 +243,19 @@ function delItemFromDB(){
  * 2. 登録データ一覧画面でクリップされていない状態(=☆)の時に、クリップボタン押下で呼ばれる
  */
 function addClip(clipName){
-	var name = clipName; //regitemslist.htmlにあるグローバル変数
+	var subj = clipName; //regitemslist.htmlにあるグローバル変数
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
-	var index = store.index("name");
-	var keyRange = IDBKeyRange.only(name);
-	var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};	
+	var index = store.index("subject");
+	var keyRange = IDBKeyRange.only(subj);
+	var updateItem = { timeStamp: "", category: "", subject: "", note: "", clip: ""};	
 	index.openCursor(keyRange).onsuccess = function(e) {
 		var result = e.target.result;
 		if(result === null || result === undefined){} else {};
 		updateItem = result.value;
         updateItem.category = result.value.category;
-        updateItem.name = result.value.name;
-        updateItem.description = result.value.description;
+        updateItem.subject = result.value.subject;
+        updateItem.note = result.value.note;
         updateItem.clip = "true";			
 		var clipFlagTrue = store.put(updateItem);
 		clipFlagTrue.onsuccess = function(){
@@ -300,19 +300,19 @@ function getClippedItemsfromDB(){
  * 登録データ一覧画面でクリップされている状態(=★)の時に、クリップボタン押下で呼ばれる
  */
 function offClipfromDB(offClipName){
-	var name = offClipName;
+	var subj = offClipName;
 	var trans = db.transaction(["items"], "readwrite");
 	var store = trans.objectStore("items");
-	var index = store.index("name");
-	var keyRange = IDBKeyRange.only(name);
-	var updateItem = { timeStamp: "", category: "", name: "", description: "", clip: ""};
+	var index = store.index("subject");
+	var keyRange = IDBKeyRange.only(subj);
+	var updateItem = { timeStamp: "", category: "", subject: "", note: "", clip: ""};
 	index.openCursor(keyRange).onsuccess = function(e) {
 		var result = e.target.result;
 		if(result === null || result === undefined){} else {};
 		updateItem = result.value;
         updateItem.category = result.value.category;
-        updateItem.name = result.value.name;
-        updateItem.description = result.value.description;
+        updateItem.subject = result.value.subject;
+        updateItem.note = result.value.note;
         updateItem.clip = "false";
   		var clipFlagFalse = store.put(updateItem);
 		clipFlagFalse.onsuccess = function(){

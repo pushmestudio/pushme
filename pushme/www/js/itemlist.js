@@ -53,12 +53,12 @@ $(function(){
  * 編集が押されたときの処理を記述する
  */
 $('#itemlist').on("click", 'button[name="edititem"]', function(){
- 	oldname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+ 	oldsubj = $(this).parents('div[name="card"]').children('div[name="subj"]').text();
 	oldcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
-	olddesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
-	$('#newname').val(oldname);
+	oldnote = $(this).parents('div[name="card"]').next().find('span[name="note"]').text();
+	$('#newsubj').val(oldsubj);
 	$('#newcate').val(oldcate);
-	$('#newdesc').val(olddesc);
+	$('#newnote').val(oldnote);
 	$('#editRegItem').dialog("open");
 });
 
@@ -67,10 +67,10 @@ $('#itemlist').on("click", 'button[name="edititem"]', function(){
  * 削除時に必要な削除対象の名前を抽出し、削除操作の確認ダイアログを呼出す
  */
 $('#itemlist').on("click", 'button[name="deleteitem"]', function(){
-	delname = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+	delsubj = $(this).parents('div[name="card"]').children('div[name="subj"]').text();
 	delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
-	deldesc = $(this).parents('div[name="card"]').next().find('span[name="desc"]').text();
-	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delname + "<br>[Description]: " + deldesc);
+	delnote = $(this).parents('div[name="card"]').next().find('span[name="note"]').text();
+	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delsubj + "<br>[Note]: " + delnote);
 	$('#delItem').dialog("open");
 });
 
@@ -102,7 +102,7 @@ var clipOnRegitemlist = function(){
 	$('button[value="UnClip"]').click(function(){
 			$('#'+$(this).attr("id")).css("display","none");//UnClipボタン-->非表示に変更
 			$('#'+$(this).next().attr("id")).css("display","inline");//Clipボタン-->表示に変更
-			var clip2false = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+			var clip2false = $(this).parents('div[name="card"]').children('div[name="subj"]').text();
 			offClipfromDB(clip2false);//DBのclip属性をfalseにするメソッド呼出(database.js)
 			updateStoredDataForClipOnRegitemlist(clip2false, "false");//itemlist更新
 	});
@@ -110,7 +110,7 @@ var clipOnRegitemlist = function(){
 	$('button[value="Clip"]').click(function(){
 			$('#'+$(this).attr("id")).css("display","none");//Clipボタン-->非表示に変更
 			$('#'+$(this).prev().attr("id")).css("display","inline");//UnClipボタン-->表示に変更
-			var clip2true = $(this).parents('div[name="card"]').children('div[name="name"]').text();
+			var clip2true = $(this).parents('div[name="card"]').children('div[name="subj"]').text();
 			addClip(clip2true);//DBのclip属性をtrueにするメソッド呼出(database.js)
 			updateStoredDataForClipOnRegitemlist(clip2true, "true");//itemlist更新
 	});
@@ -128,9 +128,9 @@ var makeShownItemListHtml = function(extData){
 		itemListHtml += '<div class="pure-g">';
 		itemListHtml += '<span class="accordion">';
 		for(var i = 0, n = extData.length; i < n; i++){
-			var name = extData[i].name;
+			var subj = extData[i].subject;
 			var cate = extData[i].category;
-			var desc = extData[i].description;
+			var note = extData[i].note;
 			clipFlag = extData[i].clip;
 			itemListHtml += '<div name="arrow" class="pure-u-1">';
 			itemListHtml += '<div name="card">';
@@ -138,7 +138,7 @@ var makeShownItemListHtml = function(extData){
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
 			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
 			itemListHtml += '</div>';
-			itemListHtml += '<div name="name"><label for="item' + i + '">' + name + '</label></div>';
+			itemListHtml += '<div name="subj"><label for="item' + i + '">' + subj + '</label></div>';
 			itemListHtml += '<div name="buttons">';
 			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
 			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
@@ -146,7 +146,7 @@ var makeShownItemListHtml = function(extData){
 			itemListHtml += '</div>';
 			itemListHtml += '</div><ul>';
 			itemListHtml += '<li>[<span name="cate">' + cate + '</span>]</li>';
-			itemListHtml += '<li><span name="desc">' + desc + '</span></li></ul></div>';
+			itemListHtml += '<li><span name="note">' + note + '</span></li></ul></div>';
 		}
 		itemListHtml += '</span></div></div>';
 		itemListHtml += "</form>";
@@ -159,17 +159,17 @@ var makeShownItemListHtml = function(extData){
 /**
  * sotredDataの中身を更新(再取得)する
  * 更新するのはメモリ上に保存されているデータである
- * @param {String} oldname 編集前の名前
+ * @param {String} oldsubj 編集前の名前
  * @param {String} newcate 編集後のカテゴリ
- * @param {String} newname 編集後の名前
- * @param {String} newdesc 編集後の説明
+ * @param {String} newsubj 編集後の名前
+ * @param {String} newnote 編集後の説明
  */
-var updateStoredData = function(oldname, newcate, newname, newdesc){
+var updateStoredData = function(oldsubj, newcate, newsubj, newnote){
 	for(var i = 0, n = storedData.length; i < n; i++){
-		if(oldname === storedData[i].name){
+		if(oldsubj === storedData[i].subject){
 			storedData[i].category = newcate;
-			storedData[i].name = newname;
-			storedData[i].description = newdesc;
+			storedData[i].subject = newsubj;
+			storedData[i].note = newnote;
 		}
 	}
 	categorizedData = extractByCate(storedData, newcate);
@@ -208,16 +208,16 @@ var updateStoredData = function(oldname, newcate, newname, newdesc){
  * 削除後の基本動作：削除した際のカテゴリのアイテムを再描画
  * 削除後アイテム数が０の場合の動作：カテゴリALLのアイテムを再描画
  */
-var updateStoredDataForDeleteProcess = function(delname){
+var updateStoredDataForDeleteProcess = function(delsubj){
 	var check, targetCate;
 	for(var i = 0, n = storedData.length; i < n; i++){
-		if(delname === storedData[i].name){
+		if(delsubj === storedData[i].subject){
 			check = i;
 			targetCate = storedData[i].category;
 		}
 	}
 	storedData.some(function(v,check){
-		if (v.name==delname){
+		if (v.subject==delsubj){
 			storedData.splice(check,1);
 		}
 	});
@@ -263,7 +263,7 @@ var reloadqueryIdChangeFunc = function(){
  */
 var updateStoredDataForClipOnRegitemlist = function(clipNameOfFlagChanged,clipFlagChanged){
 	for(var i = 0, n = storedData.length; i < n; i++){
-		if(clipNameOfFlagChanged === storedData[i].name){
+		if(clipNameOfFlagChanged === storedData[i].subject){
 			storedData[i].clip = clipFlagChanged;
 		}
 	}
@@ -279,8 +279,8 @@ var updateStoredDataForClipOnRegitemlist = function(clipNameOfFlagChanged,clipFl
 };
 
 var delcate;	//削除確認時にカテゴリ名を出力するための変数
-var delname;	//削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
-var deldesc; 	//削除確認時に詳細を出力するための変数
+var delsubj;	//削除対象を判定するための変数、かつ削除確認時にアイテム名を出力するための変数
+var delnote; 	//削除確認時に詳細を出力するための変数
 
 /**
  * 編集ボタン押下時に確認を促すダイアログ
@@ -293,20 +293,20 @@ $('#editRegItem').dialog({
 	width: 300,
 	buttons: {
 		"Modify": function(){
-			var newname = $('#newname').val();
+			var newsubj = $('#newsubj').val();
 			var newcate = $('#newcate').val();
-			var newdesc = $('#newdesc').val();
-			if( newname === "" || newcate === ""){
+			var newnote = $('#newnote').val();
+			if( newsubj === "" || newcate === ""){
 				$(this).dialog("close");
 				$('#editFailCuzEmptyElementExists').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			} else {
 				$(this).dialog("close");
-				updateItemtoDB(oldname, newcate, newname, newdesc).then(function(){
-					updateStoredData(oldname, newcate, newname, newdesc);
-	                $('#editComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
-					$('#newname').val("");
+				updateItemtoDB(oldsubj, newcate, newsubj, newnote).then(function(){
+					updateStoredData(oldsubj, newcate, newsubj, newnote);
+	                $('#editComplete').stop(true, true).fadeIn(500).delay(2000).fadeOut(500);
+					$('#newsubj').val("");
 					$('#newcate').val("");
-					$('#newdesc').val("");
+					$('#newnote').val("");
 
 				}, function(err){
           			$('#editFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
@@ -334,7 +334,7 @@ $('#delItem').dialog({
 		"Delete": function(){
 			$(this).dialog("close");
 			delItemFromDB().then(function(){
-				updateStoredDataForDeleteProcess(delname);
+				updateStoredDataForDeleteProcess(delsubj);
 				$('#deleteComplete').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
 			}, function(err){
           		$('#deleteFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
