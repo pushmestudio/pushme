@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: decide.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: decide.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileOverview データを取得して必要な件数を抽出し、HTML出力します。
  * @copyright PushMe Studio 2015
  */
@@ -201,8 +229,8 @@ decideAjax = (function(){
 				decision = "";
 				choice = $(itemlist.get(hitCardNo)).children('div[name="subj"]').text();
 
-				decision += '<form id="addclip" action="/addclip" method="post" class="pure-form">';
-				decision += '<input type="hidden" id="id" name="subj" value="' + choice + '">';
+				decision += '&lt;form id="addclip" action="/addclip" method="post" class="pure-form">';
+				decision += '&lt;input type="hidden" id="id" name="subj" value="' + choice + '">';
 				
 				$('#decision').html(decision);
 				$('#clip').prop("disabled", false);
@@ -261,10 +289,10 @@ decideAjax = (function(){
 		if(!decideAnimtion){
 			var allItems = $('#itemlist').find('input[type="checkbox"]').length;
 			var checkedItems = $('#itemlist').find('input[type="checkbox"]').filter(":checked").length;
-			if(checkedItems <= 0){//チェック数=0：絞込、決定不可
+			if(checkedItems &lt;= 0){//チェック数=0：絞込、決定不可
 				$('#narrow').prop("disabled", true);
 				$('#decide').prop("disabled", true);
-			}else if(checkedItems > 0 && checkedItems < allItems){//カード数>チェック数>0：絞込、決定可
+			}else if(checkedItems > 0 &amp;&amp; checkedItems &lt; allItems){//カード数>チェック数>0：絞込、決定可
 				$('#narrow').prop("disabled", false);
 				$('#decide').prop("disabled", false);
 			}else if(checkedItems == allItems){//カード数=チェック数：絞込不可、決定可
@@ -288,12 +316,12 @@ decideAjax = (function(){
 		var extractedData = new Array();
 		var originalDataLength = originalData.length;
 
-		if(originalDataLength <= extractAmount){
+		if(originalDataLength &lt;= extractAmount){
 			extractedData = originalData; // 実データ数が抽出したい数以下のため抽出する必要がない
 
 		} else {
 			var extractNumberArray = new Array();
-			for(var i = 0; i < extractAmount; i++){
+			for(var i = 0; i &lt; extractAmount; i++){
 				var candidateNumber = Math.round(Math.random() * (originalDataLength - 1));// Lengthと同じ値のインデックスだと配列の長さを超える
 				if(extractNumberArray.indexOf(candidateNumber) != -1){
 					i--;//今回の回をなかったことにしてもう一度やり直させる
@@ -314,27 +342,27 @@ decideAjax = (function(){
 	var makeItemListHtml = function(extData){
 		var itemListHtml = "";
 		if(extData.length > 0){
-			itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
-			itemListHtml += '<div class="pure-g">';
-			itemListHtml += '<span class="accordion">';
+			itemListHtml += '&lt;form name="itemlist" class="pure-form pure-form-aligned">';
+			itemListHtml += '&lt;div class="pure-g">';
+			itemListHtml += '&lt;span class="accordion">';
 
-			for(var i = 0, n = extData.length; i < n; i++){
+			for(var i = 0, n = extData.length; i &lt; n; i++){
 				var subj = extData[i].subject;
 				var cate = extData[i].category;
 				var note = extData[i].note;
 
-				itemListHtml += '<div name="arrow" class="pure-u-1">';
-				itemListHtml += '<div name="card"><input type="checkbox" name="item" id="item' + i + '" checked="checked">';
-				itemListHtml += '<div name="subj" class="subject-decide"><label for="item' + i + '">' + subj + '</label></div>';
-				itemListHtml += '<div name="buttons"><button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button></div></div>';
-				itemListHtml += '<ul>';
-				itemListHtml += '<li>[' + cate + ']</li>';
-				itemListHtml += '<li>' + note + '</li></ul></div>';
+				itemListHtml += '&lt;div name="arrow" class="pure-u-1">';
+				itemListHtml += '&lt;div name="card">&lt;input type="checkbox" name="item" id="item' + i + '" checked="checked">';
+				itemListHtml += '&lt;div name="subj" class="subject-decide">&lt;label for="item' + i + '">' + subj + '&lt;/label>&lt;/div>';
+				itemListHtml += '&lt;div name="buttons">&lt;button type="button" name="detail" class="pure-button">&lt;img src="../img/accordion.png">&lt;/button>&lt;/div>&lt;/div>';
+				itemListHtml += '&lt;ul>';
+				itemListHtml += '&lt;li>[' + cate + ']&lt;/li>';
+				itemListHtml += '&lt;li>' + note + '&lt;/li>&lt;/ul>&lt;/div>';
 			}
-			itemListHtml += '</span></div></div>';
-			itemListHtml += "</form>";
+			itemListHtml += '&lt;/span>&lt;/div>&lt;/div>';
+			itemListHtml += "&lt;/form>";
 		} else {
-			itemListHtml = '<p name="itemlist">Results not found</p>';
+			itemListHtml = '&lt;p name="itemlist">Results not found&lt;/p>';
 		}
 		return itemListHtml;
 	};
@@ -348,7 +376,7 @@ decideAjax = (function(){
 		var defaultAmount = 4;
 		var configValue = parseInt(cvalue);
 
-		if (typeof configValue === 'number' && configValue > 0) {
+		if (typeof configValue === 'number' &amp;&amp; configValue > 0) {
 			extractAmount = Math.ceil(configValue); // 小数点を受け取ってしまった場合の対処
 		} else {
 			extractAmount = defaultAmount;
@@ -364,3 +392,26 @@ decideAjax = (function(){
 	}
 
 })();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#addClip">addClip</a></li><li><a href="global.html#addItemtoDB">addItemtoDB</a></li><li><a href="global.html#clipOnRegitemlist">clipOnRegitemlist</a></li><li><a href="global.html#delItemFromDB">delItemFromDB</a></li><li><a href="global.html#extractByCate">extractByCate</a></li><li><a href="global.html#fixAdFooter">fixAdFooter</a></li><li><a href="global.html#formatForSend">formatForSend</a></li><li><a href="global.html#getAllItemsfromDB">getAllItemsfromDB</a></li><li><a href="global.html#getCategorizedItemsfromDB">getCategorizedItemsfromDB</a></li><li><a href="global.html#getClippedItemsfromDB">getClippedItemsfromDB</a></li><li><a href="global.html#getTimeStamp">getTimeStamp</a></li><li><a href="global.html#getUniqueItemfromDB">getUniqueItemfromDB</a></li><li><a href="global.html#initDB">initDB</a></li><li><a href="global.html#makeCateOptionsHtml">makeCateOptionsHtml</a></li><li><a href="global.html#makeCateOptionsHtmlExceptAll">makeCateOptionsHtmlExceptAll</a></li><li><a href="global.html#makeShownItemListHtml">makeShownItemListHtml</a></li><li><a href="global.html#offClipfromDB">offClipfromDB</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#reloadqueryIdChangeFunc">reloadqueryIdChangeFunc</a></li><li><a href="global.html#shareText">shareText</a></li><li><a href="global.html#updateItemtoDB">updateItemtoDB</a></li><li><a href="global.html#updateStoredData">updateStoredData</a></li><li><a href="global.html#updateStoredDataForClipOnRegitemlist">updateStoredDataForClipOnRegitemlist</a></li><li><a href="global.html#updateStoredDataForDeleteProcess">updateStoredDataForDeleteProcess</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Mon Feb 16 2015 10:16:01 GMT+0900 (東京 (標準時))
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -38,7 +38,7 @@ function shareText(txt){
   if (ua.search(/Android/) != -1) {
     Bridge.shareText(formatForSend(txt));// Android native定義の機能を呼び出す
   } else {
-    alert("Sorry, your application is not supported.");
+    $('#shareFail').stop(true, true).fadeIn(250).delay(1500).fadeOut(250);
     console.warn("Nothing to do in shareText()");
   }
 }
@@ -68,4 +68,46 @@ function getTimeStamp(){
     var sec = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
     var timeStamp = "" + year + month + day + hour + min +sec;
     return timeStamp;
+}
+
+/**
+ * 受け取ったデータ及びクエリに基づき、クエリの内容に合致したデータを抽出する。
+ * クエリが空だった場合には受け取ったデータをそのまま返す。
+ * @param {String|Array} originalData 抽出対象となる元データ
+ * @param {String} [query] 抽出条件となるカテゴリを示すクエリ
+ * @return {String|Array} クエリの条件に合致したデータ
+ */
+function extractByCate(originalData, query){
+  var categorisedData = new Array();
+  if(typeof query === "undefined" || query.length <= 0){
+    categorisedData = originalData;
+  } else {
+    for(var i = 0, n = originalData.length; i < n; i++){
+      if(query === originalData[i].category){
+        categorisedData.push(originalData[i]);
+      }
+    }
+  }
+  return categorisedData;
+};
+
+/**
+ * 受け取ったデータから重複のないカテゴリ一覧抽出する。
+ * 抽出したカテゴリ一覧はhtmlのselectのoptionとして書き出す。
+ * @param {String|Array} originalData カテゴリ抽出対象となる元データ
+ * @return {String} 抽出したカテゴリから構成される<option>タグ
+ */
+function makeCateOptionsHtml(originalData){
+  var cateArray = new Array();
+  var cateOption = '<option value="">ALL</option>';
+    for(var i = 0, n = originalData.length; i < n; i++){
+      var cate = originalData[i].category;
+      if(cateArray.indexOf(cate) != -1){
+        continue;//既にカテゴリ内にあるので追加しない
+      } else {
+        cateArray.push(cate); // カテゴリ一覧にカテゴリを追加
+        cateOption += '<option value="' + cate + '" name="' + cate + '">' + cate + '</option>';
+      }
+    }
+  return cateOption;
 }

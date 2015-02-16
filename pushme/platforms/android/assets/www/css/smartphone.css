@@ -37,12 +37,12 @@ div[name="card"]{
 }
 
 input[name="item"],
-div[name="name"],
+div[name="subj"],
 div[name="buttons"] {
 	display:inline-block;
 }
 
-div[name="name"]{
+div[name="subj"]{
 	padding: 0 .5em 0px .5em;
 }
 

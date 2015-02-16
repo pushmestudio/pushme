@@ -100,6 +100,454 @@
             
 <dt>
     
+        <h4 class="name" id="addClip"><span class="type-signature"></span>addClip<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        クリップを保存するメソッド (DBのclip属性をtrueに変更する)
+1. 選択時の最終決定時にクリップボタン押下で呼ばれる
+2. 登録データ一覧画面でクリップされていない状態(=☆)の時に、クリップボタン押下で呼ばれる
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line245">line 245</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="addItemtoDB"><span class="type-signature"></span>addItemtoDB<span class="signature">(cate, subj, note)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        オブジェクトストアへ新しい項目を追加する。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">新しく登録する項目のうち、"Category"の値</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">新しく登録する項目のうち、"Subject"の値</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">新しく登録する項目のうち、"note"の値</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    addメソッドに対する成否
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="clipOnRegitemlist"><span class="type-signature"></span>clipOnRegitemlist<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★<-->☆)を切替えるメソッド
+[DB操作] ControllerとしてDBのclip属性を変更するメソッド呼出しを行うメソッド
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itemlist.js.html">itemlist.js</a>, <a href="itemlist.js.html#line89">line 89</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="delItemFromDB"><span class="type-signature"></span>delItemFromDB<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        DBからアイテムを削除するメソッド：
+itemlist.jsから呼ばれ、delsubj(=登録データ一覧画面の削除ボタンが押下されたアイテム名)のアイテムをDBから削除する
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line215">line 215</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
         <h4 class="name" id="extractByCate"><span class="type-signature"></span>extractByCate<span class="signature">(originalData, query<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String|Array}</span></h4>
 
         
@@ -246,7 +694,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="decideAjax.js.html">decideAjax.js</a>, <a href="decideAjax.js.html#line216">line 216</a>
+        <a href="utils_common_utils.js.html">utils/common_utils.js</a>, <a href="utils_common_utils.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -294,6 +742,88 @@
 </dl>
 
         
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="fixAdFooter"><span class="type-signature"></span>fixAdFooter<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        android端末向けに、position fixedではキーボードの上に来てしまう広告位置を修正する
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="add.js.html">add.js</a>, <a href="add.js.html#line206">line 206</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 </dd>
@@ -401,7 +931,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="share.js.html">share.js</a>, <a href="share.js.html#line19">line 19</a>
+        <a href="utils_common_utils.js.html">utils/common_utils.js</a>, <a href="utils_common_utils.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -446,6 +976,702 @@
 </dl>
 
         
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="getAllItemsfromDB"><span class="type-signature"></span>getAllItemsfromDB<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        オブジェクトストア内のすべての項目を取得する。
+接続の成功時、DBオブジェクトをグローバル変数dbに格納し、以降同じページ内では同変数を使用する。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line135">line 135</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="getCategorizedItemsfromDB"><span class="type-signature"></span>getCategorizedItemsfromDB<span class="signature">(query)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        オブジェクトストア内にある、特定のカテゴリをもつデータのみを取得する。※現在未使用
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">フィルターを行う"Category"の値</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line161">line 161</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="getClippedItemsfromDB"><span class="type-signature"></span>getClippedItemsfromDB<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        【未使用メソッド】
+クリップ一覧を表示する際に、clip属性がtrueのデータのみ抽出するメソッド
+クリップフィルタリングで利用可能なので、このまま置いておく。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line274">line 274</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="getTimeStamp"><span class="type-signature"></span>getTimeStamp<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        呼び出された時点の時刻を取得する。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_common_utils.js.html">utils/common_utils.js</a>, <a href="utils_common_utils.js.html#line61">line 61</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    yyyymmddhhnnssの形式で表現される時刻
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="getUniqueItemfromDB"><span class="type-signature"></span>getUniqueItemfromDB<span class="signature">(subj)</span><span class="type-signature"> &rarr; {Promise(Object)}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        オブジェクトストア内にある、特定の名前をもつデータのみを取得する。※現在未使用
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>subj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">フィルターを行う"Subject"の値</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line189">line 189</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    openCursorメソッドに対する成否と、指定した名前のデータ
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise(Object)</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="initDB"><span class="type-signature"></span>initDB<span class="signature">(e)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        upgradeneededイベントの発生時に呼び出され、DBの初期化を行う。
+DBの作成とオブジェクトストアの作成、インデックスの作成を行う。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">データベースのオープン要求に対する結果のイベント</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 </dd>
@@ -557,7 +1783,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="decideAjax.js.html">decideAjax.js</a>, <a href="decideAjax.js.html#line238">line 238</a>
+        <a href="utils_common_utils.js.html">utils/common_utils.js</a>, <a href="utils_common_utils.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -610,7 +1836,7 @@
             
 <dt>
     
-        <h4 class="name" id="makeItemListHtml"><span class="type-signature"></span>makeItemListHtml<span class="signature">(extData)</span><span class="type-signature"> &rarr; {String}</span></h4>
+        <h4 class="name" id="makeCateOptionsHtmlExceptAll"><span class="type-signature"></span>makeCateOptionsHtmlExceptAll<span class="signature">(originalData)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
         
     
@@ -619,7 +1845,163 @@
 
     
     <div class="description">
-        受け取ったデータからhtml上にリストを作成する
+        受け取ったデータから重複のないカテゴリ一覧抽出する。
+抽出したカテゴリ一覧はhtmlのselectのoptionとして書き出す。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>originalData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">カテゴリ抽出対象となる元データ</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="add.js.html">add.js</a>, <a href="add.js.html#line144">line 144</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    抽出したカテゴリから構成される<option>タグ
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="makeShownItemListHtml"><span class="type-signature"></span>makeShownItemListHtml<span class="signature">(extData)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        受け取ったデータからhtml上に、一覧表示で使用するリストを作成する
     </div>
     
 
@@ -712,7 +2094,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="decideAjax.js.html">decideAjax.js</a>, <a href="decideAjax.js.html#line258">line 258</a>
+        <a href="itemlist.js.html">itemlist.js</a>, <a href="itemlist.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -765,7 +2147,7 @@
             
 <dt>
     
-        <h4 class="name" id="randomExtract"><span class="type-signature"></span>randomExtract<span class="signature">(originalData, extractAmount)</span><span class="type-signature"> &rarr; {String|Array}</span></h4>
+        <h4 class="name" id="offClipfromDB"><span class="type-signature"></span>offClipfromDB<span class="signature">()</span><span class="type-signature"></span></h4>
 
         
     
@@ -774,8 +2156,8 @@
 
     
     <div class="description">
-        受け取ったデータ及びデータ抽出件数に基づき、ランダムにデータを抽出する。
-データが件数以下の場合は全件出力する。この場合にはランダムな並び替えは実施しない。
+        クリップを削除するメソッド (DBのclip属性をfalseに変更する)
+登録データ一覧画面でクリップされている状態(=★)の時に、クリップボタン押下で呼ばれる
     </div>
     
 
@@ -785,80 +2167,6 @@
 
     
 
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>originalData</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">抽出対象となる元データ</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>extractAmount</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">抽出件数</td>
-        </tr>
-
-    
-    </tbody>
-</table>
     
 
     
@@ -891,7 +2199,90 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="decideAjax.js.html">decideAjax.js</a>, <a href="decideAjax.js.html#line178">line 178</a>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line302">line 302</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="openDB"><span class="type-signature"></span>openDB<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        DBへの接続を行う。
+接続の成功時、DBオブジェクトをグローバル変数dbに格納し、以降同じページ内では同変数を使用する。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -918,7 +2309,7 @@
     
             
 <div class="param-desc">
-    データから指定条件に基づいた抽出
+    openメソッドに対する成否
 </div>
 
 
@@ -929,16 +2320,95 @@
     </dt>
     <dd>
         
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Array</span>
+<span class="param-type">Promise</span>
 
 
     </dd>
 </dl>
 
         
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="reloadqueryIdChangeFunc"><span class="type-signature"></span>reloadqueryIdChangeFunc<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        [画面操作] プルダウンメニューのカテゴリを操作した際に、自動的にカテゴリに合致したアイテムを再描画するメソッド
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itemlist.js.html">itemlist.js</a>, <a href="itemlist.js.html#line248">line 248</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 </dd>
@@ -958,6 +2428,7 @@
     <div class="description">
         他のアプリにインテントを渡しデータを共有する。
 共有のためのデータの整形も行う。
+BridgeはAndroid(Java)で定義している
     </div>
     
 
@@ -1047,7 +2518,665 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="share.js.html">share.js</a>, <a href="share.js.html#line10">line 10</a>
+        <a href="utils_common_utils.js.html">utils/common_utils.js</a>, <a href="utils_common_utils.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="updateItemtoDB"><span class="type-signature"></span>updateItemtoDB<span class="signature">(oldsubj, newcate, newsubj, newnote)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        オブジェクトストアに登録されている項目を更新する。
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>oldsubj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">更新前の"Subject"の値。オブジェクトストア内検索用キーとして使用される。</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newcate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">更新後の"Category"の値</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newsubj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">更新後の"Subject"の値</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newnote</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">更新後の"note"の値</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_database_utils.js.html">utils/database_utils.js</a>, <a href="utils_database_utils.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    putメソッドに対する成否
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="updateStoredData"><span class="type-signature"></span>updateStoredData<span class="signature">(oldsubj, newcate, newsubj, newnote)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        sotredDataの中身を更新(再取得)する
+更新するのはメモリ上に保存されているデータである
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>oldsubj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">編集前の名前</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newcate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">編集後のカテゴリ</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newsubj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">編集後の名前</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newnote</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">編集後の説明</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itemlist.js.html">itemlist.js</a>, <a href="itemlist.js.html#line167">line 167</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="updateStoredDataForClipOnRegitemlist"><span class="type-signature"></span>updateStoredDataForClipOnRegitemlist<span class="signature">(clipNameOfFlagChanged, clipFlagChanged)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        [画面操作] 登録データ一覧画面でクリップ(★<-->☆)のOn/Offを反映させ、アイテムを再描画するメソッド
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>clipNameOfFlagChanged</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">: On/Offされた対象のアイテム名</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clipFlagChanged</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">: "true" or "false"</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itemlist.js.html">itemlist.js</a>, <a href="itemlist.js.html#line264">line 264</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="updateStoredDataForDeleteProcess"><span class="type-signature"></span>updateStoredDataForDeleteProcess<span class="signature">()</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        [画面操作] storedDataの中身を更新するメソッド
+削除後の基本動作：削除した際のカテゴリのアイテムを再描画
+削除後アイテム数が０の場合の動作：カテゴリALLのアイテムを再描画
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="itemlist.js.html">itemlist.js</a>, <a href="itemlist.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -1090,13 +3219,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#extractByCate">extractByCate</a></li><li><a href="global.html#formatForSend">formatForSend</a></li><li><a href="global.html#makeCateOptionsHtml">makeCateOptionsHtml</a></li><li><a href="global.html#makeItemListHtml">makeItemListHtml</a></li><li><a href="global.html#randomExtract">randomExtract</a></li><li><a href="global.html#shareText">shareText</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#addClip">addClip</a></li><li><a href="global.html#addItemtoDB">addItemtoDB</a></li><li><a href="global.html#clipOnRegitemlist">clipOnRegitemlist</a></li><li><a href="global.html#delItemFromDB">delItemFromDB</a></li><li><a href="global.html#extractByCate">extractByCate</a></li><li><a href="global.html#fixAdFooter">fixAdFooter</a></li><li><a href="global.html#formatForSend">formatForSend</a></li><li><a href="global.html#getAllItemsfromDB">getAllItemsfromDB</a></li><li><a href="global.html#getCategorizedItemsfromDB">getCategorizedItemsfromDB</a></li><li><a href="global.html#getClippedItemsfromDB">getClippedItemsfromDB</a></li><li><a href="global.html#getTimeStamp">getTimeStamp</a></li><li><a href="global.html#getUniqueItemfromDB">getUniqueItemfromDB</a></li><li><a href="global.html#initDB">initDB</a></li><li><a href="global.html#makeCateOptionsHtml">makeCateOptionsHtml</a></li><li><a href="global.html#makeCateOptionsHtmlExceptAll">makeCateOptionsHtmlExceptAll</a></li><li><a href="global.html#makeShownItemListHtml">makeShownItemListHtml</a></li><li><a href="global.html#offClipfromDB">offClipfromDB</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#reloadqueryIdChangeFunc">reloadqueryIdChangeFunc</a></li><li><a href="global.html#shareText">shareText</a></li><li><a href="global.html#updateItemtoDB">updateItemtoDB</a></li><li><a href="global.html#updateStoredData">updateStoredData</a></li><li><a href="global.html#updateStoredDataForClipOnRegitemlist">updateStoredDataForClipOnRegitemlist</a></li><li><a href="global.html#updateStoredDataForDeleteProcess">updateStoredDataForDeleteProcess</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Thu Nov 20 2014 17:00:37 GMT+0900 (東京 (標準時))
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Mon Feb 16 2015 10:16:01 GMT+0900 (東京 (標準時))
 </footer>
 
 <script> prettyPrint(); </script>

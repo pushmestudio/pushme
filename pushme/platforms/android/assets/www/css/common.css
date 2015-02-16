@@ -86,7 +86,7 @@ button.img-button {
 }
 
 #notification .fadeComp div:before{
-	content: url("../img/clip_true.png");
+	content: url("../img/notifySuccess.png");
 }
 
 #notification .fadeComp div{
