@@ -163,8 +163,8 @@ $('#addConfirm').dialog({
 	autoOpen: false,
 	resizable: false,
 	modal: true,
-	height: 250,
-	width: 300,
+	height: "auto",
+	width: "auto",
 	buttons: {
 		"Done": function(){
 			$(this).dialog("close");

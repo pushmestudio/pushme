@@ -289,8 +289,8 @@ $('#editItem').dialog({
 	autoOpen: false,
 	resizable: false,
 	modal: true,
-	height: 400,
-	width: 300,
+	height: "auto",
+	width: "auto",
 	buttons: {
 		"Modify": function(){
 			var newsubj = $('#newsubj').val();
@@ -328,8 +328,8 @@ $('#delItem').dialog({
 	autoOpen: false,
 	resizable: false,
 	modal: true,
-	height: 250,
-	width: 300,
+	height: "auto",
+	width: "auto",
 	buttons: {
 		"Delete": function(){
 			$(this).dialog("close");
