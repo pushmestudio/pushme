@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: itemlist.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: itemlist.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileOverview データを取得して必要な件数を抽出し、HTML出力します。
  * @copyright PushMe Studio 2015
  */
@@ -70,7 +98,7 @@ $('#itemlist').on("click", 'button[name="deleteitem"]', function(){
 	delsubj = $(this).parents('div[name="card"]').children('div[name="subj"]').text();
 	delcate = $(this).parents('div[name="card"]').next().find('span[name="cate"]').text();
 	delnote = $(this).parents('div[name="card"]').next().find('span[name="note"]').text();
-	$('#delItem').html("[Category]: " + delcate + "<br>[Subject]: " + delsubj + "<br>[Note]: " + delnote);
+	$('#delItem').html("[Category]: " + delcate + "&lt;br>[Subject]: " + delsubj + "&lt;br>[Note]: " + delnote);
 	$('#delItem').dialog("open");
 });
 
@@ -83,11 +111,11 @@ $('#itemlist').on("click", '.accordion button[name="detail"]', function(){
 });
 
 /**
- * [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★<-->☆)を切替えるメソッド
+ * [画面操作] 登録データ一覧画面でクリップボタン押下で、クリップボタン(★&lt;-->☆)を切替えるメソッド
  * [DB操作] ControllerとしてDBのclip属性を変更するメソッド呼出しを行うメソッド
  */
 var clipOnRegitemlist = function(){
-	for(var i = 0, n = storedData.length; i < n; i++){
+	for(var i = 0, n = storedData.length; i &lt; n; i++){
 		//name=="true"の時、既にクリップ済なので、UnClipボタンを表示
 		if($('#clipFlagTrue_'+i).attr("name")=="true"){
 			$('#clipFlagTrue_'+i).css("display", "inline");//UnClipボタン-->表示
@@ -124,34 +152,34 @@ var clipOnRegitemlist = function(){
 var makeShownItemListHtml = function(extData){
 	var itemListHtml = "";
 	if(extData.length > 0){
-		itemListHtml += '<form name="itemlist" class="pure-form pure-form-aligned">';
-		itemListHtml += '<div class="pure-g">';
-		itemListHtml += '<span class="accordion">';
-		for(var i = 0, n = extData.length; i < n; i++){
+		itemListHtml += '&lt;form name="itemlist" class="pure-form pure-form-aligned">';
+		itemListHtml += '&lt;div class="pure-g">';
+		itemListHtml += '&lt;span class="accordion">';
+		for(var i = 0, n = extData.length; i &lt; n; i++){
 			var subj = extData[i].subject;
 			var cate = extData[i].category;
 			var note = extData[i].note;
 			clipFlag = extData[i].clip;
-			itemListHtml += '<div name="arrow" class="pure-u-1">';
-			itemListHtml += '<div name="card">';
-			itemListHtml += '<div class="star-icon">';
-			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;"><img src="../img/clip_true.png"></button>';
-			itemListHtml += '<button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;"><img src="../img/clip_false.png"></button>';
-			itemListHtml += '</div>';
-			itemListHtml += '<div name="subj"><label for="item' + i + '">' + subj + '</label></div>';
-			itemListHtml += '<div name="buttons">';
-			itemListHtml += '<button type="button" name="detail" class="pure-button"><img src="../img/accordion.png"></button>';
-			itemListHtml += '<button type="button" name="edititem" class="pure-button"><img src="../img/edit.png"></button>';
-			itemListHtml += '<button type="button" name="deleteitem" class="pure-button"><img src="../img/delete.png"></button>';
-			itemListHtml += '</div>';
-			itemListHtml += '</div><ul>';
-			itemListHtml += '<li>[<span name="cate">' + cate + '</span>]</li>';
-			itemListHtml += '<li><span name="note">' + note + '</span></li></ul></div>';
+			itemListHtml += '&lt;div name="arrow" class="pure-u-1">';
+			itemListHtml += '&lt;div name="card">';
+			itemListHtml += '&lt;div class="star-icon">';
+			itemListHtml += '&lt;button type="button" name="'+clipFlag+'" id="clipFlagTrue_'+i+'" value="UnClip" style="display: none;">&lt;img src="../img/clip_true.png">&lt;/button>';
+			itemListHtml += '&lt;button type="button" name="'+clipFlag+'" id="clipFlagFalse_'+i+'" value="Clip" style="display: none;">&lt;img src="../img/clip_false.png">&lt;/button>';
+			itemListHtml += '&lt;/div>';
+			itemListHtml += '&lt;div name="subj">&lt;label for="item' + i + '">' + subj + '&lt;/label>&lt;/div>';
+			itemListHtml += '&lt;div name="buttons">';
+			itemListHtml += '&lt;button type="button" name="detail" class="pure-button">&lt;img src="../img/accordion.png">&lt;/button>';
+			itemListHtml += '&lt;button type="button" name="edititem" class="pure-button">&lt;img src="../img/edit.png">&lt;/button>';
+			itemListHtml += '&lt;button type="button" name="deleteitem" class="pure-button">&lt;img src="../img/delete.png">&lt;/button>';
+			itemListHtml += '&lt;/div>';
+			itemListHtml += '&lt;/div>&lt;ul>';
+			itemListHtml += '&lt;li>[&lt;span name="cate">' + cate + '&lt;/span>]&lt;/li>';
+			itemListHtml += '&lt;li>&lt;span name="note">' + note + '&lt;/span>&lt;/li>&lt;/ul>&lt;/div>';
 		}
-		itemListHtml += '</span></div></div>';
-		itemListHtml += "</form>";
+		itemListHtml += '&lt;/span>&lt;/div>&lt;/div>';
+		itemListHtml += "&lt;/form>";
 	} else {
-		itemListHtml = '<p name="itemlist">Results not found</p>';
+		itemListHtml = '&lt;p name="itemlist">Results not found&lt;/p>';
 	}
 	return itemListHtml;
 };
@@ -165,7 +193,7 @@ var makeShownItemListHtml = function(extData){
  * @param {String} newnote 編集後の説明
  */
 var updateStoredData = function(oldsubj, newcate, newsubj, newnote){
-	for(var i = 0, n = storedData.length; i < n; i++){
+	for(var i = 0, n = storedData.length; i &lt; n; i++){
 		if(oldsubj === storedData[i].subject){
 			storedData[i].category = newcate;
 			storedData[i].subject = newsubj;
@@ -176,16 +204,16 @@ var updateStoredData = function(oldsubj, newcate, newsubj, newnote){
 	oldCategorizedData = extractByCate(storedData, oldcate);
 	if (oldCategorizedData.length==0){//カテゴリに該当するアイテムが０の時
 		if (($('#queryId').val())!=""){
-			var newCateHtml = '<select id="queryId">';
+			var newCateHtml = '&lt;select id="queryId">';
 			newCateHtml += makeCateOptionsHtml(storedData);
-			newCateHtml += '</select>';
+			newCateHtml += '&lt;/select>';
 			$('#queryId').replaceWith(newCateHtml);
 			$('#queryId').val(newcate);
 			var itemListHtml = makeShownItemListHtml(categorizedData);
 		}else{
-			var newCateHtml = '<select id="queryId">';
+			var newCateHtml = '&lt;select id="queryId">';
 			newCateHtml += makeCateOptionsHtml(storedData);
-			newCateHtml += '</select>';
+			newCateHtml += '&lt;/select>';
 			$('#queryId').replaceWith(newCateHtml);
 			var itemListHtml = makeShownItemListHtml(storedData);
 		}
@@ -210,7 +238,7 @@ var updateStoredData = function(oldsubj, newcate, newsubj, newnote){
  */
 var updateStoredDataForDeleteProcess = function(delsubj){
 	var check, targetCate;
-	for(var i = 0, n = storedData.length; i < n; i++){
+	for(var i = 0, n = storedData.length; i &lt; n; i++){
 		if(delsubj === storedData[i].subject){
 			check = i;
 			targetCate = storedData[i].category;
@@ -223,9 +251,9 @@ var updateStoredDataForDeleteProcess = function(delsubj){
 	});
 	categorizedData = extractByCate(storedData, targetCate);
 	if (categorizedData.length==0){//カテゴリに該当するアイテムが０の時
-		var newCateHtml = '<select id="queryId">';
+		var newCateHtml = '&lt;select id="queryId">';
 		newCateHtml += makeCateOptionsHtml(storedData);
-		newCateHtml += '</select>';
+		newCateHtml += '&lt;/select>';
 		$('#queryId').replaceWith(newCateHtml);
 		var itemListHtml = makeShownItemListHtml(storedData);
 	}else{//カテゴリに該当するアイテムが１つ以上ある時
@@ -257,12 +285,12 @@ var reloadqueryIdChangeFunc = function(){
 };
 
 /**
- * [画面操作] 登録データ一覧画面でクリップ(★<-->☆)のOn/Offを反映させ、アイテムを再描画するメソッド
+ * [画面操作] 登録データ一覧画面でクリップ(★&lt;-->☆)のOn/Offを反映させ、アイテムを再描画するメソッド
  * @param {string} clipNameOfFlagChanged : On/Offされた対象のアイテム名
  * @param {string} clipFlagChanged : "true" or "false"
  */
 var updateStoredDataForClipOnRegitemlist = function(clipNameOfFlagChanged,clipFlagChanged){
-	for(var i = 0, n = storedData.length; i < n; i++){
+	for(var i = 0, n = storedData.length; i &lt; n; i++){
 		if(clipNameOfFlagChanged === storedData[i].subject){
 			storedData[i].clip = clipFlagChanged;
 		}
@@ -345,3 +373,26 @@ $('#delItem').dialog({
 		}
 	}
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#addClip">addClip</a></li><li><a href="global.html#addItemtoDB">addItemtoDB</a></li><li><a href="global.html#clipOnRegitemlist">clipOnRegitemlist</a></li><li><a href="global.html#delItemFromDB">delItemFromDB</a></li><li><a href="global.html#extractByCate">extractByCate</a></li><li><a href="global.html#fixAdFooter">fixAdFooter</a></li><li><a href="global.html#formatForSend">formatForSend</a></li><li><a href="global.html#getAllItemsfromDB">getAllItemsfromDB</a></li><li><a href="global.html#getCategorizedItemsfromDB">getCategorizedItemsfromDB</a></li><li><a href="global.html#getClippedItemsfromDB">getClippedItemsfromDB</a></li><li><a href="global.html#getTimeStamp">getTimeStamp</a></li><li><a href="global.html#getUniqueItemfromDB">getUniqueItemfromDB</a></li><li><a href="global.html#initDB">initDB</a></li><li><a href="global.html#makeCateOptionsHtml">makeCateOptionsHtml</a></li><li><a href="global.html#makeCateOptionsHtmlExceptAll">makeCateOptionsHtmlExceptAll</a></li><li><a href="global.html#makeShownItemListHtml">makeShownItemListHtml</a></li><li><a href="global.html#offClipfromDB">offClipfromDB</a></li><li><a href="global.html#openDB">openDB</a></li><li><a href="global.html#reloadqueryIdChangeFunc">reloadqueryIdChangeFunc</a></li><li><a href="global.html#shareText">shareText</a></li><li><a href="global.html#updateItemtoDB">updateItemtoDB</a></li><li><a href="global.html#updateStoredData">updateStoredData</a></li><li><a href="global.html#updateStoredDataForClipOnRegitemlist">updateStoredDataForClipOnRegitemlist</a></li><li><a href="global.html#updateStoredDataForDeleteProcess">updateStoredDataForDeleteProcess</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha10</a> on Mon Feb 16 2015 10:16:01 GMT+0900 (東京 (標準時))
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
