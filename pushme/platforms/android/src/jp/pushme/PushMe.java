@@ -24,7 +24,7 @@ public class PushMe extends CordovaActivity
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new JSHandler(), "Bridge"); // set JSHandler to Javascript as "Bridge"
 
-        webView.loadUrl("file:///android_asset/www/index.html");
+        webView.loadUrl(launchUrl);
     }
 
     public class JSHandler {
