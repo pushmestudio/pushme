@@ -37,7 +37,7 @@ angular.module('mainApp', ['ionic', 'mainApp.controllers'])
     cache: false, // Toast正常表示のための暫定対応
     url: '/pushme/groups',
     templateUrl: 'templates/groups.html', // TODO
-    controller: 'ItemCtrl' // TODO
+    controller: 'GroupCtrl' // TODO
   })
 
   .state('items', {
