@@ -1,18 +1,26 @@
 <meta name="copyright" content="(c) 2016 PushMe Studio">
-<ion-view view-title="groups">
-  <ion-content scroll="false" has-header="false">
-    <ion-content scroll="false" has-header="false">
-      <ion-list can-swipe="listCanSwipe">
-        <div class="item item-divider">
-          My boards
-        </div>
-      </ion-list>
-      <!-- 作成済ボード一覧画面で，プラスボタン押下するとテンプレート一覧の画面に遷移 -->
-      <a href="#/templates">
-        <button class="button button-clear button-full button-large">
-          <i class="icon ion-plus-circled positive"></i>
-        </button>
-      </a>
-    </ion-content>
+<ion-view view-title="グループ一覧" hide-back-button="true">
+  <ion-content scroll="true" has-header="false">
+    <ion-list can-swipe="listCanSwipe">
+      <ion-item class="item-remove-animate item-text-wrap" ng-repeat="group in groupList track by $index"
+          type="item-text-wrap" ng-href="#/pushme/groups/{{group.groupId}}" ng-click="">
+        <h2>{{group.name}}</h2>
+
+        <i class="icon ion-chevron-right icon-accessory"></i>
+        <ion-option-button class="button-balanced" ng-click="">
+          <i class="icon ion-edit"></i>
+        </ion-option-button>
+        <ion-option-button class="button-assertive" ng-click="">
+          <i class="icon ion-trash-a"></i>
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+
+    <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
+    <a href="">
+      <button class="button button-clear button-full button-large">
+        <i class="icon ion-plus-circled"></i>
+      </button>
+    </a>
   </ion-content>
 </ion-view>
