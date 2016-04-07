@@ -13,8 +13,12 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
  * @requires d
  */
 .controller('GroupCtrl', function($scope, Group, d) {
+  // controllerの初期化時にDBへの接続とデータの取得を行う
+  $scope.init = Group.initGroup();
+
+  $scope.groupObject = Group.groupObject;
   $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
-  $scope.groupList = Group.groupList;
+
 })
 
 /**
@@ -32,10 +36,10 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
   $scope.itemList = []; // ページ上に表示するアイテム
 
   var counter = 0;
-  for(counter; counter < Group.groupList.length; counter++) {
+  for(counter; counter < Group.groupObject.groupList.length; counter++) {
     // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
-    if(Group.groupList[counter].groupId == $stateParams.groupId) {
-      $scope.groupName = Group.groupList[counter].name;
+    if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
+      $scope.groupName = Group.groupObject.groupList[counter].groupName;
       break;
     }
   }

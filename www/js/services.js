@@ -10,9 +10,29 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @description グループ一覧の定義
  * @requires d
  */
-.factory('Group', function(d) {
+.factory('Group', function($timeout, d, DBConn) {
   d.log('Group service is loaded');
 
+  // view⇔controller⇔serviceでバインディングする値をまとめたオブジェクト
+  var groupObject = {
+    groupList: []
+  };
+
+  /**
+   * @function initGroup
+   * @description DBを使用する前に接続処理を行い、成功したらDBから全Groupを取得する
+   */
+  var initGroup = function(){
+    DBConn.connect().then(function() {
+      DBConn.getAllGroups().then(function(data) {
+        $timeout(function(){
+          groupObject.groupList = data;
+        });
+      });
+    });
+  }
+
+  /*
   var groupList = [{
     groupId: 1,
     name: '飲み屋'
@@ -20,9 +40,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     groupId: 2,
     name: '部門メンバー'
   }];
+  */
 
   return {
-    groupList: groupList
+    groupObject: groupObject,
+//    groupObject: groupObject,
+    initGroup: function(){
+      return initGroup();
+    }
   };
 })
 
