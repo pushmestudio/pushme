@@ -86,6 +86,8 @@ angular.module('mainApp.dbConnector', [])
   /**
    * @function createSample
    * @description サンプルデータを作成する、初期化時に呼ばれる想定
+   * @param {IDBObjectStore} groupStore グループ一覧を保持するオブジェクトストア
+   * @param {IDBObjectStore} itemStore アイテム一覧を保持するオブジェクトストア
    */
   module.createSample = function(groupStore, itemStore) {
     d.log('createSample is called.');
@@ -100,12 +102,12 @@ angular.module('mainApp.dbConnector', [])
     var itemSamples = [{
       "itemId": "20160407120001",
       "itemName": "me",
-      "itemGroup": "[Sample]members",
+      "itemGroup": "20160407120000",
       "itemNote": "it's me"
     }, {
       "itemId": "20160407120002",
       "itemName": "boss",
-      "itemGroup": "[Sample]members",
+      "itemGroup": "20160407120000",
       "itemNote": "my boss"
     }];
 
@@ -158,15 +160,16 @@ angular.module('mainApp.dbConnector', [])
   /**
    * @function getAllGroupItems
    * @description itemsストアに保存されているデータの中から、指定されたグループに属するもののみを取得する
+   * @param {String} groupId グループに紐づいたアイテムを取得するための識別子
    * @return {Promise} items (一旦同期処理をオブジェクトを返した上で)指定されたグループに属するすべてのアイテムを格納した配列
    */
-  module.getAllGroupItems = function(groupName) {
+  module.getAllGroupItems = function(groupId) {
     d.log('getAllGroupItems is called');
 
     var trans = module.db.transaction(module.itemStoreName, 'readonly');
     var store = trans.objectStore(module.itemStoreName);
     // 特定のグループ名を持つもののみをフィルター
-    var range = IDBKeyRange.only(groupName);
+    var range = IDBKeyRange.only(groupId);
     var index = store.index("itemGroup");
 
     var deferred = module.q.defer();
@@ -201,8 +204,8 @@ angular.module('mainApp.dbConnector', [])
     getAllGroups: function(){
       return module.getAllGroups();
     },
-    getAllGroupItems: function(groupName){
-      return module.getAllGroupItems(groupName);
+    getAllGroupItems: function(groupId){
+      return module.getAllGroupItems(groupId);
     }
   };
 });

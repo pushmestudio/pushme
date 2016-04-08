@@ -45,7 +45,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   return {
     groupObject: groupObject,
     initGroup: function(){
-      return initGroup();
+      initGroup();
     }
   };
 })
@@ -59,12 +59,16 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   d.log('Item service is loaded');
 
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
-  var itemObject={
+  var itemObject = {
     itemList: []
   }
 
-  var getItems = function(groupName){
-    DBConn.getAllGroupItems(groupName).then(function(data){
+  /**
+   * @function initItem
+   * @description DBから指定したgroupIdをもつアイテム一覧を取得する
+   */
+  var initItem = function(groupId){
+    DBConn.getAllGroupItems(groupId).then(function(data){
       $timeout(function(){
           itemObject.itemList = data;
       });
@@ -87,8 +91,8 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 
   return {
     itemObject: itemObject,
-    getItems: function(groupName){
-      getItems(groupName);
+    initItem: function(groupId){
+      initItem(groupId);
     }
   };
 })
