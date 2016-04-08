@@ -31,6 +31,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
  * @requires d
  */
 .controller('ItemCtrl', function($scope, $stateParams, Item, Group, d) {
+  // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
+  $scope.init = Item.initItem($stateParams.groupId);
+
   $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
   $scope.groupName = ''; // ページ上に表示するグループ名
   $scope.itemObject = Item.itemObject; // ページ上に表示するアイテム
@@ -40,8 +43,6 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
     // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
     if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
       $scope.groupName = Group.groupObject.groupList[counter].groupName;
-      // 現在表示しているグループ名をもつアイテム一覧をDBから取得
-      Item.getItems(Group.groupObject.groupList[counter].groupName);
       break;
     }
   }
