@@ -33,22 +33,24 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
 .controller('ItemCtrl', function($scope, $stateParams, Item, Group, d) {
   $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
   $scope.groupName = ''; // ページ上に表示するグループ名
-  $scope.itemList = []; // ページ上に表示するアイテム
+  $scope.itemObject = Item.itemObject; // ページ上に表示するアイテム
 
   var counter = 0;
   for(counter; counter < Group.groupObject.groupList.length; counter++) {
     // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
     if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
       $scope.groupName = Group.groupObject.groupList[counter].groupName;
+      // 現在表示しているグループ名をもつアイテム一覧をDBから取得
+      Item.getItems(Group.groupObject.groupList[counter].groupName);
       break;
     }
   }
 
   counter = 0;
-  for(counter; counter < Item.itemList.length; counter++) {
+  for(counter; counter < Item.itemObject.itemList.length; counter++) {
     // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
-    if(Item.itemList[counter].groupId == $stateParams.groupId) {
-      $scope.itemList.push(Item.itemList[counter]);
+    if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
+      $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
     }
   }
 });
