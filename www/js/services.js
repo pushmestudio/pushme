@@ -13,7 +13,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 .factory('Group', function($timeout, d, DBConn) {
   d.log('Group service is loaded');
 
-  // view⇔controller⇔serviceでバインディングする値をまとめたオブジェクト
+  // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
   var groupObject = {
     groupList: []
   };
@@ -32,7 +32,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
   }
 
-  /*
+  /* 2016/04/08(tomita) もはや不要
   var groupList = [{
     groupId: 1,
     name: '飲み屋'
@@ -44,7 +44,6 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 
   return {
     groupObject: groupObject,
-//    groupObject: groupObject,
     initGroup: function(){
       return initGroup();
     }
@@ -56,9 +55,23 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @description アイテム一覧の定義
  * @requires d
  */
-.factory('Item', function(d) {
+.factory('Item', function($timeout, d, DBConn) {
   d.log('Item service is loaded');
 
+  // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
+  var itemObject={
+    itemList: []
+  }
+
+  var getItems = function(groupName){
+    DBConn.getAllGroupItems(groupName).then(function(data){
+      $timeout(function(){
+          itemObject.itemList = data;
+      });
+    })
+  }
+
+  /* 2016/04/09(tomita) もはや不要
   var itemList = [{
     itemId: 1,
     groupId: 2,
@@ -70,9 +83,13 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     name: 'オレ',
     note: 'default'
   }];
+  */
 
   return {
-    itemList: itemList
+    itemObject: itemObject,
+    getItems: function(groupName){
+      getItems(groupName);
+    }
   };
 })
 
