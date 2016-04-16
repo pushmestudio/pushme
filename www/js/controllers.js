@@ -9,16 +9,62 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
  * @module GroupCtrl
  * @description グループ一覧を表示
  * @requires $scope
+ * @requires $ionicPopup
  * @requires Group
  * @requires d
  */
-.controller('GroupCtrl', function($scope, Group, d) {
+.controller('GroupCtrl', function($scope, $ionicPopup, Group, d) {
   // controllerの初期化時にDBへの接続とデータの取得を行う
   $scope.init = Group.initGroup();
 
   $scope.groupObject = Group.groupObject;
   $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
 
+  /**
+   * @function openGroupInfoPopup
+   * @description グループ一覧上にてグループの名前とコメントを変更するためのポップアップを開く
+   * @param {Object} group 編集するグループのオブジェクト
+   */
+  $scope.openGroupInfoPopup = function(group) {
+
+    $scope.editableGroup = group;
+
+    /**
+     * @function showEditPopup
+     * @description 編集用のポップアップを表示する
+     * オートフォーカスをつけた上でキーボード表示を呼び出しているので、ポップアップ表示と同時にキーボードが開く
+     * @todo 関数内関数になっているので外出し化 BoardsDetailCtrlでも同じものを持ってしまっているので統一したい
+     */
+    $scope.showEditPopup = function() {
+
+      var editPopup = $ionicPopup.show({
+        template: '<div class="list">' +
+          '<label class="item item-input"><input type="text" placeholder="Group Name" ng-model="editableGroup.groupName" autofocus></label>' +
+          '<label class="item item-input"><textarea placeholder="Note..." ng-model="editableGroup.groupNote"></textarea></label></div>',
+        title: 'Input Group Info',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Save</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              return $scope.editableGroup;
+            }
+          }
+        ]
+      });
+
+      editPopup.then(function(res) {
+        d.log('Tapped!', res);
+        // cancelが押された場合はresがundefになる
+        if(res !== undefined) {
+          Group.saveGroup(res); // 保存処理の呼び出し
+        }
+      });
+    };
+    $scope.showEditPopup();
+  }
 })
 
 /**

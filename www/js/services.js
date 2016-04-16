@@ -42,11 +42,21 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   }];
   */
 
+  /**
+   * @function saveGroup
+   * @description to be added
+   */
+  var saveGroup = function(group) {
+    d.log(group.groupId);
+  }
+
+  // API公開名: 呼ばれる実際の内容
   return {
     groupObject: groupObject,
     initGroup: function(){
       initGroup();
-    }
+    },
+    saveGroup: saveGroup
   };
 })
 
