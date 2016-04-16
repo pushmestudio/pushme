@@ -215,6 +215,7 @@ angular.module('mainApp.dbConnector', [])
       if(data) { // 該当結果がある場合
 
         // data = group として受け取ったオブジェクトに全上書きするかたちでも問題ない
+        // 現在は、万が一servicesから受け取るオブジェクトが不完全だった場合に備え、全上書きではなく取り出しての代入にしている
         data.groupName = group.groupName;
         data.groupNote = group.groupNote;
 
@@ -250,12 +251,13 @@ angular.module('mainApp.dbConnector', [])
     var store = trans.objectStore(module.itemStoreName);
     var deferred = module.q.defer();
 
-    // 名前が一致するデータを取得する
+    // idが一致するデータを取得する
     store.get(item.itemId).onsuccess = function(event) {
       var data = event.target.result;
       if(data) { // 該当結果がある場合
 
         // data = item として受け取ったオブジェクトに全上書きするかたちでも問題ない
+        // 現在は、万が一servicesから受け取るオブジェクトが不完全だった場合に備え、全上書きではなく取り出しての代入にしている
         data.itemName = item.itemName;
         data.itemNote = item.itemNote;
 
