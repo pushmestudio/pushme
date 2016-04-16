@@ -32,22 +32,13 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
   }
 
-  /* 2016/04/08(tomita) もはや不要
-  var groupList = [{
-    groupId: 1,
-    name: '飲み屋'
-  }, {
-    groupId: 2,
-    name: '部門メンバー'
-  }];
-  */
-
   /**
    * @function saveGroup
    * @description to be added
    */
   var saveGroup = function(group) {
-    d.log(group.groupId);
+    d.log("saveGroup is called");
+    DBConn.updateGroup(group);
   }
 
   // API公開名: 呼ばれる実際の内容
@@ -85,25 +76,21 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     })
   }
 
-  /* 2016/04/09(tomita) もはや不要
-  var itemList = [{
-    itemId: 1,
-    groupId: 2,
-    name: '俺',
-    note: 'File Details'
-  }, {
-    itemId: 2,
-    groupId: 2,
-    name: 'オレ',
-    note: 'default'
-  }];
-  */
+  /**
+   * @function saveItem
+   * @description to be added
+   */
+  var saveItem = function(item) {
+    d.log("saveItem is called");
+    DBConn.updateItem(item);
+  }
 
   return {
     itemObject: itemObject,
     initItem: function(groupId){
       initItem(groupId);
-    }
+    },
+    saveItem: saveItem
   };
 })
 
