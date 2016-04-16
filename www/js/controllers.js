@@ -29,6 +29,8 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    */
   $scope.openGroupInfoPopup = function(group) {
 
+    $scope.originalGroupName = group.groupName; // 変更前のグループ名、Cancel時に元に戻すために使う
+    $scope.originalGroupNote = group.groupNote; // 変更前のグループメモ、Cancel時に元に戻すために使う
     $scope.editableGroup = group; // Viewから受け取ったオブジェクトを編集用にscopeバインド
 
     /**
@@ -46,7 +48,14 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         title: 'Input Group Info',
         scope: $scope,
         buttons: [
-          { text: 'Cancel' },
+          {
+            text: 'Cancel',
+            onTap: function(e) {
+              // キャンセルが押された場合は変更前の値に戻す
+              $scope.editableGroup.groupName = $scope.originalGroupName;
+              $scope.editableGroup.groupNote = $scope.originalGroupNote;
+            }
+          },
           {
             text: '<b>Save</b>',
             type: 'button-positive',
@@ -121,6 +130,8 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    */
   $scope.openItemInfoPopup = function(item) {
 
+    $scope.originalItemName = item.itemName; // 変更前のアイテム名、Cancel時に元に戻すために使う
+    $scope.originalItemNote = item.itemNote; // 変更前のアイテムプメモ、Cancel時に元に戻すために使う
     $scope.editableItem = item; // Viewから受け取ったオブジェクトを編集用にscopeバインド
 
     /**
@@ -138,7 +149,14 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         title: 'Input Group Info',
         scope: $scope,
         buttons: [
-          { text: 'Cancel' },
+          {
+            text: 'Cancel',
+            onTap: function(e) {
+              // キャンセルが押された場合は変更前の値に戻す
+              $scope.editableItem.itemName = $scope.originalItemName;
+              $scope.editableItem.itemNote = $scope.originalItemNote;
+            }
+          },
           {
             text: '<b>Save</b>',
             type: 'button-positive',
