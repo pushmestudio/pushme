@@ -3,7 +3,7 @@
  * ビューとモデルをつなぐ各種コントローラを定義している
  * @copyright (c) 2016 PushMe Studio
  */
-angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
+angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordova'])
 
 /**
  * @module GroupCtrl
