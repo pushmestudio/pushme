@@ -10,10 +10,12 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
  * @description グループ一覧を表示
  * @requires $scope
  * @requires $ionicPopup
+ * @requires $cordovaKeyboard
+ * @requires $ionicListDelegate
  * @requires Group
  * @requires d
  */
-.controller('GroupCtrl', function($scope, $ionicPopup, Group, d) {
+.controller('GroupCtrl', function($scope, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Group, d) {
   // controllerの初期化時にDBへの接続とデータの取得を行う
   $scope.init = Group.initGroup();
 
@@ -27,13 +29,13 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
    */
   $scope.openGroupInfoPopup = function(group) {
 
-    $scope.editableGroup = group;
+    $scope.editableGroup = group; // Viewから受け取ったオブジェクトを編集用にscopeバインド
 
     /**
      * @function showEditPopup
      * @description 編集用のポップアップを表示する
      * オートフォーカスをつけた上でキーボード表示を呼び出しているので、ポップアップ表示と同時にキーボードが開く
-     * @todo 関数内関数になっているので外出し化 BoardsDetailCtrlでも同じものを持ってしまっているので統一したい
+     * @todo 関数内関数になっているので外出し化
      */
     $scope.showEditPopup = function() {
 
@@ -54,13 +56,21 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
           }
         ]
       });
+      if(window.cordova) { // Cordova読み込み時のみ呼び出し(ブラウザでのTestabilityを考慮)
+        $cordovaKeyboard.show(); // キーボードを表示する
+      }
 
       editPopup.then(function(res) {
+        if(window.cordova) { // Cordova読み込み時のみ呼び出し(ブラウザでのTestabilityを考慮)
+          $cordovaKeyboard.close(); // 表示されているキーボードを閉じる
+        }
         d.log('Tapped!', res);
         // cancelが押された場合はresがundefになる
         if(res !== undefined) {
           Group.saveGroup(res); // 保存処理の呼び出し, resはgroupオブジェクト
         }
+        // スワイプで表示させたオプションメニューを閉じる
+        $ionicListDelegate.closeOptionButtons();
       });
     };
     $scope.showEditPopup();
@@ -73,11 +83,13 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
  * @requires $scope
  * @requires $stateParams
  * @requires $ionicPopup
+ * @requires $cordovaKeyboard
+ * @requires $ionicListDelegate
  * @requires Item
  * @requires Group
  * @requires d
  */
-.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, Item, Group, d) {
+.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d) {
   // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
   $scope.init = Item.initItem($stateParams.groupId);
 
@@ -109,19 +121,19 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
    */
   $scope.openItemInfoPopup = function(item) {
 
-    $scope.editableItem = item;
+    $scope.editableItem = item; // Viewから受け取ったオブジェクトを編集用にscopeバインド
 
     /**
      * @function showEditPopup
      * @description 編集用のポップアップを表示する
      * オートフォーカスをつけた上でキーボード表示を呼び出しているので、ポップアップ表示と同時にキーボードが開く
-     * @todo 関数内関数になっているので外出し化 BoardsDetailCtrlでも同じものを持ってしまっているので統一したい
+     * @todo 関数内関数になっているので外出し化
      */
     $scope.showEditPopup = function() {
 
       var editPopup = $ionicPopup.show({
         template: '<div class="list">' +
-          '<label class="item item-input"><input type="text" placeholder="Group Name" ng-model="editableItem.itemName" autofocus></label>' +
+          '<label class="item item-input"><input type="text" placeholder="Item Name" ng-model="editableItem.itemName" autofocus></label>' +
           '<label class="item item-input"><textarea placeholder="Note..." ng-model="editableItem.itemNote"></textarea></label></div>',
         title: 'Input Group Info',
         scope: $scope,
@@ -136,13 +148,21 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
           }
         ]
       });
+      if(window.cordova) { // Cordova読み込み時のみ呼び出し(ブラウザでのTestabilityを考慮)
+        $cordovaKeyboard.show(); // キーボードを表示する
+      }
 
       editPopup.then(function(res) {
+        if(window.cordova) { // Cordova読み込み時のみ呼び出し(ブラウザでのTestabilityを考慮)
+          $cordovaKeyboard.close(); // 表示されているキーボードを閉じる
+        }
         d.log('Tapped!', res);
         // cancelが押された場合はresがundefになる
         if(res !== undefined) {
           Item.saveItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
         }
+        // スワイプで表示させたオプションメニューを閉じる
+        $ionicListDelegate.closeOptionButtons();
       });
     };
     $scope.showEditPopup();

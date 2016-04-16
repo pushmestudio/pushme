@@ -34,7 +34,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 
   /**
    * @function saveGroup
-   * @description to be added
+   * @description Controllersから受け取ったgroupオブジェクトをDBに保存する
    */
   var saveGroup = function(group) {
     d.log("saveGroup is called");
@@ -78,7 +78,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 
   /**
    * @function saveItem
-   * @description to be added
+   * @description Controllersから受け取ったitemオブジェクトをDBに保存する
    */
   var saveItem = function(item) {
     d.log("saveItem is called");
