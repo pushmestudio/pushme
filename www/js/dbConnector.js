@@ -196,6 +196,89 @@ angular.module('mainApp.dbConnector', [])
     return deferred.promise;
   }
 
+  /**
+   * @function updateGroup
+   * @description オブジェクトストアに登録されている項目を更新する。
+   * @param {object} group 更新対象となるグループオブジェクト
+   * @return {Promise} 同期処理を行うためのオブジェクト
+   */
+  module.updateGroup = function(group) {
+    d.log('updateGroup is called');
+
+    var trans = module.db.transaction(module.groupStoreName, 'readwrite');
+    var store = trans.objectStore(module.groupStoreName);
+    var deferred = module.q.defer();
+
+    // 名前が一致するデータを取得する
+    store.get(group.groupId).onsuccess = function(event) {
+      var data = event.target.result;
+      if(data) { // 該当結果がある場合
+
+        // data = group として受け取ったオブジェクトに全上書きするかたちでも問題ない
+        data.groupName = group.groupName;
+        data.groupNote = group.groupNote;
+
+        var request = store.put(data); // ストアへ更新をかける
+        request.onsuccess = function(event) {
+          deferred.resolve();
+          d.log('更新完了!');
+        }
+        request.onerror = function(event) {
+          deferred.reject('更新途中で失敗!' + event.message);
+        }
+      } else { // 該当結果がない場合
+        d.log('update対象が見つかりません');
+      }
+    };
+    store.get(group.groupId).onerror = function(event) {
+      deferred.reject('request is rejected');
+      d.log('update error:' + event.message);
+    }
+    return deferred.promise;
+  }
+
+  /**
+   * @function updateItem
+   * @description オブジェクトストアに登録されている項目を更新する。
+   * @param {object} item 更新対象となるアイテムオブジェクト
+   * @return {Promise} 同期処理を行うためのオブジェクト
+   */
+  module.updateItem = function(item) {
+    d.log('updateItem is called');
+
+    var trans = module.db.transaction(module.itemStoreName, 'readwrite');
+    var store = trans.objectStore(module.itemStoreName);
+    var deferred = module.q.defer();
+
+    // 名前が一致するデータを取得する
+    store.get(item.itemId).onsuccess = function(event) {
+      var data = event.target.result;
+      if(data) { // 該当結果がある場合
+
+        // data = item として受け取ったオブジェクトに全上書きするかたちでも問題ない
+        data.itemName = item.itemName;
+        data.itemNote = item.itemNote;
+
+        var request = store.put(data); // ストアへ更新をかける
+        request.onsuccess = function(event) {
+          deferred.resolve();
+          d.log('更新完了!');
+        }
+        request.onerror = function(event) {
+          deferred.reject('更新途中で失敗!' + event.message);
+        }
+      } else { // 該当結果がない場合
+        d.log('update対象が見つかりません');
+      }
+    };
+    store.get(item.itemId).onerror = function(event) {
+      deferred.reject('request is rejected');
+      d.log('update error:' + event.message);
+    }
+    return deferred.promise;
+  }
+
+
   // DBConnとして呼び出し可能(≒public)とするメソッドを下記に定義
   return {
     connect: function(){
@@ -206,6 +289,8 @@ angular.module('mainApp.dbConnector', [])
     },
     getAllGroupItems: function(groupId){
       return module.getAllGroupItems(groupId);
-    }
+    },
+    updateGroup: module.updateGroup,
+    updateItem: module.updateItem
   };
 });

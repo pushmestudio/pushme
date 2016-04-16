@@ -23,7 +23,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
   /**
    * @function openGroupInfoPopup
    * @description グループ一覧上にてグループの名前とコメントを変更するためのポップアップを開く
-   * @param {Object} group 編集するグループのオブジェクト
+   * @param {object} group 編集するグループのオブジェクト
    */
   $scope.openGroupInfoPopup = function(group) {
 
@@ -59,7 +59,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
         d.log('Tapped!', res);
         // cancelが押された場合はresがundefになる
         if(res !== undefined) {
-          Group.saveGroup(res); // 保存処理の呼び出し
+          Group.saveGroup(res); // 保存処理の呼び出し, resはgroupオブジェクト
         }
       });
     };
@@ -72,11 +72,12 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
  * @description Boardの一覧を表示したり，一覧から削除するコントローラー
  * @requires $scope
  * @requires $stateParams
+ * @requires $ionicPopup
  * @requires Item
  * @requires Group
  * @requires d
  */
-.controller('ItemCtrl', function($scope, $stateParams, Item, Group, d) {
+.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, Item, Group, d) {
   // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
   $scope.init = Item.initItem($stateParams.groupId);
 
@@ -99,5 +100,51 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate'])
     if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
       $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
     }
+  }
+
+  /**
+   * @function openItemInfoPopup
+   * @description アイテムの名前とコメントを変更するためのポップアップを開く
+   * @param {object} item 編集するアイテムのオブジェクト
+   */
+  $scope.openItemInfoPopup = function(item) {
+
+    $scope.editableItem = item;
+
+    /**
+     * @function showEditPopup
+     * @description 編集用のポップアップを表示する
+     * オートフォーカスをつけた上でキーボード表示を呼び出しているので、ポップアップ表示と同時にキーボードが開く
+     * @todo 関数内関数になっているので外出し化 BoardsDetailCtrlでも同じものを持ってしまっているので統一したい
+     */
+    $scope.showEditPopup = function() {
+
+      var editPopup = $ionicPopup.show({
+        template: '<div class="list">' +
+          '<label class="item item-input"><input type="text" placeholder="Group Name" ng-model="editableItem.itemName" autofocus></label>' +
+          '<label class="item item-input"><textarea placeholder="Note..." ng-model="editableItem.itemNote"></textarea></label></div>',
+        title: 'Input Group Info',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Save</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              return $scope.editableItem;
+            }
+          }
+        ]
+      });
+
+      editPopup.then(function(res) {
+        d.log('Tapped!', res);
+        // cancelが押された場合はresがundefになる
+        if(res !== undefined) {
+          Item.saveItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
+        }
+      });
+    };
+    $scope.showEditPopup();
   }
 });
