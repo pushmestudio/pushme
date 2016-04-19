@@ -4,6 +4,7 @@
     <ion-list can-swipe="listCanSwipe">
       <ion-item class="item-remove-animate item-text-wrap" ng-repeat="group in groupObject.groupList track by $index" type="item-text-wrap" ng-href="#/pushme/groups/{{group.groupId}}" ng-click="">
         <h2>{{group.groupName}}</h2>
+        <p>{{group.groupNote}}</p>
 
         <i class="icon ion-chevron-right icon-accessory"></i>
         <ion-option-button class="button-balanced" ng-click="">
