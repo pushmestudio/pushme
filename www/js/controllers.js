@@ -228,10 +228,10 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
   };
 
   /**
-   * @function popAd
+   * @function popAdConfirm
    * @description 広告の表示についてポップアップで表示してもよいか確認後、モーダルにて表示する
    */
-  $scope.popAd = function() {
+  $scope.popAdConfirm = function() {
     $ionicPopup.confirm({
       title: '[Ad Display Confirmation]', // String. The title of the popup.
       template: 'Our Robo bring an ad. <br>Can I show you it once?<br>(You can help us through tapping an ad!)', // String (optional). The html template to place in the popup body.
