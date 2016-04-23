@@ -185,4 +185,63 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     };
     $scope.showEditPopup();
   }
+})
+
+/**
+ * @module AdsCtrl
+ * @description 広告表示用のコントローラ
+ * @requires $scope
+ * @requires $ionicPralform
+ * @requires $ionicPopup
+ * @requires AdMobManager
+ * @requires d
+ */
+.controller('AdsCtrl', function($scope, $ionicPlatform, $ionicPopup, AdMobManager, d) {
+  // AdMobManagerのフラグに関するデータをバインド
+  $scope.flagData = AdMobManager.flagData;
+
+  /**
+   * @function init
+   * @description ionicの準備ができたら、広告表示の初期化処理を呼び出す
+   */
+  $scope.init = function(){
+    $ionicPlatform.ready(function(){
+      AdMobManager.initAdMob();
+    });
+  }
+
+  /**
+   * @function showUpInterstitialAd
+   * @description インタースティシャル広告を画面全体に表示させる
+   * 何らかのエラーでInterstitial広告が表示できない場合は、代替広告表示用のフラグをtrueにする
+   * @todo 現在、代替広告表示用のフラグがONになっても特段の処理はされていない模様
+   */
+  $scope.showUpInterstitialAd = function(){
+    try{
+      d.log('Show Interstitial Ad');
+      // Interstitial広告を呼び出す
+      AdMobManager.showInterstitialAd();
+    } catch(e){
+      d.log(e);
+      $scope.showAlterAd = true;
+    }
+  };
+
+  /**
+   * @function popAdConfirm
+   * @description 広告の表示についてポップアップで表示してもよいか確認後、モーダルにて表示する
+   */
+  $scope.popAdConfirm = function() {
+    $ionicPopup.confirm({
+      title: '[Ad Display Confirmation]', // String. The title of the popup.
+      template: 'Our Robo bring an ad. <br>Can I show you it once?<br>(You can help us through tapping an ad!)', // String (optional). The html template to place in the popup body.
+    }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
+      if(res) { // Okなら広告を表示する
+        AdMobManager.flagData.iconFlag = false; // 一度アイコンボタンを押したら、はい・いいえにかかわらず以降は表示しないようにする
+        $scope.showUpInterstitialAd();
+      } else {
+        AdMobManager.flagData.iconFlag = false; // 一度アイコンボタンを押したら、はい・いいえにかかわらず以降は表示しないようにする
+      }
+    });
+  };
 });
