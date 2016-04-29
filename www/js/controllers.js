@@ -185,7 +185,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         template: '<div class="list">' +
           '<label class="item item-input"><input type="text" placeholder="Item Name" ng-model="editableItem.itemName" autofocus></label>' +
           '<label class="item item-input"><textarea placeholder="Note..." ng-model="editableItem.itemNote"></textarea></label></div>',
-        title: 'Input Group Info',
+        title: 'Input Item Info',
         scope: $scope,
         buttons: [
           {
