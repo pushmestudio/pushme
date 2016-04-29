@@ -41,13 +41,30 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     DBConn.updateGroup(group);
   }
 
+  /**
+   * @function deleteGroup
+   * @description Controllersから受け取ったgroupオブジェクトをDBから削除する
+   */
+  var deleteGroup = function(group, groupIndex){
+    d.log("dleteGroup is called");
+    DBConn.deleteGroup(group).then(function(){
+      // groupList内の指定されたgroupを削除(index指定で削除しているのが気に食わない)
+      // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
+      $timeout(function(){
+        groupObject.groupList.splice(groupIndex, 1);    
+      });
+    })
+    DBConn.deleteGroupAllItems(group);
+  }
+
   // API公開名: 呼ばれる実際の内容
   return {
     groupObject: groupObject,
     initGroup: function(){
       initGroup();
     },
-    saveGroup: saveGroup
+    saveGroup: saveGroup,
+    deleteGroup: deleteGroup
   };
 })
 
@@ -85,12 +102,28 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     DBConn.updateItem(item);
   }
 
+  /**
+   * @function deleteItem
+   * @description Controllersから受け取ったitemオブジェクトをDBから削除する
+   */
+  var deleteItem = function(item, itemIndex){
+    d.log("dleteItem is called");
+    DBConn.deleteItem(item).then(function(){
+      // itemList内の指定されたアイテムを削除(index指定で削除しているのが気に食わない)
+      // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
+      $timeout(function(){
+        itemObject.itemList.splice(itemIndex, 1);    
+      });
+    })
+  }
+
   return {
     itemObject: itemObject,
     initItem: function(groupId){
       initItem(groupId);
     },
-    saveItem: saveItem
+    saveItem: saveItem,
+    deleteItem: deleteItem
   };
 })
 
