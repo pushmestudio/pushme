@@ -84,6 +84,24 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     };
     $scope.showEditPopup();
   }
+
+  /**
+   * @function deleteGroup
+   * @description グループ一覧上にてグループを削除する
+   * @param {object} group 削除するグループのオブジェクト
+   * @param {object} groupIndex 削除対象となるグループの配列上の番号
+   */
+   $scope.deleteGroup = function(group, groupIndex){
+    $ionicPopup.confirm({
+      template: 'Are you sure to delete this group?<br>(This action cannnot be undone.)', // String (optional). The html template to place in the popup body.
+      okType: 'button-assertive'
+    }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
+      if(res) { // ポップアップでOkなら削除する
+        Group.deleteGroup(group, groupIndex);
+        $ionicListDelegate.closeOptionButtons();
+      }
+    });
+   }
 })
 
 /**
@@ -185,6 +203,24 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     };
     $scope.showEditPopup();
   }
+
+  /**
+   * @function deleteItem
+   * @description アイテム一覧上にてアイテムを削除する
+   * @param {object} item 削除するアイテムのオブジェクト
+   * @param {object} itemIndex 削除対象となるアイテムの配列上の番号
+   */
+   $scope.deleteItem = function(item, itemIndex){
+    $ionicPopup.confirm({
+      template: 'Are you sure to delete this item?<br>(This action cannnot be undone.)', // String (optional). The html template to place in the popup body.
+      okType: 'button-assertive'
+    }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
+      if(res) { // ポップアップでOkなら削除する
+        Item.deleteItem(item, itemIndex);
+        $ionicListDelegate.closeOptionButtons();
+      }
+    });
+   }
 })
 
 /**

@@ -239,6 +239,69 @@ angular.module('mainApp.dbConnector', [])
   }
 
   /**
+   * @function deleteGroup
+   * @description オブジェクトストアに登録されている指定されたgroupを削除する。
+   * @param {object} group 削除対象となるグループオブジェクト
+   * @return {Promise} 同期処理を行うためのオブジェクト
+   */
+   module.deleteGroup = function(group) {
+    d.log('deleteGroup is called');
+
+    var trans = module.db.transaction(module.groupStoreName, 'readwrite');
+    var store = trans.objectStore(module.groupStoreName);
+    var deferred = module.q.defer();
+
+    // 名前が一致するデータを取得する
+    store.delete(group.groupId).onsuccess = function(event) {
+      var data = event.target.result;
+      d.log('delete group completed!');
+      deferred.resolve();
+    }
+    store.delete(group.groupId).onerror = function(event) {
+      d.log('delete group failed.');
+      deferred.reject('delete group failed.' + event.message);
+    }
+    return deferred.promise;
+  }
+
+  /**
+   * @function deleteGroupAllItems
+   * @description 指定されたグループに紐づくアイテムを全て削除する
+   * @param {object} group 削除対象となるグループオブジェクト
+   * @return {Promise} 同期処理を行うためのオブジェクト
+   */
+   module.deleteGroupAllItems = function(group) {
+    d.log('deleteGroupAllImtes is called');
+
+    var trans = module.db.transaction(module.itemStoreName, 'readwrite');
+    var store = trans.objectStore(module.itemStoreName);
+
+     // 特定のグループ名を持つもののみをフィルター
+    var range = IDBKeyRange.only(group.groupId);
+    var index = store.index("itemGroup");
+
+    var deferred = module.q.defer();
+
+    // 名前が一致するデータを取得する
+    index.openKeyCursor(range).onsuccess = function(event){
+      var keyCursor = event.target.result;
+      if(keyCursor){
+        store.delete(keyCursor.primaryKey);
+        keyCursor.continue();
+      } else {
+        d.log('delete group all items completed!');
+        deferred.resolve();
+      }
+    }
+    index.openKeyCursor(range).onerror = function(event) {
+      d.log('delete group all items failed.');
+      deferred.reject('delete group all items failed.' + event.message);
+    }
+    return deferred.promise;
+  }
+
+
+  /**
    * @function updateItem
    * @description オブジェクトストアに登録されている項目を更新する。
    * @param {object} item 更新対象となるアイテムオブジェクト
@@ -280,6 +343,32 @@ angular.module('mainApp.dbConnector', [])
     return deferred.promise;
   }
 
+  /**
+   * @function deleteItem
+   * @description オブジェクトストアに登録されている指定されたアイテムを削除する。
+   * @param {object} item 削除対象となるグループオブジェクト
+   * @return {Promise} 同期処理を行うためのオブジェクト
+   */
+   module.deleteItem = function(item) {
+    d.log('deleteItem is called');
+
+    var trans = module.db.transaction(module.itemStoreName, 'readwrite');
+    var store = trans.objectStore(module.itemStoreName);
+    var deferred = module.q.defer();
+
+    // 名前が一致するデータを取得する
+    store.delete(item.itemId).onsuccess = function(event) {
+      var data = event.target.result;
+      d.log('delete item completed!');
+      deferred.resolve();
+    }
+    store.delete(item.itemId).onerror = function(event) {
+      d.log('delete item failed.');
+      deferred.reject('delete item failed.' + event.message);
+    }
+    return deferred.promise;
+  }
+
 
   // DBConnとして呼び出し可能(≒public)とするメソッドを下記に定義
   return {
@@ -293,6 +382,9 @@ angular.module('mainApp.dbConnector', [])
       return module.getAllGroupItems(groupId);
     },
     updateGroup: module.updateGroup,
-    updateItem: module.updateItem
+    deleteGroup: module.deleteGroup,
+    deleteGroupAllItems: module.deleteGroupAllItems,
+    updateItem: module.updateItem,
+    deleteItem: module.deleteItem
   };
 });
