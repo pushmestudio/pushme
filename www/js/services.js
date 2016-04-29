@@ -10,19 +10,44 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @description グループ一覧の定義
  * @requires d
  */
-.factory('Group', function(d) {
+.factory('Group', function($timeout, d, DBConn) {
   d.log('Group service is loaded');
 
-  var groupList = [{
-    groupId: 1,
-    name: '飲み屋'
-  }, {
-    groupId: 2,
-    name: '部門メンバー'
-  }];
+  // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
+  var groupObject = {
+    groupList: []
+  };
 
+  /**
+   * @function initGroup
+   * @description DBを使用する前に接続処理を行い、成功したらDBから全Groupを取得する
+   */
+  var initGroup = function(){
+    DBConn.connect().then(function() {
+      DBConn.getAllGroups().then(function(data) {
+        $timeout(function(){
+          groupObject.groupList = data;
+        });
+      });
+    });
+  }
+
+  /**
+   * @function saveGroup
+   * @description Controllersから受け取ったgroupオブジェクトをDBに保存する
+   */
+  var saveGroup = function(group) {
+    d.log("saveGroup is called");
+    DBConn.updateGroup(group);
+  }
+
+  // API公開名: 呼ばれる実際の内容
   return {
-    groupList: groupList
+    groupObject: groupObject,
+    initGroup: function(){
+      initGroup();
+    },
+    saveGroup: saveGroup
   };
 })
 
@@ -31,23 +56,41 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @description アイテム一覧の定義
  * @requires d
  */
-.factory('Item', function(d) {
+.factory('Item', function($timeout, d, DBConn) {
   d.log('Item service is loaded');
 
-  var itemList = [{
-    itemId: 1,
-    groupId: 2,
-    name: '俺',
-    note: 'File Details'
-  }, {
-    itemId: 2,
-    groupId: 2,
-    name: 'オレ',
-    note: 'default'
-  }];
+  // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
+  var itemObject = {
+    itemList: []
+  }
+
+  /**
+   * @function initItem
+   * @description DBから指定したgroupIdをもつアイテム一覧を取得する
+   */
+  var initItem = function(groupId){
+    DBConn.getAllGroupItems(groupId).then(function(data){
+      $timeout(function(){
+          itemObject.itemList = data;
+      });
+    })
+  }
+
+  /**
+   * @function saveItem
+   * @description Controllersから受け取ったitemオブジェクトをDBに保存する
+   */
+  var saveItem = function(item) {
+    d.log("saveItem is called");
+    DBConn.updateItem(item);
+  }
 
   return {
-    itemList: itemList
+    itemObject: itemObject,
+    initItem: function(groupId){
+      initItem(groupId);
+    },
+    saveItem: saveItem
   };
 })
 
@@ -102,4 +145,98 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     debug: printDebug,
     trace: printTrace
   };
+})
+
+/**
+ * @module AdMobManager
+ * @description AdMob広告関連の変数を用意する
+ * @requires $rootScope
+ * @requires $timeout
+ * @requires d
+ */
+.factory('AdMobManager', function($rootScope, $timeout, d){
+  /**
+   * @const {double} FREQ_POP_AD 広告の表示量、1で常に表示、0で常に非表示
+   */
+  const FREQ_POP_AD = 1.0;
+
+  /**
+  * @const {boolean} DEBUG_MODE デバッグ中ならONにして、テスト用広告にする
+   */
+  const DEBUG_MODE = $rootScope.debugMode;
+
+  // 広告呼び出し用のID
+  var admobid = {
+    // banner: '',　バナー広告を使用する場合に必要
+    interstitial: 'ca-app-pub-2622960706202758/2841802224'
+  };
+
+  var flagData = {
+    iconFlag: false,
+    alterFlag: false
+  }
+
+  /**
+   * @function initAdMob
+   * @description 広告関連の処理を初期化する関数
+   * 現在は、端末がAndroidの場合のみ初期化処理が進められる
+   * デバッグモードtrueの場合、テスト広告の準備をする
+   */
+  var initAdMob = function(){
+    // Androidの場合
+    if(ionic.Platform.isAndroid()){
+      if(typeof window.AdMob == 'undefined'){
+        d.log('AdMob plugin is not ready');
+      } else {
+        /*
+        // バナー広告を準備
+        AdMob.createBanner({
+          adId: admobid.banner,
+          isTesting: true,
+          overlap: false,
+          position: AdMob.AS_POSITION.BOTTOM_CENTER,
+          bgColor: 'black',
+          autoShow: true
+        });
+        */
+
+        // 広告の読込が完了（成功したときのコールバック）
+        document.addEventListener('onAdLoaded', function(data){
+          if(Math.random() <= FREQ_POP_AD){
+            d.log('Interstitial ad is ready');
+            $timeout(function(){
+              flagData.iconFlag = true;
+            });
+          }
+        });
+
+        // インタースティシャル広告を準備
+        window.AdMob.prepareInterstitial({
+          adId: admobid.interstitial,
+          // デバック⇒true, 本番⇒false
+          isTesting: DEBUG_MODE,
+          autoShow: false
+        });
+      }
+    }
+  }
+
+  /**
+   * @function showInterstitialAd
+   * @description インターステイシャル広告を表示する
+   */
+  var showInterstitialAd = function(){
+    window.AdMob.showInterstitial();
+  }
+
+  return {
+    AdMob: window.AdMob,
+    flagData: flagData,
+    initAdMob: function(){
+      initAdMob();
+    },
+    showInterstitialAd: function(){
+      showInterstitialAd();
+    }
+  }
 });
