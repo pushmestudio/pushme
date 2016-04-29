@@ -94,20 +94,20 @@ angular.module('mainApp.dbConnector', [])
     if(!groupStore || !itemStore) return;
 
     var groupSamples = [{
-      "groupId": "20160407120000",
+      "groupId": "00160407120000",
       "groupName": "[Sample]members",
       "groupNote": "my department"
     }];
 
     var itemSamples = [{
-      "itemId": "20160407120001",
+      "itemId": "00160407120001",
       "itemName": "me",
-      "itemGroup": "20160407120000",
+      "itemGroup": "00160407120000",
       "itemNote": "it's me"
     }, {
-      "itemId": "20160407120002",
+      "itemId": "00160407120002",
       "itemName": "boss",
-      "itemGroup": "20160407120000",
+      "itemGroup": "00160407120000",
       "itemNote": "my boss"
     }];
 

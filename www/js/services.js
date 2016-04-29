@@ -51,7 +51,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   var addGroup = function(group) {
     d.log("addGroup is called");
     // グループ名が入力されていなかった場合、グループ名を設定する
-    if(group.groupName = null || group.groupName == ''){
+    if(group.groupName == null || group.groupName == ''){
       // NewGroup_YYYY/MM/DD というグループ名を設定
       var currentTime = new Date();
       group.groupName = 'NewGroup_' + currentTime.getFullYear() + '/' + (currentTime.getMonth()+1) + '/' + currentTime.getDate();
@@ -114,7 +114,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   var addItem = function(item) {
     d.log("addItem is called");
     // アイテム名が入力されていなかった場合、アイテム名を設定する
-    if(item.itemName == ''){
+    if(item.itemName == null || item.itemName == ''){
       // NewItem_YYYY/MM/DD というアイテム名を設定
       var currentTime = new Date();
       item.itemName = 'NewItem_' + currentTime.getFullYear() + '/' + (currentTime.getMonth()+1) + '/' + currentTime.getDate();
