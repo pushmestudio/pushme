@@ -34,14 +34,14 @@ angular.module('mainApp', ['ionic', 'mainApp.controllers'])
 
   // アプリ起動時の初期画面
   .state('groups', {
-    cache: false, // Toast正常表示のための暫定対応
+//    cache: false, // Toast正常表示のための暫定対応
     url: '/pushme/groups',
     templateUrl: 'templates/groups.html', // TODO
     controller: 'GroupCtrl' // TODO
   })
 
   .state('items', {
-    cache: false, // Toast正常表示のための暫定対応
+//    cache: false, // Toast正常表示のための暫定対応
     url: '/pushme/groups/:groupId',
     templateUrl: 'templates/items.html', // TODO
     controller: 'ItemCtrl' // TODO
