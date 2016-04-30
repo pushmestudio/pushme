@@ -94,7 +94,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       loadGroup();
     },
     addGroup: addGroup,
-    saveGroup: saveGroup
+    saveGroup: saveGroup,
     deleteGroup: deleteGroup
   };
 })
