@@ -450,8 +450,8 @@ angular.module('mainApp.dbConnector', [])
     updateGroup: module.updateGroup,
     deleteGroup: module.deleteGroup,
     addNewItem: module.addNewItem,
-    updateItem: module.updateItem
-    deleteItem: module.deleteItem
-    deleteGroupAllItems: module.deleteGroupAllItems,
+    updateItem: module.updateItem,
+    deleteItem: module.deleteItem,
+    deleteGroupAllItems: module.deleteGroupAllItems
   };
 });
