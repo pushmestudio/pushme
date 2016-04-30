@@ -4,6 +4,7 @@
     <ion-list can-swipe="listCanSwipe">
       <ion-item class="item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
           type="item-text-wrap" ng-click="">
+        <input type="checkbox" ng-checked="selectFlagArray[$index].flag" ng-click="selectFlagArray[$index].flag = !selectFlagArray[$index].flag">
         <h2>{{item.itemName}}</h2>
         <p>{{item.itemNote}}</p>
 
@@ -15,6 +16,14 @@
         </ion-option-button>
       </ion-item>
     </ion-list>
+
+    <!-- selectテスト -->
+    <button ng-click="selectItem()">select</button>
+    <p>{{randomSelectResult.itemGroup}}</p>
+    <p>{{randomSelectResult.itemId}}</p>
+    <p>{{randomSelectResult.itemName}}</p>
+    <p>{{randomSelectResult.itemNote}}</p>
+    <!-- ここまで(selectテスト) -->
 
     </ion-list>
 

@@ -109,6 +109,11 @@ angular.module('mainApp.dbConnector', [])
       "itemName": "boss",
       "itemGroup": "20160407120000",
       "itemNote": "my boss"
+    }, {
+      "itemId": "20160407120003",
+      "itemName": "new commer",
+      "itemGroup": "20160407120000",
+      "itemNote": "teammate"
     }];
 
     // サンプルデータを一件ずつ追加する
