@@ -124,6 +124,12 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
   $scope.groupName = ''; // ページ上に表示するグループ名
   $scope.itemObject = Item.itemObject; // ページ上に表示するアイテム
 
+  console.dir($scope.itemObject);//itemList Array[2]
+  console.dir($scope.itemObject.itemList.length);
+  console.log(Item.itemObject.itemList.length); //0になる
+  console.log(Group.groupObject.groupList.length);//1
+
+
   var counter = 0;
   for(counter; counter < Group.groupObject.groupList.length; counter++) {
     // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
@@ -135,6 +141,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
 
   counter = 0;
   for(counter; counter < Item.itemObject.itemList.length; counter++) {
+    console.log("hi");
     // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
     if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
       $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
@@ -221,6 +228,47 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       }
     });
    }
+
+   /**
+    * @function selectItem
+    * @description アイテム一覧上にてアイテムをランダム選択する
+    * @param
+    * @param
+    */
+    //方針
+    //全Itemに最初からチェックが入っている
+    //基本は全Itemからのランダム選択
+    // チェックを外すと，チェック済の中からランダム選択
+    $scope.selectItem = function(){
+      $scope.targetItems =[];
+      for (var i=0; i<$scope.selectFlagArray.length;i++){
+        if ($scope.selectFlagArray[i].flag === true) {
+            $scope.targetItems.push($scope.itemObject.itemList[i]);
+        }
+      }
+      console.dir($scope.targetItems);
+      //ランダム抽出
+      $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
+      console.dir($scope.randomSelectResult);
+    }
+
+    //以下の値はテストのためfalseを交えてる
+    //デフォルトは全てtrue
+    $scope.selectFlagArray = [
+      {"flag" : false},
+      {"flag" : true},
+      {"flag" : true}
+    ];
+
+    //以下はテスト用のため後で削除
+    $scope.checkFlag = function(itemIndex){
+      if ($scope.selectFlagArray[itemIndex].flag === true){
+        console.log("GJ!!");
+      }else{
+        console.log("Not Good");
+      }
+    }
+
 })
 
 /**
