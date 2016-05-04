@@ -2,29 +2,29 @@
 <ion-view view-title="{{groupName}}">
   <ion-content scroll="true" has-header="false">
     <ion-list can-swipe="listCanSwipe">
-      <div class="row palette-items">
-        <ion-item class="col col-50 item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
-            type="item-text-wrap" ng-click="">
-          <h2>{{item.itemName}}</h2>
-          <p>{{item.itemNote}}</p>
+      <ion-item class="item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
+          type="item-text-wrap" ng-click="">
+        <h2>{{item.itemName}}</h2>
+        <p>{{item.itemNote}}</p>
 
-          <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
-            <i class="icon ion-edit"></i>
-          </ion-option-button>
-          <ion-option-button class="button-assertive" ng-click="deleteItem(item, $index)">
-            <i class="icon ion-trash-a"></i>
-          </ion-option-button>
-        </ion-item>
-      </div>
+        <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
+          <i class="icon ion-edit"></i>
+        </ion-option-button>
+        <ion-option-button class="button-assertive" ng-click="deleteItem(item, $index)">
+          <i class="icon ion-trash-a"></i>
+        </ion-option-button>
+      </ion-item>
     </ion-list>
 
     </ion-list>
 
     <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-    <a href="">
-      <button class="button button-clear button-full button-large" ng-click="openItemInfoPopup()">
-        <i class="icon ion-plus-circled"></i>
-      </button>
-    </a>
+    <div class="row">
+      <div class="col col-50">
+        <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
+          <i class="icon-left ion-plus-circled"></i> Item
+        </button>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
