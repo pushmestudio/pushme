@@ -51,7 +51,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       // groupList内の指定されたgroupを削除(index指定で削除しているのが気に食わない)
       // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
       $timeout(function(){
-        groupObject.groupList.splice(groupIndex, 1);    
+        groupObject.groupList.splice(groupIndex, 1);
       });
     })
     DBConn.deleteGroupAllItems(group);
@@ -73,25 +73,73 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @description アイテム一覧の定義
  * @requires d
  */
-.factory('Item', function($timeout, d, DBConn) {
+.factory('Item', function($timeout, d, DBConn, $q) {
   d.log('Item service is loaded');
+
+  // var imod = this;
+  // var $injector = angular.injector(['ng']);
+  // imod.q = $injector.get('$q');
 
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
   var itemObject = {
     itemList: []
   }
+  var selectFlagArray = [];
+        /*{"flag" : true},
+        {"flag" : true},
+        {"flag" : true}*/
+  var itemAmmount = 0;
 
   /**
    * @function initItem
    * @description DBから指定したgroupIdをもつアイテム一覧を取得する
    */
   var initItem = function(groupId){
+
+    //var deferred = imod.q.defer();
+    var def = $q.defer();
     DBConn.getAllGroupItems(groupId).then(function(data){
-      $timeout(function(){
-          itemObject.itemList = data;
+      //$timeout(function(){
+        itemObject.itemList = data;
+        console.dir(itemObject);
+        console.log("num: " + itemObject.itemList.length);
+        for (var i=0;i<itemObject.itemList.length;i++){
+          selectFlagArray.push('{"flag" : true}');
+        }
+        console.log(selectFlagArray);
+        console.log("flag length : " + selectFlagArray.length);
+        //def.resolve(itemObject);
+        def.resolve();
+      //},2000);
+    });
+    return def.promise;
+  }
+
+  var allCheckFlag = function(){
+      for (var i=0;i<selectFlagArray.length;i++){
+        selectFlagArray[i].flag = true;
+      }
+  }
+
+  var getFlag = function(){
+    return selectFlagArray;
+  }
+
+  /*
+  ).then(function(){
+      DBConn.getAllGroupItems(groupId).then(function(data){
+        $timeout(function(){
+            itemObject.itemList = data;
+            deferred.resolve(itemObject);
+            console.log("num: " + itemObject.itemList.length);
+            itemAmmount = itemObject.itemList.length;
+            console.log("itemAmmount(service) : " + itemAmmount);
+            return deferred.promise;
+        });
+
       });
     })
-  }
+  }*/
 
   /**
    * @function saveItem
@@ -112,7 +160,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       // itemList内の指定されたアイテムを削除(index指定で削除しているのが気に食わない)
       // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
       $timeout(function(){
-        itemObject.itemList.splice(itemIndex, 1);    
+        itemObject.itemList.splice(itemIndex, 1);
       });
     })
   }
@@ -123,7 +171,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       initItem(groupId);
     },
     saveItem: saveItem,
-    deleteItem: deleteItem
+    deleteItem: deleteItem,
+    itemAmmount: itemAmmount,
+    allCheckFlag: function(){
+      allCheckFlag();
+    },
+    getFlag: function(){
+      getFlag();
+    }
   };
 })
 
