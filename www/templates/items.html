@@ -19,10 +19,12 @@
     </ion-list>
 
     <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-    <a href="">
-      <button class="button button-clear button-full button-large">
-        <i class="icon ion-plus-circled"></i>
-      </button>
-    </a>
+    <div class="row">
+      <div class="col col-50">
+        <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
+          <i class="icon-left ion-plus-circled"></i> Item
+        </button>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
