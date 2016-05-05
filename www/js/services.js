@@ -33,6 +33,33 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   }
 
   /**
+   * @function loadGroup
+   * @description DBから全Groupを取得する
+   */
+  var loadGroup = function(){
+    DBConn.getAllGroups().then(function(data) {
+      $timeout(function(){
+        groupObject.groupList = data;
+      });
+    });
+  }
+
+  /**
+   * @function addGroup
+   * @description Controllersから受け取った新規groupオブジェクトをDBに追加する
+   */
+  var addGroup = function(group) {
+    d.log("addGroup is called");
+    // グループ名が入力されていなかった場合、グループ名を設定する
+    if(group.groupName == null || group.groupName == ''){
+      // NewGroup_YYYY/MM/DD というグループ名を設定
+      var currentTime = new Date();
+      group.groupName = 'NewGroup_' + currentTime.getFullYear() + '/' + (currentTime.getMonth()+1) + '/' + currentTime.getDate();
+    }
+    DBConn.addNewGroup(group);
+  }
+
+  /**
    * @function saveGroup
    * @description Controllersから受け取ったgroupオブジェクトをDBに保存する
    */
@@ -51,7 +78,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       // groupList内の指定されたgroupを削除(index指定で削除しているのが気に食わない)
       // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
       $timeout(function(){
-        groupObject.groupList.splice(groupIndex, 1);    
+        groupObject.groupList.splice(groupIndex, 1);
       });
     })
     DBConn.deleteGroupAllItems(group);
@@ -63,6 +90,10 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     initGroup: function(){
       initGroup();
     },
+    loadGroup: function(){
+      loadGroup();
+    },
+    addGroup: addGroup,
     saveGroup: saveGroup,
     deleteGroup: deleteGroup
   };
@@ -94,6 +125,21 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   }
 
   /**
+   * @function addItem
+   * @description Controllersから受け取った新規ItemオブジェクトをDBに追加する
+   */
+  var addItem = function(item) {
+    d.log("addItem is called");
+    // アイテム名が入力されていなかった場合、アイテム名を設定する
+    if(item.itemName == null || item.itemName == ''){
+      // NewItem_YYYY/MM/DD というアイテム名を設定
+      var currentTime = new Date();
+      item.itemName = 'NewItem_' + currentTime.getFullYear() + '/' + (currentTime.getMonth()+1) + '/' + currentTime.getDate();
+    }
+    DBConn.addNewItem(item);
+  }
+
+  /**
    * @function saveItem
    * @description Controllersから受け取ったitemオブジェクトをDBに保存する
    */
@@ -112,7 +158,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       // itemList内の指定されたアイテムを削除(index指定で削除しているのが気に食わない)
       // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
       $timeout(function(){
-        itemObject.itemList.splice(itemIndex, 1);    
+        itemObject.itemList.splice(itemIndex, 1);
       });
     })
   }
@@ -122,6 +168,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     initItem: function(groupId){
       initItem(groupId);
     },
+    addItem: addItem,
     saveItem: saveItem,
     deleteItem: deleteItem
   };
