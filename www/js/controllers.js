@@ -116,7 +116,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
  * @requires Group
  * @requires d
  */
-.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d, $timeout, $q) {
+.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d, $timeout, $q, $interval) {
   // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
 
 /*** Promise版
@@ -290,36 +290,47 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     // チェックを外すと，チェック済の中からランダム選択
     $scope.selectItem = function(){
 
+      var reset = function(){
+        for (var i=0; i<$scope.itemObject.itemList.length;i++){
+          if ($scope.selectFlagArray[i] === true) {
+              document.getElementById('random_'+i).style.backgroundColor = '#BBCCDD';
+          }else if ($scope.selectFlagArray[i] === false){
+              document.getElementById('random_'+i).style.backgroundColor = '#fff';
+          }
+        }
+        // ランダム選択対象として抽出(flag=trueのitem)
+        $scope.targetItems =[];
+        for (var i=0; i<$scope.itemObject.itemList.length;i++){
+          if ($scope.selectFlagArray[i] === true) {
+              $scope.targetItems.push($scope.itemObject.itemList[i]);
+          }
+        }
+      }
+
+      var randomSelect = function(){
+        // ランダム抽出
+        $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
+
+        // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
+        for (var i=0;i<$scope.itemObject.itemList.length;i++){
+          if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
+              chikachika(i); //CSS動的変更メソッド
+          }
+        }
+      }
       var chikachika = function(resultIndex){
-        console.log("resultIndex :: " + resultIndex);
+        d.log("resultIndex :: " + resultIndex);
+        document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
       }
 
-      // ランダム選択対象として抽出(flag=trueのitem)
-      $scope.targetItems =[];
-      for (var i=0; i<$scope.itemObject.itemList.length;i++){
-        if ($scope.selectFlagArray[i] === true) {
-            $scope.targetItems.push($scope.itemObject.itemList[i]);
-        }
-      }
-      d.log("ランダム選択の対象オブジェクト: ");
-      console.dir($scope.targetItems); //dコメントなので後で削除
-      //flag trueのitemに対して，ランダムで色付け
-
-      // ランダム抽出
-      $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
-      d.log("ランダム選択の結果: "); //dコメントなので後で削除
-      console.dir($scope.randomSelectResult); //dコメントなので後で削除
-
-      // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
-      for (var i=0;i<$scope.itemObject.itemList.length;i++){
-        if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
-            chikachika(i); //CSS動的変更メソッド
-        }
-      }
+      $interval(function () {
+        reset();
+        randomSelect();
+      }, 300,7);
     }
 
     $scope.showFlagStatus = function(){
-      console.log($scope.selectFlagArray);
+      d.log($scope.selectFlagArray);
     }
 
     $scope.allCheckFlag = function(){
