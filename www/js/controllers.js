@@ -139,18 +139,14 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
   $scope.initItems = function(){
     Item.initItem($stateParams.groupId);
     $scope.getItemObject();
-    $scope.getFlag();
+    $scope.selectFlagArray = Item.getFlag();
+    //$scope.getFlag();
     //$scope.allCheckFlag();
   }
 
   $scope.getItemObject = function(){
     $scope.itemObject = Item.itemObject;
   }
-
-  $scope.callNum = function(){
-    alert($scope.itemObject.itemList.length);
-  }
-  //console.log($scope.itemObject.itemList.length);
 
   var counter = 0;
   for(counter; counter < Group.groupObject.groupList.length; counter++) {
@@ -293,56 +289,43 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     //基本は全Itemからのランダム選択
     // チェックを外すと，チェック済の中からランダム選択
     $scope.selectItem = function(){
+
+      var chikachika = function(resultIndex){
+        console.log("resultIndex :: " + resultIndex);
+      }
+
+      // ランダム選択対象として抽出(flag=trueのitem)
       $scope.targetItems =[];
-      for (var i=0; i<$scope.selectFlagArray.length;i++){
-        if ($scope.selectFlagArray[i].flag === true) {
+      for (var i=0; i<$scope.itemObject.itemList.length;i++){
+        if ($scope.selectFlagArray[i] === true) {
             $scope.targetItems.push($scope.itemObject.itemList[i]);
         }
       }
-
-      console.dir($scope.itemObject.itemList.length);
-      console.log(Item.itemObject.itemList.length); //0になる
-      console.log(Group.groupObject.groupList.length);//1
-
-      console.log("ランダム選択の対象オブジェクト: ");
-      console.dir($scope.targetItems);
+      d.log("ランダム選択の対象オブジェクト: ");
+      console.dir($scope.targetItems); //dコメントなので後で削除
       //flag trueのitemに対して，ランダムで色付け
 
-      //ランダム抽出
+      // ランダム抽出
       $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
-      console.log("ランダム選択の結果: ");
-      console.dir($scope.randomSelectResult);
+      d.log("ランダム選択の結果: "); //dコメントなので後で削除
+      console.dir($scope.randomSelectResult); //dコメントなので後で削除
+
+      // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
+      for (var i=0;i<$scope.itemObject.itemList.length;i++){
+        if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
+            chikachika(i); //CSS動的変更メソッド
+        }
+      }
     }
 
-    //以下の値はテストのためfalseを交えてる
-    //デフォルトは全てtrue
-    /*$scope.selectFlagArray = [
-      {"flag" : true},
-      {"flag" : true},
-      {"flag" : true}
-    ];*/
-    $scope.selectFlagArray = '';
-    $scope.getFlag = function(){
-      // $scope.selectFlagArray = Item.selectFlagArray;
-      $scope.selectFlagArray = Item.getFlag();
+    $scope.showFlagStatus = function(){
+      console.log($scope.selectFlagArray);
     }
 
     $scope.allCheckFlag = function(){
       Item.allCheckFlag();
-      $scope.selectFlagArray = Item.getFlag();
-      console.dir($scope.selectFlagArray);
-      console.log("length : " + $scope.selectFlagArray.length);
+      //$scope.selectFlagArray = Item.getFlag();
     }
-
-    //以下はテスト用のため後で削除
-    $scope.checkFlag = function(itemIndex){
-      if ($scope.selectFlagArray[itemIndex].flag === true){
-        console.log("GJ!!");
-      }else{
-        console.log("Not Good");
-      }
-    }
-    $scope.testFlag = "true";
 })
 
 /**
