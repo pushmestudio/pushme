@@ -24,14 +24,27 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
 
   /**
    * @function openGroupInfoPopup
-   * @description グループ一覧上にてグループの名前とコメントを変更するためのポップアップを開く
+   * @description グループ一覧上にてグループの新規作成、またはグループの名前とコメントを変更するためのポップアップを開く
+   *            <br>引数のオブジェクトの有無によりグループの新規作成か変更かを判定する
    * @param {object} group 編集するグループのオブジェクト
    */
   $scope.openGroupInfoPopup = function(group) {
 
-    $scope.originalGroupName = group.groupName; // 変更前のグループ名、Cancel時に元に戻すために使う
-    $scope.originalGroupNote = group.groupNote; // 変更前のグループメモ、Cancel時に元に戻すために使う
-    $scope.editableGroup = group; // Viewから受け取ったオブジェクトを編集用にscopeバインド
+    // 新規グループ作成を示すフラグ
+    $scope.newGroup = false;
+
+    if(group){
+      $scope.originalGroupName = group.groupName; // 変更前のグループ名、Cancel時に元に戻すために使う
+      $scope.originalGroupNote = group.groupNote; // 変更前のグループメモ、Cancel時に元に戻すために使う
+      $scope.editableGroup = group; // Viewから受け取ったオブジェクトを編集用にscopeバインド
+    }else{
+      // 新規グループ作成時の場合の初期出力
+      $scope.editableGroup = {
+        groupName: '',
+        groupNote: ''
+      };
+      $scope.newGroup = true; // フラグを立て、新規グループであることを示す
+    }
 
     /**
      * @function showEditPopup
@@ -51,9 +64,12 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           {
             text: 'Cancel',
             onTap: function(e) {
-              // キャンセルが押された場合は変更前の値に戻す
-              $scope.editableGroup.groupName = $scope.originalGroupName;
-              $scope.editableGroup.groupNote = $scope.originalGroupNote;
+              // 新規グループ作成キャンセル時は処理を行わない
+              if(!$scope.newGroup){
+                // キャンセルが押された場合は変更前の値に戻す
+                $scope.editableGroup.groupName = $scope.originalGroupName;
+                $scope.editableGroup.groupNote = $scope.originalGroupNote;
+              }
             }
           },
           {
@@ -74,12 +90,21 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           $cordovaKeyboard.close(); // 表示されているキーボードを閉じる
         }
         d.log('Tapped!', res);
-        // cancelが押された場合はresがundefになる
-        if(res !== undefined) {
-          Group.saveGroup(res); // 保存処理の呼び出し, resはgroupオブジェクト
+        // 新規グループ作成であるかを判定する
+        if($scope.newGroup){
+          // cancelが押された場合はresがundefになる
+          if(res !== undefined) {
+            Group.addGroup(res); // 保存処理の呼び出し, resはgroupオブジェクト
+            Group.loadGroup();  // グループ一覧の再読み込みを行う
+          }
+        }else{
+          // cancelが押された場合はresがundefになる
+          if(res !== undefined) {
+            Group.saveGroup(res); // 保存処理の呼び出し, resはgroupオブジェクト
+          }
+          // スワイプで表示させたオプションメニューを閉じる
+          $ionicListDelegate.closeOptionButtons();
         }
-        // スワイプで表示させたオプションメニューを閉じる
-        $ionicListDelegate.closeOptionButtons();
       });
     };
     $scope.showEditPopup();
@@ -199,14 +224,28 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
 
   /**
    * @function openItemInfoPopup
-   * @description アイテムの名前とコメントを変更するためのポップアップを開く
+   * @description アイテムの新規作成、またはアイテムの名前とコメントを変更するためのポップアップを開く
+   *            <br>引数のオブジェクトの有無によりアイテムの新規作成か変更かを判定する
    * @param {object} item 編集するアイテムのオブジェクト
    */
   $scope.openItemInfoPopup = function(item) {
 
-    $scope.originalItemName = item.itemName; // 変更前のアイテム名、Cancel時に元に戻すために使う
-    $scope.originalItemNote = item.itemNote; // 変更前のアイテムプメモ、Cancel時に元に戻すために使う
-    $scope.editableItem = item; // Viewから受け取ったオブジェクトを編集用にscopeバインド
+    // 新規アイテム作成を示すフラグ
+    $scope.newItem = false;
+
+    if(item){
+      $scope.originalItemName = item.itemName; // 変更前のアイテム名、Cancel時に元に戻すために使う
+      $scope.originalItemNote = item.itemNote; // 変更前のアイテムプメモ、Cancel時に元に戻すために使う
+      $scope.editableItem = item; // Viewから受け取ったオブジェクトを編集用にscopeバインド
+    }else{
+      // 新規アイテム作成時の場合の初期出力
+      $scope.editableItem = {
+        itemName: '',
+        itemGroup: $stateParams.groupId,
+        itemNote: ''
+      };
+      $scope.newItem = true; // フラグを立て、新規グループであることを示す
+    }
 
     /**
      * @function showEditPopup
@@ -220,15 +259,18 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         template: '<div class="list">' +
           '<label class="item item-input"><input type="text" placeholder="Item Name" ng-model="editableItem.itemName" autofocus></label>' +
           '<label class="item item-input"><textarea placeholder="Note..." ng-model="editableItem.itemNote"></textarea></label></div>',
-        title: 'Input Group Info',
+        title: 'Input Item Info',
         scope: $scope,
         buttons: [
           {
             text: 'Cancel',
             onTap: function(e) {
-              // キャンセルが押された場合は変更前の値に戻す
-              $scope.editableItem.itemName = $scope.originalItemName;
-              $scope.editableItem.itemNote = $scope.originalItemNote;
+              // 新規アイテム作成キャンセル時は処理を行わない
+              if(!$scope.newItem){
+                // キャンセルが押された場合は変更前の値に戻す
+                $scope.editableItem.itemName = $scope.originalItemName;
+                $scope.editableItem.itemNote = $scope.originalItemNote;
+              }
             }
           },
           {
@@ -249,12 +291,21 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           $cordovaKeyboard.close(); // 表示されているキーボードを閉じる
         }
         d.log('Tapped!', res);
-        // cancelが押された場合はresがundefになる
-        if(res !== undefined) {
-          Item.saveItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
+        // 新規アイテム作成であるかを判定する
+        if($scope.newItem){
+          // cancelが押された場合はresがundefになる
+          if(res !== undefined) {
+            Item.addItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
+            Item.initItem($stateParams.groupId); // アイテム一覧の再読み込みを行う
+          }
+        }else{
+          // cancelが押された場合はresがundefになる
+          if(res !== undefined) {
+            Item.saveItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
+          }
+          // スワイプで表示させたオプションメニューを閉じる
+          $ionicListDelegate.closeOptionButtons();
         }
-        // スワイプで表示させたオプションメニューを閉じる
-        $ionicListDelegate.closeOptionButtons();
       });
     };
     $scope.showEditPopup();
