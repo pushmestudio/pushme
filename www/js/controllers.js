@@ -140,87 +140,34 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
  * @requires Item
  * @requires Group
  * @requires d
+ * @requires timeout
+ * @requires q
+ * @requires interval
  */
 .controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d, $timeout, $q, $interval) {
   // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
 
-/*** Promise版
-  $scope.initItems= function(){
-    Item.initItem($stateParams.groupId).then(function(items){
-      $scope.itemObject = items;
-    });
-  };
-***/
-
-// promise_aa = Item.initItem($stateParams.groupId);
-// d.log(promise_aa);
-// promise_aa.then(function(items){
-
-  $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
+/* Promise版 */
   $scope.groupName = ''; // ページ上に表示するグループ名
   $scope.itemObject = [];
 
+  $scope.initItems= function(){
+    $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
 
-  $scope.initItems = function(){
-    Item.initItem($stateParams.groupId);
-    $scope.getItemObject();
-    $scope.selectFlagArray = Item.getFlag();
-    //$scope.getFlag();
-    //$scope.allCheckFlag();
-  }
-
-  $scope.getItemObject = function(){
-    $scope.itemObject = Item.itemObject;
-  }
-
-  var counter = 0;
-  for(counter; counter < Group.groupObject.groupList.length; counter++) {
-    console.log("hi 1");
-    // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
-    if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
-      $scope.groupName = Group.groupObject.groupList[counter].groupName;
-      break;
+    var counter = 0;
+    for(counter; counter < Group.groupObject.groupList.length; counter++) {
+      // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
+      if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
+        $scope.groupName = Group.groupObject.groupList[counter].groupName;
+        break;
+      }
     }
-  }
 
-  counter = 0;
-  for(counter; counter < Item.itemObject.itemList.length; counter++) {
-    console.log("hi 2");
-    // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
-    if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
-      $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
-      console.log("add item to array");
-    }
-  }
-
-/*
-  $timeout(function(){
-    Item.initItem($stateParams.groupId);
-  },0).then(function(itemObjectByService){
-      $scope.itemObject = itemObjectByService;
-
-    //$scope.itemObject = Item.itemObject;
-    console.log("length : " + Item.itemObject.itemList.length); //0になる
-  });
-  */
-/*
-  Item.initItem($stateParams.groupId).then(function(itemObjectByService){
-      $scope.itemObject = itemObjectByService; // ページ上に表示するアイテム
-  });
-  console.log("length : " + Item.itemObject.itemList.length); //0になる
-  // $scope.init = Item.initItem($stateParams.groupId);
-  //$scope.itemObject = Item.initItem($stateParams.groupId);
-
-  $scope.a = Item.itemAmmount;
-  console.log("itemAmmount : " + $scope.a);
-*/
-
-
-  // $timeout(function(){
-  // $scope.itemObject = Item.itemObject; // ページ上に表示するアイテム
-    // Item.itemObjectの中身が変わっても再度呼ばれないため，Updateする方法を検討しなければならない
-  //   console.log("length : " + Item.itemObject.itemList.length); //0になる
-  // });
+    Item.initItem($stateParams.groupId).then(function(items){
+      $scope.itemObject = items; //Item,initItem($stateParams.groupId);でもOK
+      $scope.selectFlagArray = Item.getFlag();
+    });
+  };
 
   /**
    * @function openItemInfoPopup
@@ -296,7 +243,8 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           // cancelが押された場合はresがundefになる
           if(res !== undefined) {
             Item.addItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
-            Item.initItem($stateParams.groupId); // アイテム一覧の再読み込みを行う
+            //Item.initItem($stateParams.groupId); // アイテム一覧の再読み込みを行う
+            $scope.initItems();
           }
         }else{
           // cancelが押された場合はresがundefになる
@@ -340,13 +288,17 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     //基本は全Itemからのランダム選択
     // チェックを外すと，チェック済の中からランダム選択
     $scope.selectItem = function(){
+      $interval(function () {
+        reset();
+        randomSelect();
+      }, 300,7);//300msで7回ランダム選択
 
       var reset = function(){
         for (var i=0; i<$scope.itemObject.itemList.length;i++){
           if ($scope.selectFlagArray[i] === true) {
-              document.getElementById('random_'+i).style.backgroundColor = '#BBCCDD';
+              document.getElementById('random_'+i).style.backgroundColor = '#BBCCDD';//#BBCCDD #F4A460
           }else if ($scope.selectFlagArray[i] === false){
-              document.getElementById('random_'+i).style.backgroundColor = '#fff';
+              document.getElementById('random_'+i).style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
           }
         }
         // ランダム選択対象として抽出(flag=trueのitem)
@@ -357,11 +309,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           }
         }
       }
-
       var randomSelect = function(){
         // ランダム抽出
         $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
-
         // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
         for (var i=0;i<$scope.itemObject.itemList.length;i++){
           if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
@@ -373,17 +323,13 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         d.log("resultIndex :: " + resultIndex);
         document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
       }
-
-      $interval(function () {
-        reset();
-        randomSelect();
-      }, 300,7);
     }
 
     $scope.showFlagStatus = function(){
       d.log($scope.selectFlagArray);
     }
 
+    // すべてのチェックボックスを有効にする
     $scope.allCheckFlag = function(){
       Item.allCheckFlag();
       //$scope.selectFlagArray = Item.getFlag();
