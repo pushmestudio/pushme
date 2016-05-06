@@ -1,11 +1,12 @@
 <meta name="copyright" content="(c) 2016 PushMe Studio">
-<ion-view view-title="{{groupName}}" ng-init="initItems()">>
+<ion-view view-title="{{groupName}}" ng-init="initItems()" ng-controller="ItemCtrl">
   <ion-content scroll="true" has-header="false">
     <ion-list can-swipe="listCanSwipe">
       <ion-item class="item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
-          type="item-text-wrap" ng-click="">
+          type="item-text-wrap" ng-click=""  ng-class="'lightgray2'">
 
-        <ion-checkbox ng-checked="selectFlagArray[$index].flag" ng-click="selectFlagArray[$index].flag = !selectFlagArray[$index].flag">
+        <ion-checkbox ng-checked="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
+          <p ng-class="'lightgray2'">aaaaa</p>
           <h2>{{item.itemName}}</h2>
           <p>{{item.itemNote}}</p>
           <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
@@ -15,7 +16,6 @@
             <i class="icon ion-trash-a"></i>
           </ion-option-button>
         </ion-checkbox>
-
 
         <!-- <p><input type="checkbox" ng-checked="selectFlagArray[$index].flag" ng-click="selectFlagArray[$index].flag = !selectFlagArray[$index].flag"></p>
         <h2>{{item.itemName}}</h2>
@@ -30,6 +30,8 @@
 
       </ion-item>
     </ion-list>
+    <button ng-click="showFlagStatus()">Show flagStatus</button>
+    <button ng-click="allCheckFlag()">all check</button>
 
     <!-- selectテスト -->
     <button ng-click="selectItem()">select</button>
@@ -39,8 +41,6 @@
     <p>{{randomSelectResult.itemNote}}</p>
     <!-- ここまで(selectテスト) -->
 
-    <button ng-click="callNum()">call</button>
-    <button ng-click="allCheckFlag()">all check</button>
 
     </ion-list>
 

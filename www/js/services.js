@@ -103,11 +103,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
         itemObject.itemList = data;
         console.dir(itemObject);
         console.log("num: " + itemObject.itemList.length);
+
         for (var i=0;i<itemObject.itemList.length;i++){
-          selectFlagArray.push('{"flag" : true}');
+          //selectFlagArray.push('{"flag" : true}');
+          selectFlagArray.push(true);
         }
         console.log(selectFlagArray);
         console.log("flag length : " + selectFlagArray.length);
+
         //def.resolve(itemObject);
         def.resolve();
       //},2000);
@@ -117,7 +120,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 
   var allCheckFlag = function(){
       for (var i=0;i<selectFlagArray.length;i++){
-        selectFlagArray[i].flag = true;
+        selectFlagArray[i] = true;
       }
   }
 
@@ -168,7 +171,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   return {
     itemObject: itemObject,
     initItem: function(groupId){
-      initItem(groupId);
+      return initItem(groupId);
     },
     saveItem: saveItem,
     deleteItem: deleteItem,
@@ -177,7 +180,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       allCheckFlag();
     },
     getFlag: function(){
-      getFlag();
+      return getFlag();
     }
   };
 })
