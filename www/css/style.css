@@ -80,3 +80,45 @@
   width: 100px;
   height: 100px;
 }
+
+.plus-button {
+  border-style: solid;
+  box-sizing: border-box;
+  background-color: #8eff8e;
+  border-bottom-width: 5px;
+  border-bottom-color: #00984f;
+  color: #f9fcff;
+}
+
+/* ionic標準のスタイルを上書き */
+/* ナビゲーションバーの背景 */
+.bar.bar-stable {
+  background-color: #add6ff;
+  border-color: #87cefa;
+  border-bottom-width: 5px;
+}
+
+/* ナビゲーションバーの文字 */
+.bar.bar-stable .title {
+  color: #f9fcff; 
+  font-weight: bold;
+  font-size: large;
+}
+
+/* ナビゲーションバーのBack functionの文字 */
+.bar-stable .button.button-clear {
+  color: #f9fcff; 
+  font-weight: bold;
+  font-size: large;
+}
+
+/* リストアイテムの背景 */
+.item-complex .item-content, .item-radio .item-content {
+  background-color: #fff9f5;
+}
+
+/* ボタンの余白 */
+.button.button-block, .button.button-full {
+  margin-top: 0;
+  margin-bottom: 0;
+}
