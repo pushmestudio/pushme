@@ -126,15 +126,13 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description DBから指定したgroupIdをもつアイテム一覧を取得する
    */
   var initItem = function(groupId){
-
-    //var deferred = imod.q.defer();
     var def = $q.defer();
     DBConn.getAllGroupItems(groupId).then(function(data){
-      //$timeout(function(){
+      $timeout(function(){
         itemObject.itemList = data;
         console.dir(itemObject);
         console.log("num: " + itemObject.itemList.length);
-
+        selectFlagArray=[];
         for (var i=0;i<itemObject.itemList.length;i++){
           //selectFlagArray.push('{"flag" : true}');
           selectFlagArray.push(true);
@@ -142,9 +140,8 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
         console.log(selectFlagArray);
         console.log("flag length : " + selectFlagArray.length);
 
-        //def.resolve(itemObject);
-        def.resolve();
-      //},2000);
+        def.resolve(itemObject);
+      });
     });
     return def.promise;
   }

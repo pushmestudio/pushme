@@ -5,16 +5,14 @@
       <ion-item class="item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
           type="item-text-wrap" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]" >
 
-<!-- ng-checked版
-
--->
 <!-- 普通のinput type="checkbox" 版 -->
       <div id="{{'random_'+ $index}}" ng-class="{checkboxOn: selectFlagArray[$index]}" ng-model="selectFlagArray[$index]">
+        <!-- ion-checkbox版 -->
         <!-- <ion-checkbox ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]"> -->
         <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
         <h2>{{item.itemName}}</h2>
         <p>{{item.itemNote}}</p>
-        <!-- <p id="{{'random_'+ $index}}" ng-class="{randomSelect: selectFlagArray[$index]}">test:p_q</p> -->
+        
         <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
           <i class="icon ion-edit"></i>
         </ion-option-button>
@@ -25,10 +23,6 @@
       </ion-item>
     </ion-list>
 
-    <button ng-click="showFlagStatus()">Show flagStatus</button>
-    <button ng-click="allCheckFlag()">AllCheck</button>
-    <button ng-click="selectItem()">Select</button>
-
     </ion-list>
 
     <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
@@ -36,6 +30,18 @@
       <div class="col col-50">
         <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
           <i class="icon-left ion-plus-circled"></i> Item
+        </button>
+      </div>
+      <div class="col col-50">
+        <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
+          <i class="icon-left ion-android-checkmark-circle"></i> All Checked
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-33 col-offset-33">
+        <button class="button button-full button-large button-calm" ng-click="selectItem()">
+          <i class="icon-right ion-chevron-right"></i> Select
         </button>
       </div>
     </div>

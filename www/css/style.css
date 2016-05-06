@@ -81,35 +81,46 @@
   height: 100px;
 }
 
+
+/* ionic標準のスタイルを上書き */
+/* ナビゲーションバーの背景 */
+.bar.bar-stable {
+  background-color: #add6ff;
+  border-color: #87cefa;
+  border-bottom-width: 5px;
+}
+
+/* ナビゲーションバーの文字 */
+.bar.bar-stable .title {
+  color: #f9fcff;
+  font-weight: bold;
+  font-size: large;
+}
+
+/* ナビゲーションバーのBack functionの文字 */
+.bar-stable .button.button-clear {
+  color: #f9fcff;
+  font-weight: bold;
+  font-size: large;
+}
+
 /* リストアイテムの背景 */
-/*
 .item-complex .item-content, .item-radio .item-content {
   background-color: #fff9f5;
-}*/
+}
 
+/* ボタンの余白 */
+.button.button-block, .button.button-full {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ランダム選択で選ばれたアイテム */
 .randomSelect{
   background: #11c1f3;
 }
 
+/* チェックボックスが有効時 */
 .checkboxOn{
-  background: #BBCCDD;
+  background: #BBCCDD; /* #F4A460 #BBCCDD*/
 }
-/*
-.randomSelect .item-content{
-  background: #11c1f3;
-}*/
-/*
-.item{
-  background: #11c1f3;
-}*/
-/*
-.item-complex .item-content{
-  background: #11c1f3;
-}*/
-/*.item-radio .item-content{
-  background: #999;
-}*/
-/*
-.item-complex .item-content {
-  background-color: #11c1f3;
-}*/
