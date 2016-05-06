@@ -33,15 +33,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
@@ -61,16 +53,7 @@
         "cordova-plugin-admobpro": {
             "PACKAGE_NAME": "jp.pushme"
         },
-        "cordova-plugin-console": {
-            "PACKAGE_NAME": "jp.pushme"
-        },
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "jp.pushme"
-        },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "jp.pushme"
-        },
-        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "jp.pushme"
         },
         "cordova-plugin-whitelist": {
