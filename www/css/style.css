@@ -81,7 +81,35 @@
   height: 100px;
 }
 
-.lightgray2{
-  color: #999;
-  background: #999;
+/* リストアイテムの背景 */
+/*
+.item-complex .item-content, .item-radio .item-content {
+  background-color: #fff9f5;
+}*/
+
+.randomSelect{
+  background: #11c1f3;
 }
+
+.checkboxOn{
+  background: #BBCCDD;
+}
+/*
+.randomSelect .item-content{
+  background: #11c1f3;
+}*/
+/*
+.item{
+  background: #11c1f3;
+}*/
+/*
+.item-complex .item-content{
+  background: #11c1f3;
+}*/
+/*.item-radio .item-content{
+  background: #999;
+}*/
+/*
+.item-complex .item-content {
+  background-color: #11c1f3;
+}*/
