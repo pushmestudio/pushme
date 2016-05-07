@@ -131,11 +131,42 @@
 }
 
 /* ランダム選択で選ばれたアイテム */
-.randomSelect{
+.randomSelectCSS{
   background: #11c1f3;
 }
 
-/* チェックボックスが有効時 */
+/* チェックボックスが有効時 (未使用。チェックボックスが有効な際は，背景色を表示しているため。)*/
 .checkboxOn{
   background: #BBCCDD; /* #F4A460 #BBCCDD*/
+}
+
+
+/*** ion-checkboxを使用する際に適用。未使用。***/
+/*
+div.item-content{
+  background: #11c1f3;
+}*/
+
+/*
+.item.item-content{
+  background: #11c1f3;
+}*/
+
+/*
+.item{
+  padding: 0px;
+}
+
+.item-checkbox{
+  padding-left: 60px;
+}*/
+
+/* チェックボックスを含むコンテンツ(チェック+text) */
+.item .item-checkbox{
+  background-color: #fff9f5;
+}
+
+/* ion-checkbox のチェックボックス以外のコンテンツ(text)部分のボックス */
+.item-content .item-content .disable-pointer-events{
+  background-color: #fff9f5;
 }
