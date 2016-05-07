@@ -167,6 +167,16 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       $scope.itemObject = items; //Item,initItem($stateParams.groupId);でもOK
       $scope.selectFlagArray = Item.getFlag();
     });
+
+    counter = 0;
+    for(counter; counter < Item.itemObject.itemList.length; counter++) {
+      console.log("hi 2");
+      // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
+      if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
+        $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
+        console.log("add item to array");
+      }
+    }
   };
 
   /**
@@ -291,14 +301,14 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       $interval(function () {
         reset();
         randomSelect();
-      }, 300,15);//300msで15回ランダム選択
+      }, 300,20);//300msで20回ランダム選択
 
-      var final_flag = false;
-      $timeout(function(){
-        final_flag = true;
-        reset();
-        randomSelect(final_flag);
-      },350)
+      // var final_flag = false;
+      // $timeout(function(){
+      //   final_flag = true;
+      //   reset();
+      //   randomSelect(final_flag);
+      // },350)
 
       var reset = function(){
         for (var i=0; i<$scope.itemObject.itemList.length;i++){

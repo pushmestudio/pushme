@@ -10,8 +10,6 @@
         <i class="icon ion-android-checkmark-circle icon-accessory" style="color: green;" ng-show="selectFlagArray[$index]"></i>
         <i class="icon ion-android-checkmark-circle icon-accessory" ng-hide="selectFlagArray[$index]"></i>
 
-      <!-- <div id="{{'random_'+ $index}}" ng-class="{checkboxOn: selectFlagArray[$index]}" ng-model="selectFlagArray[$index]">   -->
-
         <!-- ion-checkbox版 -->
         <!-- <ion-checkbox ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]"> -->
         <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]" style="display:none;">
@@ -36,7 +34,7 @@
         </div>
         <div class="col col-50">
           <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
-            <i class="icon-left ion-android-checkmark-circle"></i> Check all
+            <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check all
           </button>
         </div>
       </div>
@@ -45,8 +43,9 @@
       <button class="plus-button button button-full button-large" ng-click="selectItem()" ng-show="trueFlagIsExist()">
         PushMe!
       </button>
-      <button class="plus-button button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
-        Tap your items before PushMe!
+      <button class=" button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
+        <i class="icon-left ion-information-circled" style="color: red;"></i>
+        No items are selected.
       </button>
     </ion-list>
   </ion-content>
