@@ -104,25 +104,63 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @description アイテム一覧の定義
  * @requires d
  */
-.factory('Item', function($timeout, d, DBConn) {
+.factory('Item', function($timeout, d, DBConn, $q) {
   d.log('Item service is loaded');
+
+  // var imod = this;
+  // var $injector = angular.injector(['ng']);
+  // imod.q = $injector.get('$q');
 
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
   var itemObject = {
     itemList: []
   }
+  var selectFlagArray = [];
 
   /**
    * @function initItem
    * @description DBから指定したgroupIdをもつアイテム一覧を取得する
    */
   var initItem = function(groupId){
+    var def = $q.defer();
     DBConn.getAllGroupItems(groupId).then(function(data){
       $timeout(function(){
-          itemObject.itemList = data;
+        itemObject.itemList = data;
+        selectFlagArray=[];
+        for (var i=0;i<itemObject.itemList.length;i++){
+          selectFlagArray.push(true);
+        }
+        def.resolve(itemObject);
+      });
+    });
+    return def.promise;
+  }
+
+  var allCheckFlag = function(){
+      for (var i=0;i<selectFlagArray.length;i++){
+        selectFlagArray[i] = true;
+      }
+  }
+
+  var getFlag = function(){
+    return selectFlagArray;
+  }
+
+  /*
+  ).then(function(){
+      DBConn.getAllGroupItems(groupId).then(function(data){
+        $timeout(function(){
+            itemObject.itemList = data;
+            deferred.resolve(itemObject);
+            console.log("num: " + itemObject.itemList.length);
+            itemAmmount = itemObject.itemList.length;
+            console.log("itemAmmount(service) : " + itemAmmount);
+            return deferred.promise;
+        });
+
       });
     })
-  }
+  }*/
 
   /**
    * @function addItem
@@ -166,11 +204,17 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   return {
     itemObject: itemObject,
     initItem: function(groupId){
-      initItem(groupId);
+      return initItem(groupId);
     },
     addItem: addItem,
     saveItem: saveItem,
-    deleteItem: deleteItem
+    deleteItem: deleteItem,
+    allCheckFlag: function(){
+      allCheckFlag();
+    },
+    getFlag: function(){
+      return getFlag();
+    }
   };
 })
 
