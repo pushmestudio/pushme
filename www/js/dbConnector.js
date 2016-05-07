@@ -106,9 +106,19 @@ angular.module('mainApp.dbConnector', [])
       "itemNote": "it's me"
     }, {
       "itemId": "00160407120002",
-      "itemName": "boss",
+      "itemName": "Alice",
       "itemGroup": "00160407120000",
       "itemNote": "my boss"
+    }, {
+      "itemId": "20160407120003",
+      "itemName": "Kitty",
+      "itemGroup": "00160407120000",
+      "itemNote": "new commer"
+    }, {
+      "itemId": "20160407120004",
+      "itemName": "Bob",
+      "itemGroup": "00160407120000",
+      "itemNote": "engineer"
     }];
 
     // サンプルデータを一件ずつ追加する
@@ -270,7 +280,7 @@ angular.module('mainApp.dbConnector', [])
     }
     return deferred.promise;
   }
-  
+
   /**
   * @function deleteGroup
   * @description オブジェクトストアに登録されている指定されたgroupを削除する。

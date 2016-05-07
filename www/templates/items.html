@@ -1,11 +1,21 @@
 <meta name="copyright" content="(c) 2016 PushMe Studio">
-<ion-view view-title="{{groupName}}">
+<ion-view view-title="{{groupName}}" ng-init="initItems()">
   <ion-content scroll="true" has-header="false">
     <ion-list can-swipe="listCanSwipe">
-      <ion-item class="item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
-          type="item-text-wrap" ng-click="">
+      <ion-item class="item-remove-animate item-text-wrap item-icon-left item-icon-right" ng-repeat="item in itemObject.itemList track by $index"
+          type="item-text-wrap" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
+
+<!-- 普通のinput type="checkbox" 版 -->
+      <div id="{{'random_'+ $index}}">
+        <i class="icon ion-android-checkmark-circle icon-accessory" style="color: green;" ng-show="selectFlagArray[$index]"></i>
+        <i class="icon ion-android-checkmark-circle icon-accessory" ng-hide="selectFlagArray[$index]"></i>
+
+        <!-- ion-checkbox版 -->
+        <!-- <ion-checkbox ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]"> -->
+        <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]" style="display:none;">
         <h2>{{item.itemName}}</h2>
         <p>{{item.itemNote}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
 
         <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
           <i class="icon ion-edit"></i>
@@ -13,18 +23,30 @@
         <ion-option-button class="button-assertive" ng-click="deleteItem(item, $index)">
           <i class="icon ion-trash-a"></i>
         </ion-option-button>
-      </ion-item>
-    </ion-list>
-
-    </ion-list>
-
-    <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-    <div class="row">
-      <div class="col col-50">
-        <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
-          <i class="icon-left ion-plus-circled"></i> Item
-        </button>
       </div>
-    </div>
+      </ion-item>
+
+      <div class="row">
+        <div class="col col-50">
+          <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
+            <i class="icon-left ion-plus-circled"></i> Item
+          </button>
+        </div>
+        <div class="col col-50">
+          <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
+            <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check all
+          </button>
+        </div>
+      </div>
+
+      <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
+      <button class="plus-button button button-full button-large" ng-click="selectItem()" ng-show="trueFlagIsExist()">
+        PushMe!
+      </button>
+      <button class=" button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
+        <i class="icon-left ion-information-circled" style="color: red;"></i>
+        No items are selected.
+      </button>
+    </ion-list>
   </ion-content>
 </ion-view>
