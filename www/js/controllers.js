@@ -298,17 +298,13 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     //基本は全Itemからのランダム選択
     // チェックを外すと，チェック済の中からランダム選択
     $scope.selectItem = function(){
+      var result = null;
       $interval(function () {
         reset();
         randomSelect();
-      }, 300,20);//300msで20回ランダム選択
-
-      // var final_flag = false;
-      // $timeout(function(){
-      //   final_flag = true;
-      //   reset();
-      //   randomSelect(final_flag);
-      // },350)
+      }, 300,20).then(function(){
+        finalChikachika(result);
+      });//300msで20回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
 
       var reset = function(){
         for (var i=0; i<$scope.itemObject.itemList.length;i++){
@@ -333,22 +329,16 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         for (var i=0;i<$scope.itemObject.itemList.length;i++){
           if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
               chikachika(i); //CSS動的変更メソッド
-              // if (flag === true){
-              //   $interval(function(){
-              //     $timeout(function(){
-              //       document.getElementById('random_'+i).parentNode.style.backgroundColor = '#BBCCDD';
-              //     },50);
-              //     $timeout(function(){
-              //       document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';
-              //     },100);
-              //   },100,5);
-              // }
+              result = i;
           }
         }
       }
       var chikachika = function(resultIndex){
         //document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
         document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果
+      }
+      var finalChikachika = function(resultIndex){
+        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#ef473a';// ランダム抽出結果
       }
     }
 
