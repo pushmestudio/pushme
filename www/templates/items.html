@@ -3,10 +3,12 @@
   <ion-content scroll="true" has-header="false">
     <ion-list can-swipe="listCanSwipe">
       <ion-item class="item-remove-animate item-text-wrap" ng-repeat="item in itemObject.itemList track by $index"
-          type="item-text-wrap" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]" >
+          type="item-text-wrap" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
 
 <!-- 普通のinput type="checkbox" 版 -->
-      <div id="{{'random_'+ $index}}" ng-class="{checkboxOn: selectFlagArray[$index]}" ng-model="selectFlagArray[$index]">
+      <div id="{{'random_'+ $index}}">
+      <!-- <div id="{{'random_'+ $index}}" ng-class="{checkboxOn: selectFlagArray[$index]}" ng-model="selectFlagArray[$index]">   -->
+
         <!-- ion-checkbox版 -->
         <!-- <ion-checkbox ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]"> -->
         <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
@@ -34,16 +36,13 @@
       </div>
       <div class="col col-50">
         <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
-          <i class="icon-left ion-android-checkmark-circle"></i> All Checked
+          <i class="icon-left ion-android-checkmark-circle"></i> Check all
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="col col-33 col-offset-33">
-        <button class="button plus-button button-full button-large" ng-click="selectItem()">
-          <i class="icon-right ion-chevron-right"></i> Select
-        </button>
-      </div>
-    </div>
+    <button class="plus-button button button-full button-large" ng-click="selectItem()">
+      PushMe!
+      <!-- <i class="icon-right ion-chevron-right"></i> -->
+    </button>
   </ion-content>
 </ion-view>
