@@ -167,16 +167,6 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       $scope.itemObject = items; //Item,initItem($stateParams.groupId);でもOK
       $scope.selectFlagArray = Item.getFlag();
     });
-
-    counter = 0;
-    for(counter; counter < Item.itemObject.itemList.length; counter++) {
-      console.log("hi 2");
-      // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
-      if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
-        $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
-        console.log("add item to array");
-      }
-    }
   };
 
   /**
@@ -282,6 +272,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
       if(res) { // ポップアップでOkなら削除する
         Item.deleteItem(item, itemIndex);
+        Item.deleteFlag(itemIndex);
         $ionicListDelegate.closeOptionButtons();
       }
     });
@@ -354,7 +345,6 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     // すべてのチェックボックスを有効にする
     $scope.allCheckFlag = function(){
       Item.allCheckFlag();
-      //$scope.selectFlagArray = Item.getFlag();
     }
 })
 
