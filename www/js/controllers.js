@@ -150,7 +150,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
 /* Promise版 */
   $scope.groupName = ''; // ページ上に表示するグループ名
   $scope.itemObject = [];
-
+  $scope.selectFlagArray =[];
   $scope.initItems= function(){
     $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
 
@@ -305,7 +305,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           if ($scope.selectFlagArray[i] === true) {
               document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5';//#BBCCDD(薄い青) #fff9f5(アイボリー)
           }else if ($scope.selectFlagArray[i] === false){
-              //document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
+              document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
           }
         }
         // ランダム選択対象として抽出(flag=trueのitem)
@@ -337,14 +337,19 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         }
       }
       var chikachika = function(resultIndex){
-        d.log("resultIndex :: " + resultIndex);
         //document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
         document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果
       }
     }
 
-    $scope.showFlagStatus = function(){
-      d.log($scope.selectFlagArray);
+    // 全てのフラグがfalseの場合は，PushMe!ボタンを押せないようにするためのフラグチェックに使用
+    $scope.trueFlagIsExist = function(){
+      for (var i=0;i<$scope.selectFlagArray.length;i++){
+        if ($scope.selectFlagArray[i] === true ){
+          return true;
+        }
+      }
+      return false;
     }
 
     // すべてのチェックボックスを有効にする
