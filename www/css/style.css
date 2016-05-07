@@ -84,9 +84,13 @@
 .plus-button {
   border-style: solid;
   box-sizing: border-box;
-  background-color: #8eff8e;
+  /* background-color: #8eff8e; */
+  /* ivory */
+  background-color: #f6b483;
   border-bottom-width: 5px;
-  border-bottom-color: #00984f;
+  /* border-bottom-color: #00984f; */
+  /* ivory */
+  border-bottom-color: #bc611e;
   color: #f9fcff;
   font-weight: bold;
 }
@@ -94,8 +98,10 @@
 /* ionic標準のスタイルを上書き */
 /* ナビゲーションバーの背景 */
 .bar.bar-stable {
-  background-color: #add6ff;
-  border-color: #87cefa;
+  /* background-color: #add6ff; */
+  /* ivory */
+  background-color: #c49a6a;
+  border-color: #946c45;
   border-bottom-width: 5px;
 }
 
