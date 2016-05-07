@@ -2,12 +2,13 @@
 <ion-view view-title="{{groupName}}" ng-init="initItems()">
   <ion-content scroll="true" has-header="false">
     <ion-list can-swipe="listCanSwipe">
-      <ion-item class="item-remove-animate item-text-wrap item-icon-right" ng-repeat="item in itemObject.itemList track by $index"
+      <ion-item class="item-remove-animate item-text-wrap item-icon-left item-icon-right" ng-repeat="item in itemObject.itemList track by $index"
           type="item-text-wrap" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
 
 <!-- 普通のinput type="checkbox" 版 -->
-      <div id="{{'random_'+ $index}}" class="item-avatar">
-      <img src="../img/check.png" ng-show="selectFlagArray[$index]">
+      <div id="{{'random_'+ $index}}">
+        <i class="icon ion-android-checkmark-circle icon-accessory" style="color: green;" ng-show="selectFlagArray[$index]"></i>
+        <i class="icon ion-android-checkmark-circle icon-accessory" ng-hide="selectFlagArray[$index]"></i>
 
       <!-- <div id="{{'random_'+ $index}}" ng-class="{checkboxOn: selectFlagArray[$index]}" ng-model="selectFlagArray[$index]">   -->
 
@@ -17,7 +18,6 @@
         <h2>{{item.itemName}}</h2>
         <p>{{item.itemNote}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
 
         <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
           <i class="icon ion-edit"></i>
