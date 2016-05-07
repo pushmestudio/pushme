@@ -6,12 +6,14 @@
           type="item-text-wrap" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
 
 <!-- 普通のinput type="checkbox" 版 -->
-      <div id="{{'random_'+ $index}}">
+      <div id="{{'random_'+ $index}}" class="item-avatar">
+      <img src="../img/check.png" ng-show="selectFlagArray[$index]">
+
       <!-- <div id="{{'random_'+ $index}}" ng-class="{checkboxOn: selectFlagArray[$index]}" ng-model="selectFlagArray[$index]">   -->
 
         <!-- ion-checkbox版 -->
         <!-- <ion-checkbox ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]"> -->
-        <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
+        <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]" style="display:none;">
         <h2>{{item.itemName}}</h2>
         <p>{{item.itemNote}}</p>
 
