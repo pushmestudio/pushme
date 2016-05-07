@@ -40,9 +40,11 @@
         </button>
       </div>
     </div>
-    <button class="plus-button button button-full button-large" ng-click="selectItem()">
+    <button class="plus-button button button-full button-large" ng-click="selectItem()" ng-show="trueFlagIsExist()">
       PushMe!
-      <!-- <i class="icon-right ion-chevron-right"></i> -->
+    </button>
+    <button class="plus-button button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
+      Tap your items before PushMe!
     </button>
   </ion-content>
 </ion-view>
