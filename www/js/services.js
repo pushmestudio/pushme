@@ -116,10 +116,6 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     itemList: []
   }
   var selectFlagArray = [];
-        /*{"flag" : true},
-        {"flag" : true},
-        {"flag" : true}*/
-  var itemAmmount = 0;
 
   /**
    * @function initItem
@@ -130,16 +126,10 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     DBConn.getAllGroupItems(groupId).then(function(data){
       $timeout(function(){
         itemObject.itemList = data;
-        console.dir(itemObject);
-        console.log("num: " + itemObject.itemList.length);
         selectFlagArray=[];
         for (var i=0;i<itemObject.itemList.length;i++){
-          //selectFlagArray.push('{"flag" : true}');
           selectFlagArray.push(true);
         }
-        console.log(selectFlagArray);
-        console.log("flag length : " + selectFlagArray.length);
-
         def.resolve(itemObject);
       });
     });
@@ -219,7 +209,6 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     addItem: addItem,
     saveItem: saveItem,
     deleteItem: deleteItem,
-    itemAmmount: itemAmmount,
     allCheckFlag: function(){
       allCheckFlag();
     },
