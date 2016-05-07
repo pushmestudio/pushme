@@ -334,11 +334,10 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         }
       }
       var chikachika = function(resultIndex){
-        //document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
-        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果
+        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果 #11c1f3=ionicのcalm(青)
       }
       var finalChikachika = function(resultIndex){
-        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#ef473a';// ランダム抽出結果
+        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#33cd5f';// ランダム抽出結果 #33cd5f=ionicのbalanced(緑)
       }
     }
 
