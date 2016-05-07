@@ -302,9 +302,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       $interval(function () {
         reset();
         randomSelect();
-      }, 300,20).then(function(){
+      }, 300,15).then(function(){
         finalChikachika(result);
-      });//300msで20回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
+      });//300msで15回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
 
       var reset = function(){
         for (var i=0; i<$scope.itemObject.itemList.length;i++){
