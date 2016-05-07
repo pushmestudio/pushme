@@ -291,14 +291,21 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       $interval(function () {
         reset();
         randomSelect();
-      }, 300,7);//300msで7回ランダム選択
+      }, 300,15);//300msで15回ランダム選択
+
+      var final_flag = false;
+      $timeout(function(){
+        final_flag = true;
+        reset();
+        randomSelect(final_flag);
+      },350)
 
       var reset = function(){
         for (var i=0; i<$scope.itemObject.itemList.length;i++){
           if ($scope.selectFlagArray[i] === true) {
-              document.getElementById('random_'+i).style.backgroundColor = '#BBCCDD';//#BBCCDD #F4A460
+              document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5';//#BBCCDD(薄い青) #fff9f5(アイボリー)
           }else if ($scope.selectFlagArray[i] === false){
-              document.getElementById('random_'+i).style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
+              //document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
           }
         }
         // ランダム選択対象として抽出(flag=trueのitem)
@@ -309,19 +316,30 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           }
         }
       }
-      var randomSelect = function(){
+      var randomSelect = function(flag){
         // ランダム抽出
         $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
         // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
         for (var i=0;i<$scope.itemObject.itemList.length;i++){
           if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
               chikachika(i); //CSS動的変更メソッド
+              // if (flag === true){
+              //   $interval(function(){
+              //     $timeout(function(){
+              //       document.getElementById('random_'+i).parentNode.style.backgroundColor = '#BBCCDD';
+              //     },50);
+              //     $timeout(function(){
+              //       document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';
+              //     },100);
+              //   },100,5);
+              // }
           }
         }
       }
       var chikachika = function(resultIndex){
         d.log("resultIndex :: " + resultIndex);
-        document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
+        //document.getElementById('random_'+resultIndex).style.backgroundColor = '#11c1f3';// ランダム抽出結果
+        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果
       }
     }
 
