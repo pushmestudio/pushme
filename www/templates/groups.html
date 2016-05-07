@@ -2,7 +2,7 @@
 <ion-view view-title="Group list" hide-back-button="true">
   <ion-content scroll="true" has-header="false">
     <ion-list can-swipe="listCanSwipe">
-      <ion-item class="item-remove-animate item-text-wrap" ng-repeat="group in groupObject.groupList track by $index" type="item-text-wrap" ng-href="#/pushme/groups/{{group.groupId}}" ng-click="">
+      <ion-item class="item-remove-animate item-text-wrap item-icon-right" ng-repeat="group in groupObject.groupList track by $index" type="item-text-wrap" ng-href="#/pushme/groups/{{group.groupId}}" ng-click="">
         <h2>{{group.groupName}}</h2>
         <p>{{group.groupNote}}</p>
 
@@ -14,11 +14,11 @@
           <i class="icon ion-trash-a"></i>
         </ion-option-button>
       </ion-item>
-    </ion-list>
 
-    <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-    <button class="plus-button button button-full button-large" ng-click="openGroupInfoPopup()">
-      <i class="icon-left ion-plus-circled"></i> Group
-    </button>
+      <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
+      <button class="plus-button button button-full button-large" ng-click="openGroupInfoPopup()">
+        <i class="icon-left ion-plus-circled"></i> Group
+      </button>
+    </ion-list>
   </ion-content>
 </ion-view>
