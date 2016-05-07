@@ -107,10 +107,6 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 .factory('Item', function($timeout, d, DBConn, $q) {
   d.log('Item service is loaded');
 
-  // var imod = this;
-  // var $injector = angular.injector(['ng']);
-  // imod.q = $injector.get('$q');
-
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
   var itemObject = {
     itemList: []
@@ -146,21 +142,9 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     return selectFlagArray;
   }
 
-  /*
-  ).then(function(){
-      DBConn.getAllGroupItems(groupId).then(function(data){
-        $timeout(function(){
-            itemObject.itemList = data;
-            deferred.resolve(itemObject);
-            console.log("num: " + itemObject.itemList.length);
-            itemAmmount = itemObject.itemList.length;
-            console.log("itemAmmount(service) : " + itemAmmount);
-            return deferred.promise;
-        });
-
-      });
-    })
-  }*/
+  var deleteFlag = function(itemIndex){
+    selectFlagArray.splice(itemIndex,1);
+  }
 
   /**
    * @function addItem
@@ -214,6 +198,9 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     },
     getFlag: function(){
       return getFlag();
+    },
+    deleteFlag: function(itemIndex){
+      return deleteFlag();
     }
   };
 })
