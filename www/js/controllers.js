@@ -140,31 +140,44 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
  * @requires Item
  * @requires Group
  * @requires d
+ * @requires timeout
+ * @requires q
+ * @requires interval
  */
-.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d) {
+.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d, $timeout, $q, $interval) {
   // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
-  $scope.init = Item.initItem($stateParams.groupId);
 
-  $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
+/* Promise版 */
   $scope.groupName = ''; // ページ上に表示するグループ名
-  $scope.itemObject = Item.itemObject; // ページ上に表示するアイテム
+  $scope.itemObject = [];
+  $scope.selectFlagArray =[];
+  $scope.initItems= function(){
+    $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
 
-  var counter = 0;
-  for(counter; counter < Group.groupObject.groupList.length; counter++) {
-    // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
-    if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
-      $scope.groupName = Group.groupObject.groupList[counter].groupName;
-      break;
+    var counter = 0;
+    for(counter; counter < Group.groupObject.groupList.length; counter++) {
+      // $stateParams.groupIdとして飛んできたgroupIdをkeyに探索し、ヒットしたグループ名をページに表示
+      if(Group.groupObject.groupList[counter].groupId == $stateParams.groupId) {
+        $scope.groupName = Group.groupObject.groupList[counter].groupName;
+        break;
+      }
     }
-  }
 
-  counter = 0;
-  for(counter; counter < Item.itemObject.itemList.length; counter++) {
-    // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
-    if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
-      $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
+    Item.initItem($stateParams.groupId).then(function(items){
+      $scope.itemObject = items; //Item,initItem($stateParams.groupId);でもOK
+      $scope.selectFlagArray = Item.getFlag();
+    });
+
+    counter = 0;
+    for(counter; counter < Item.itemObject.itemList.length; counter++) {
+      console.log("hi 2");
+      // 表示対象のグループIDと同じものを表示するアイテムとして配列に追加
+      if(Item.itemObject.itemList[counter].groupId == $stateParams.groupId) {
+        $scope.itemObject.itemList.push(Item.itemObject.itemList[counter]);
+        console.log("add item to array");
+      }
     }
-  }
+  };
 
   /**
    * @function openItemInfoPopup
@@ -240,7 +253,8 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           // cancelが押された場合はresがundefになる
           if(res !== undefined) {
             Item.addItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
-            Item.initItem($stateParams.groupId); // アイテム一覧の再読み込みを行う
+            //Item.initItem($stateParams.groupId); // アイテム一覧の再読み込みを行う
+            $scope.initItems();
           }
         }else{
           // cancelが押された場合はresがundefになる
@@ -272,6 +286,76 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       }
     });
    }
+
+   /**
+    * @function selectItem
+    * @description アイテム一覧上にてアイテムをランダム選択する
+    * @param
+    * @param
+    */
+    //方針
+    //全Itemに最初からチェックが入っている
+    //基本は全Itemからのランダム選択
+    // チェックを外すと，チェック済の中からランダム選択
+    $scope.selectItem = function(){
+      var result = null;
+      $interval(function () {
+        reset();
+        randomSelect();
+      }, 300,15).then(function(){
+        finalChikachika(result);
+      });//300msで15回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
+
+      var reset = function(){
+        for (var i=0; i<$scope.itemObject.itemList.length;i++){
+          if ($scope.selectFlagArray[i] === true) {
+              document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5';//#BBCCDD(薄い青) #fff9f5(アイボリー)
+          }else if ($scope.selectFlagArray[i] === false){
+              document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
+          }
+        }
+        // ランダム選択対象として抽出(flag=trueのitem)
+        $scope.targetItems =[];
+        for (var i=0; i<$scope.itemObject.itemList.length;i++){
+          if ($scope.selectFlagArray[i] === true) {
+              $scope.targetItems.push($scope.itemObject.itemList[i]);
+          }
+        }
+      }
+      var randomSelect = function(flag){
+        // ランダム抽出
+        $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
+        // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
+        for (var i=0;i<$scope.itemObject.itemList.length;i++){
+          if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
+              chikachika(i); //CSS動的変更メソッド
+              result = i;
+          }
+        }
+      }
+      var chikachika = function(resultIndex){
+        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果 #11c1f3=ionicのcalm(青)
+      }
+      var finalChikachika = function(resultIndex){
+        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#33cd5f';// ランダム抽出結果 #33cd5f=ionicのbalanced(緑)
+      }
+    }
+
+    // 全てのフラグがfalseの場合は，PushMe!ボタンを押せないようにするためのフラグチェックに使用
+    $scope.trueFlagIsExist = function(){
+      for (var i=0;i<$scope.selectFlagArray.length;i++){
+        if ($scope.selectFlagArray[i] === true ){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // すべてのチェックボックスを有効にする
+    $scope.allCheckFlag = function(){
+      Item.allCheckFlag();
+      //$scope.selectFlagArray = Item.getFlag();
+    }
 })
 
 /**
