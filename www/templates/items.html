@@ -12,7 +12,7 @@
         <input type="checkbox" ng-checked="selectFlagArray[$index]" ng-model="selectFlagArray[$index]" ng-click="selectFlagArray[$index] = !selectFlagArray[$index]">
         <h2>{{item.itemName}}</h2>
         <p>{{item.itemNote}}</p>
-        
+
         <ion-option-button class="button-balanced" ng-click="openItemInfoPopup(item)">
           <i class="icon ion-edit"></i>
         </ion-option-button>
@@ -40,7 +40,7 @@
     </div>
     <div class="row">
       <div class="col col-33 col-offset-33">
-        <button class="button button-full button-large button-calm" ng-click="selectItem()">
+        <button class="button plus-button button-full button-large" ng-click="selectItem()">
           <i class="icon-right ion-chevron-right"></i> Select
         </button>
       </div>
