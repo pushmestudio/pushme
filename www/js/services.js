@@ -269,7 +269,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   /**
    * @const {double} FREQ_POP_AD 広告の表示量、1で常に表示、0で常に非表示
    */
-  const FREQ_POP_AD = 1.0;
+  const FREQ_POP_AD = 0.3;
 
   /**
   * @const {boolean} DEBUG_MODE デバッグ中ならONにして、テスト用広告にする
