@@ -132,9 +132,23 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     return def.promise;
   }
 
+  /**
+   * @function allCheckFlag
+   * @description 全アイテムのチェック状態をTrueにする
+   */
   var allCheckFlag = function(){
-      for (var i=0;i<selectFlagArray.length;i++){
+      for (var i=0; i<selectFlagArray.length; i++) {
         selectFlagArray[i] = true;
+      }
+  }
+
+  /**
+   * @function allUncheckFlag
+   * @description 全アイテムのチェック状態をFalseにする
+   */
+  var allUncheckFlag = function(){
+      for (var i=0; i<selectFlagArray.length; i++){
+        selectFlagArray[i] = false;
       }
   }
 
@@ -195,6 +209,9 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     deleteItem: deleteItem,
     allCheckFlag: function(){
       allCheckFlag();
+    },
+    allUncheckFlag: function(){
+      allUncheckFlag();
     },
     getFlag: function(){
       return getFlag();

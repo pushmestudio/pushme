@@ -342,9 +342,15 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       return false;
     }
 
+
     // すべてのチェックボックスを有効にする
     $scope.allCheckFlag = function(){
       Item.allCheckFlag();
+    }
+
+    // すべてのチェックボックスを無効にする
+    $scope.allUncheckFlag = function(){
+      Item.allUncheckFlag();
     }
 })
 
