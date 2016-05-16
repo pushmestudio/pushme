@@ -33,8 +33,12 @@
           </button>
         </div>
         <div class="col col-50">
-          <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
-            <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check all
+          <!-- 1つでもチェックされているなら全チェック解除の表示を有効に、1つもチェックされていないなら全チェックの表示を有効にする -->
+          <button class="button button-clear button-full button-large button-dark" ng-click="allUncheckFlag()" ng-show="trueFlagIsExist()">
+            <i class="icon-left ion-android-checkmark-circle"></i> Check
+          </button>
+          <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()" ng-hide="trueFlagIsExist()">
+            <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check
           </button>
         </div>
       </div>
