@@ -40,10 +40,14 @@
       </div>
 
       <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-      <button class="plus-button button button-full button-large" ng-click="selectItem()" ng-show="trueFlagIsExist()">
+      <button class="plus-button button button-full button-large" ng-click="selectItem()" ng-show="trueFlagIsExist() && selectButtonFlag">
         PushMe!
       </button>
-      <button class=" button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
+      <button class="button button-full button-large" ng-show="trueFlagIsExist() && !selectButtonFlag">
+        <i class="icon-left ion-information-circled" style="color: green;"></i>
+        PushMe! is thinking now...
+      </button>
+      <button class="button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
         <i class="icon-left ion-information-circled" style="color: red;"></i>
         No items are selected.
       </button>
