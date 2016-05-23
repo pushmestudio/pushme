@@ -281,20 +281,21 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    /**
     * @function selectItem
     * @description アイテム一覧上にてアイテムをランダム選択する
-    * @param
-    * @param
     */
     //方針
     //全Itemに最初からチェックが入っている
     //基本は全Itemからのランダム選択
     // チェックを外すと，チェック済の中からランダム選択
+    $scope.selectButtonFlag = true;// trueかつの時，PushMe!ボタンが押せる
     $scope.selectItem = function(){
       var result = null;
+      $scope.selectButtonFlag = false;// falseの時，PushMe!ボタンが押せない
       $interval(function () {
         reset();
         randomSelect();
       }, 300,15).then(function(){
         finalChikachika(result);
+        $scope.selectButtonFlag = true;// trueの時，PushMe!ボタンが押せる
       });//300msで15回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
 
       var reset = function(){
@@ -332,14 +333,18 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       }
     }
 
-    // 全てのフラグがfalseの場合は，PushMe!ボタンを押せないようにするためのフラグチェックに使用
+    /**
+     * @function trueFlagIsExist
+     * @description PushMe!ボタンの使用可否を決定するフラグを返すメソッド(trueの時，ボタン使用可能)
+     * @return {boolean} true or false
+     */
     $scope.trueFlagIsExist = function(){
       for (var i=0;i<$scope.selectFlagArray.length;i++){
         if ($scope.selectFlagArray[i] === true ){
           return true;
         }
       }
-      return false;
+      return false;//全てのアイテムのチェックが外れている場合は，falseを返す。PushMe!ボタンが押せない状態。
     }
 
     // すべてのチェックボックスを有効にする
