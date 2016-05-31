@@ -14,11 +14,13 @@
           <i class="icon ion-trash-a"></i>
         </ion-option-button>
       </ion-item>
-
-      <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-      <button class="button button-clear button-full button-large button-dark" ng-click="openGroupInfoPopup()">
-        <i class="icon-left ion-plus-circled"></i> Group
-      </button>
     </ion-list>
   </ion-content>
+
+  <div class="bar bar-footer bar-stable" style="padding: 0;">
+    <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
+    <button class="button button-clear button-full button-large button-dark" style="padding: 0;" ng-click="openGroupInfoPopup()">
+      <i class="icon-left ion-plus-circled"></i> Group
+    </button>
+  </div>
 </ion-view>
