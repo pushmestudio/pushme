@@ -26,22 +26,26 @@
       </div>
       </ion-item>
 
-      <div class="row" ng-show="selectButtonFlag">
+    </ion-list>
+  </ion-content>
+
+    <div class="bar bar-footer bar-stable" style="padding: 0;">
+      <div class="row" ng-show="selectButtonFlag" style="padding: 0;">
         <!-- 3つのボタンのうちの左 -->
-        <div class="col col-33">
+        <div class="col col-33" style="padding: 0;">
           <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
             <i class="icon-left ion-plus-circled"></i> Item
           </button>
         </div>
 
         <!-- 3つのボタンのうちの真ん中 -->
-        <div class="col col-33" ng-show="trueFlagIsExist()">
-          <button class="plus-button button button-full button-large" ng-click="selectItem()">
+        <div class="col col-33" style="padding: 0;" ng-show="trueFlagIsExist()">
+          <button class="pushMe-button button button-full button-large" ng-click="selectItem()">
             PushMe!
           </button>
         </div>
         <!-- 1つもチェックされていないときに表示 -->
-        <div class="col col-33" ng-hide="trueFlagIsExist()">
+        <div class="col col-33" style="padding: 0;" ng-hide="trueFlagIsExist()">
           <button class="button button-full button-clear button-large" ng-click="allCheckFlag">
             <i class="icon-left ion-information-circled" style="color: red;"></i>
           </button>
@@ -49,14 +53,14 @@
 
         <!-- 3つのボタンのうちの右 -->
         <!-- 表示切替えに伴うちらつきを抑えるため、col毎ng-show/hideで切り替える。ボタンだけを切り替えるとちらつくので注意。 -->
-        <div class="col col-33" ng-show="trueFlagIsExist()">
+        <div class="col col-33" style="padding: 0;" ng-show="trueFlagIsExist()">
           <!-- 1つでもチェックされているなら全チェック解除の表示を有効にする -->
           <button class="button button-clear button-full button-large button-dark" ng-click="allUncheckFlag()">
             <i class="icon-left ion-android-checkmark-circle"></i> Check
           </button>
         </div>
         <!-- 1つもチェックされていないなら全チェックの表示を有効にする -->
-        <div class="col col-33" ng-hide="trueFlagIsExist()">
+        <div class="col col-33" style="padding: 0;" ng-hide="trueFlagIsExist()">
           <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
             <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check
           </button>
@@ -68,6 +72,5 @@
         <i class="icon-left ion-information-circled" style="color: green;"></i>
         PushMe! is thinking now...
       </button>
-    </ion-list>
-  </ion-content>
+    </div>
 </ion-view>
