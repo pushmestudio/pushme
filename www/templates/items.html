@@ -26,31 +26,51 @@
       </div>
       </ion-item>
 
-      <div class="row">
-        <div class="col col-50">
+    </ion-list>
+  </ion-content>
+
+    <div class="bar bar-footer bar-stable" style="padding: 0;">
+      <div class="row" ng-show="selectButtonFlag" style="padding: 0;">
+        <!-- 3つのボタンのうちの左 -->
+        <div class="col col-33" style="padding: 0;">
           <button class="button button-clear button-full button-large button-dark" ng-click="openItemInfoPopup()">
             <i class="icon-left ion-plus-circled"></i> Item
           </button>
         </div>
-        <div class="col col-50">
+
+        <!-- 3つのボタンのうちの真ん中 -->
+        <div class="col col-33" style="padding: 0;" ng-show="trueFlagIsExist()">
+          <button class="pushMe-button button button-full button-large" ng-click="selectItem()">
+            PushMe!
+          </button>
+        </div>
+        <!-- 1つもチェックされていないときに表示 -->
+        <div class="col col-33" style="padding: 0;" ng-hide="trueFlagIsExist()">
+          <button class="button button-full button-clear button-large" ng-click="allCheckFlag">
+            <i class="icon-left ion-information-circled" style="color: red;"></i>
+          </button>
+        </div>
+
+        <!-- 3つのボタンのうちの右 -->
+        <!-- 表示切替えに伴うちらつきを抑えるため、col毎ng-show/hideで切り替える。ボタンだけを切り替えるとちらつくので注意。 -->
+        <div class="col col-33" style="padding: 0;" ng-show="trueFlagIsExist()">
+          <!-- 1つでもチェックされているなら全チェック解除の表示を有効にする -->
+          <button class="button button-clear button-full button-large button-dark" ng-click="allUncheckFlag()">
+            <i class="icon-left ion-android-checkmark-circle"></i> Check
+          </button>
+        </div>
+        <!-- 1つもチェックされていないなら全チェックの表示を有効にする -->
+        <div class="col col-33" style="padding: 0;" ng-hide="trueFlagIsExist()">
           <button class="button button-clear button-full button-large button-dark" ng-click="allCheckFlag()">
-            <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check all
+            <i class="icon-left ion-android-checkmark-circle" style="color: green;"></i> Check
           </button>
         </div>
       </div>
 
-      <!-- 遷移先を既定する場合は、app.jsにも記載を追加する必要あり、モーダルなどによる表示を行う場合は特に必要なし -->
-      <button class="plus-button button button-full button-large" ng-click="selectItem()" ng-show="trueFlagIsExist() && selectButtonFlag">
-        PushMe!
-      </button>
+      <!-- 1つ以上チェックされている状態で、選択ボタンが押されているときに表示 -->
       <button class="button button-full button-large" ng-show="trueFlagIsExist() && !selectButtonFlag">
         <i class="icon-left ion-information-circled" style="color: green;"></i>
         PushMe! is thinking now...
       </button>
-      <button class="button button-full button-large" ng-click="allCheckFlag" ng-hide="trueFlagIsExist()">
-        <i class="icon-left ion-information-circled" style="color: red;"></i>
-        No items are selected.
-      </button>
-    </ion-list>
-  </ion-content>
+    </div>
 </ion-view>

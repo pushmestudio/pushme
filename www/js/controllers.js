@@ -347,9 +347,15 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       return false;//全てのアイテムのチェックが外れている場合は，falseを返す。PushMe!ボタンが押せない状態。
     }
 
+
     // すべてのチェックボックスを有効にする
     $scope.allCheckFlag = function(){
       Item.allCheckFlag();
+    }
+
+    // すべてのチェックボックスを無効にする
+    $scope.allUncheckFlag = function(){
+      Item.allUncheckFlag();
     }
 })
 
