@@ -81,7 +81,7 @@
   height: 100px;
 }
 
-.plus-button {
+.pushMe-button {
   border-style: solid;
   box-sizing: border-box;
   /* background-color: #8eff8e; */
@@ -112,6 +112,13 @@
   font-size: large;
 }
 
+/* footer上のボタン */
+.bar-stable .button {
+  background-color: #8eff8e;
+  border-bottom-color: #00984f;
+  border-top-color: #00984f;
+}
+
 /* ナビゲーションバーのBack functionの文字 */
 .bar-stable .button.button-clear {
   color: #f9fcff;
@@ -128,6 +135,13 @@
 .button.button-block, .button.button-full {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+/* フッター */
+.bar .button, .bar button {
+  font-size: 20px;
+  font-weight: bold;
+  min-height: 43px
 }
 
 /* ランダム選択で選ばれたアイテム */
