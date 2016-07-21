@@ -94,8 +94,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         if($scope.newGroup){
           // cancelが押された場合はresがundefになる
           if(res !== undefined) {
-            Group.addGroup(res); // 保存処理の呼び出し, resはgroupオブジェクト
-            Group.loadGroup();  // グループ一覧の再読み込みを行う
+            // 保存処理の呼び出し, resはgroupオブジェクト
+            // グループ一覧の再読み込みを行う
+            Group.addGroup(res).then(Group.loadGroup());
           }
         }else{
           // cancelが押された場合はresがundefになる
@@ -141,16 +142,15 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
  * @requires Group
  * @requires d
  * @requires timeout
- * @requires q
  * @requires interval
  */
-.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d, $timeout, $q, $interval) {
+.controller('ItemCtrl', function($scope, $stateParams, $ionicPopup, $cordovaKeyboard, $ionicListDelegate, Item, Group, d, $timeout, $interval) {
   // controllerの初期化時に現在表示しているグループに紐づくをアイテム一覧をDBから取得
 
-/* Promise版 */
   $scope.groupName = ''; // ページ上に表示するグループ名
   $scope.itemObject = [];
   $scope.selectFlagArray =[];
+  /* Promise版の初期化処理 */
   $scope.initItems= function(){
     $scope.listCanSwipe = true; // リストに対してスワイプ操作を可能にする
 
@@ -242,9 +242,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         if($scope.newItem){
           // cancelが押された場合はresがundefになる
           if(res !== undefined) {
-            Item.addItem(res); // 保存処理の呼び出し, resはgroupオブジェクト
-            //Item.initItem($stateParams.groupId); // アイテム一覧の再読み込みを行う
-            $scope.initItems();
+            // 保存処理の呼び出し, resはgroupオブジェクト
+            // アイテム一覧の再読み込みを行う, ページ全体を再描画する
+            Item.addItem(res).then($scope.initItems());
           }
         }else{
           // cancelが押された場合はresがundefになる
