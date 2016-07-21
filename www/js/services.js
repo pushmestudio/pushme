@@ -8,9 +8,12 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 /**
  * @module Group
  * @description グループ一覧の定義
+ * @requires $timeout
+ * @requires $q
  * @requires d
+ * @requires DBConn
  */
-.factory('Group', function($timeout, d, DBConn) {
+.factory('Group', function($timeout, $q, d, DBConn) {
   d.log('Group service is loaded');
 
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
@@ -23,13 +26,18 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description DBを使用する前に接続処理を行い、成功したらDBから全Groupを取得する
    */
   var initGroup = function(){
+    d.log("initGroup is called");
+    var def = $q.defer();
+
     DBConn.connect().then(function() {
       DBConn.getAllGroups().then(function(data) {
         $timeout(function(){
           groupObject.groupList = data;
+          def.resolve();
         });
       });
     });
+    return def.promise;
   }
 
   /**
@@ -37,11 +45,17 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description DBから全Groupを取得する
    */
   var loadGroup = function(){
+    d.log("loadGroup is called");
+    var def = $q.defer();
+
     DBConn.getAllGroups().then(function(data) {
       $timeout(function(){
         groupObject.groupList = data;
+        def.resolve();
       });
     });
+
+    return def.promise;
   }
 
   /**
@@ -50,13 +64,19 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    */
   var addGroup = function(group) {
     d.log("addGroup is called");
+    var def = $q.defer();
+
     // グループ名が入力されていなかった場合、グループ名を設定する
     if(group.groupName == null || group.groupName == ''){
       // NewGroup_YYYY/MM/DD というグループ名を設定
       var currentTime = new Date();
       group.groupName = 'NewGroup_' + currentTime.getFullYear() + '/' + (currentTime.getMonth()+1) + '/' + currentTime.getDate();
     }
-    DBConn.addNewGroup(group);
+    DBConn.addNewGroup(group).then(function() {
+      def.resolve();
+    });
+
+    return def.promise;
   }
 
   /**
@@ -65,7 +85,13 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    */
   var saveGroup = function(group) {
     d.log("saveGroup is called");
-    DBConn.updateGroup(group);
+    var def = $q.defer();
+
+    DBConn.updateGroup(group).then(function() {
+      def.resolve();
+    });
+
+    return def.promise;
   }
 
   /**
@@ -73,7 +99,9 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description Controllersから受け取ったgroupオブジェクトをDBから削除する
    */
   var deleteGroup = function(group, groupIndex){
-    d.log("dleteGroup is called");
+    d.log("deleteGroup is called");
+    var def = $q.defer();
+
     DBConn.deleteGroup(group).then(function(){
       // groupList内の指定されたgroupを削除(index指定で削除しているのが気に食わない)
       // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
@@ -81,7 +109,11 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
         groupObject.groupList.splice(groupIndex, 1);
       });
     })
-    DBConn.deleteGroupAllItems(group);
+    DBConn.deleteGroupAllItems(group).then(function() {
+      def.resolve();
+    });
+
+    return def.promise;
   }
 
   // API公開名: 呼ばれる実際の内容
@@ -102,9 +134,12 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 /**
  * @module Item
  * @description アイテム一覧の定義
+ * @requires $timeout
+ * @requires $q
  * @requires d
+ * @requires DBConn
  */
-.factory('Item', function($timeout, d, DBConn, $q) {
+.factory('Item', function($timeout, $q, d, DBConn) {
   d.log('Item service is loaded');
 
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
@@ -118,7 +153,9 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description DBから指定したgroupIdをもつアイテム一覧を取得する
    */
   var initItem = function(groupId){
+    d.log("initItem is called");
     var def = $q.defer();
+
     DBConn.getAllGroupItems(groupId).then(function(data){
       $timeout(function(){
         itemObject.itemList = data;
@@ -166,13 +203,19 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    */
   var addItem = function(item) {
     d.log("addItem is called");
+    var def = $q.defer();
+
     // アイテム名が入力されていなかった場合、アイテム名を設定する
     if(item.itemName == null || item.itemName == ''){
       // NewItem_YYYY/MM/DD というアイテム名を設定
       var currentTime = new Date();
       item.itemName = 'NewItem_' + currentTime.getFullYear() + '/' + (currentTime.getMonth()+1) + '/' + currentTime.getDate();
     }
-    DBConn.addNewItem(item);
+    DBConn.addNewItem(item).then(function() {
+      def.resolve();
+    });
+
+    return def.promise;
   }
 
   /**
@@ -181,7 +224,13 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    */
   var saveItem = function(item) {
     d.log("saveItem is called");
-    DBConn.updateItem(item);
+    var def = $q.defer();
+
+    DBConn.updateItem(item).then(function() {
+      def.resolve();
+    });
+
+    return def.promise;
   }
 
   /**
@@ -190,13 +239,18 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    */
   var deleteItem = function(item, itemIndex){
     d.log("dleteItem is called");
+    var def = $q.defer();
+
     DBConn.deleteItem(item).then(function(){
       // itemList内の指定されたアイテムを削除(index指定で削除しているのが気に食わない)
       // 文法的には、splice(削除する要素番号, 削除する数)で、削除する数を0にすると削除されない
       $timeout(function(){
         itemObject.itemList.splice(itemIndex, 1);
+        def.resolve();
       });
     })
+
+    return def.promise;
   }
 
   return {
