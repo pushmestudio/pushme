@@ -1,6 +1,6 @@
 <meta name="copyright" content="(c) 2016 PushMe Studio">
 <ion-view view-title="Group list" hide-back-button="true">
-  <ion-content scroll="true" has-header="false">
+  <ion-content scroll="true" class="has-footer">
     <ion-list can-swipe="listCanSwipe">
       <ion-item class="item-remove-animate item-text-wrap item-icon-right" ng-repeat="group in groupObject.groupList track by $index" type="item-text-wrap" ng-href="#/pushme/groups/{{group.groupId}}" ng-click="">
         <h2>{{group.groupName}}</h2>
