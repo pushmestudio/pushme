@@ -9,7 +9,7 @@ angular.module('mainApp', ['ionic', 'mainApp.controllers'])
   /**
    * @const {boolean} debugMode デバッグモードか否か、デバッグモード=trueならログ出力する
    */
-  $rootScope.debugMode = true;
+  $rootScope.debugMode = false;
 
   if(window.StatusBar) {
     StatusBar.styleDefault();
