@@ -4,6 +4,7 @@
   "description": "PushMe! - Random Selector",
   "dependencies": {},
   "devDependencies": {
+    "cordova": "^6.5.0",
     "ionic": "^2.2.1"
   },
   "cordovaPlugins": [
