@@ -14,7 +14,7 @@
   },
   "rules": {
     "indent": ["error", 2], // インデントスペースは2
-    "quotes": ["error", "single", "avoid-escape"], // 囲み文字はシングルクォート
+    "quotes": ["error", "single", "avoidEscape": true], // 囲み文字はシングルクォート, `it's`のような表記の時は"it's"のようにダブルクォートを許可する
     "semi": ["error","always"], // セミコロンはつける
     "linebreak-style": ["warn", "unix"], // 改行はUnix Styleでなかったら警告(開発中のみ許容するの意)
     "no-unused-vars": ["warn"], // 未使用の変数は警告(開発中のみ許容するの意)

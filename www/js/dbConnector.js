@@ -103,7 +103,7 @@ angular.module('mainApp.dbConnector', [])
       'itemId': '00160407120001',
       'itemName': 'me',
       'itemGroup': '00160407120000',
-      'itemNote': 'it¥s me'
+      'itemNote': "it's me"
     }, {
       'itemId': '00160407120002',
       'itemName': 'Alice',
