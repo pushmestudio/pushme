@@ -25,6 +25,7 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
+    "android",
     {
       "platform": "android",
       "version": "5.0.0",
