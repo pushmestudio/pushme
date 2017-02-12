@@ -34,10 +34,11 @@
   ],
   "scripts": {
     "doc": "jsdoc -r www/js/*",
+    "lint": "eslint www/js/",
     "serve": "ionic serve",
     "setup": "ionic state restore",
-    "build": "cordova build android",
-    "emulate": "cordova emulate android",
-    "release": "cordova build android -- --release --buildConfig release/build.json"
+    "build": "eslint www/js/ && jsdoc -r www/js/* && cordova build android",
+    "emulate": "eslint www/js/ && cordova emulate android",
+    "release": "eslint www/js/ && cordova build android -- --release --buildConfig release/build.json"
   }
 }
