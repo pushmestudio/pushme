@@ -119,7 +119,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    */
   $scope.deleteGroup = function(group, groupIndex){
     $ionicPopup.confirm({
-      template: 'Are you sure to delete this group?<br>(This action cannnot be undone.)', // String (optional). The html template to place in the popup body.
+      template: 'Are you sure to delete this group?<br>(This action can not be undone.)', // String (optional). The html template to place in the popup body.
       okType: 'button-assertive'
     }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
       if(res) { // ポップアップでOkなら削除する
@@ -267,7 +267,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    */
   $scope.deleteItem = function(item, itemIndex){
     $ionicPopup.confirm({
-      template: 'Are you sure to delete this item?<br>(This action cannnot be undone.)', // String (optional). The html template to place in the popup body.
+      template: 'Are you sure to delete this item?<br>(This action can not be undone.)', // String (optional). The html template to place in the popup body.
       okType: 'button-assertive'
     }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
       if(res) { // ポップアップでOkなら削除する
