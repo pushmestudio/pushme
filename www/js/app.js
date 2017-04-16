@@ -12,7 +12,7 @@ angular.module('mainApp', ['ionic', 'mainApp.controllers'])
   $rootScope.debugMode = false;
 
   if(window.StatusBar) {
-    StatusBar.styleDefault();
+    window.StatusBar.styleDefault();
   }
 })
 
@@ -45,6 +45,6 @@ angular.module('mainApp', ['ionic', 'mainApp.controllers'])
     url: '/pushme/groups/:groupId',
     templateUrl: 'templates/items.html', // TODO
     controller: 'ItemCtrl' // TODO
-  })
+  });
 
 });
