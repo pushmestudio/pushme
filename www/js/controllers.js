@@ -63,7 +63,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         buttons: [
           {
             text: 'Cancel',
-            onTap: function(e) {
+            onTap: function() {
               // 新規グループ作成キャンセル時は処理を行わない
               if(!$scope.newGroup){
                 // キャンセルが押された場合は変更前の値に戻す
@@ -75,7 +75,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           {
             text: '<b>Save</b>',
             type: 'button-positive',
-            onTap: function(e) {
+            onTap: function() {
               return $scope.editableGroup;
             }
           }
@@ -109,7 +109,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       });
     };
     $scope.showEditPopup();
-  }
+  };
 
   /**
    * @function deleteGroup
@@ -117,9 +117,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    * @param {object} group 削除するグループのオブジェクト
    * @param {object} groupIndex 削除対象となるグループの配列上の番号
    */
-   $scope.deleteGroup = function(group, groupIndex){
+  $scope.deleteGroup = function(group, groupIndex){
     $ionicPopup.confirm({
-      template: 'Are you sure to delete this group?<br>(This action cannnot be undone.)', // String (optional). The html template to place in the popup body.
+      template: 'Are you sure to delete this group?<br>(This action can not be undone.)', // String (optional). The html template to place in the popup body.
       okType: 'button-assertive'
     }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
       if(res) { // ポップアップでOkなら削除する
@@ -127,7 +127,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         $ionicListDelegate.closeOptionButtons();
       }
     });
-   }
+  };
 })
 
 /**
@@ -211,7 +211,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         buttons: [
           {
             text: 'Cancel',
-            onTap: function(e) {
+            onTap: function() {
               // 新規アイテム作成キャンセル時は処理を行わない
               if(!$scope.newItem){
                 // キャンセルが押された場合は変更前の値に戻す
@@ -223,7 +223,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
           {
             text: '<b>Save</b>',
             type: 'button-positive',
-            onTap: function(e) {
+            onTap: function() {
               return $scope.editableItem;
             }
           }
@@ -257,7 +257,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
       });
     };
     $scope.showEditPopup();
-  }
+  };
 
   /**
    * @function deleteItem
@@ -265,9 +265,9 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
    * @param {object} item 削除するアイテムのオブジェクト
    * @param {object} itemIndex 削除対象となるアイテムの配列上の番号
    */
-   $scope.deleteItem = function(item, itemIndex){
+  $scope.deleteItem = function(item, itemIndex){
     $ionicPopup.confirm({
-      template: 'Are you sure to delete this item?<br>(This action cannnot be undone.)', // String (optional). The html template to place in the popup body.
+      template: 'Are you sure to delete this item?<br>(This action can not be undone.)', // String (optional). The html template to place in the popup body.
       okType: 'button-assertive'
     }).then(function(res) { // ポップアップ上でOkならtrue、Cancelならfalseが返る
       if(res) { // ポップアップでOkなら削除する
@@ -276,87 +276,89 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
         $ionicListDelegate.closeOptionButtons();
       }
     });
-   }
+  };
 
-   /**
-    * @function selectItem
-    * @description アイテム一覧上にてアイテムをランダム選択する
-    */
-    //方針
-    //全Itemに最初からチェックが入っている
-    //基本は全Itemからのランダム選択
-    // チェックを外すと，チェック済の中からランダム選択
-    $scope.selectButtonFlag = true;// trueかつの時，PushMe!ボタンが押せる
-    $scope.selectItem = function(){
-      var result = null;
-      $scope.selectButtonFlag = false;// falseの時，PushMe!ボタンが押せない
-      $interval(function () {
-        reset();
-        randomSelect();
-      }, 300,15).then(function(){
-        finalChikachika(result);
-        $scope.selectButtonFlag = true;// trueの時，PushMe!ボタンが押せる
-      });//300msで15回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
+  $scope.selectButtonFlag = true; // trueかつの時，PushMe!ボタンが押せる
 
-      var reset = function(){
-        for (var i=0; i<$scope.itemObject.itemList.length;i++){
-          if ($scope.selectFlagArray[i] === true) {
-              document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5';//#BBCCDD(薄い青) #fff9f5(アイボリー)
-          }else if ($scope.selectFlagArray[i] === false){
-              document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
-          }
-        }
-        // ランダム選択対象として抽出(flag=trueのitem)
-        $scope.targetItems =[];
-        for (var i=0; i<$scope.itemObject.itemList.length;i++){
-          if ($scope.selectFlagArray[i] === true) {
-              $scope.targetItems.push($scope.itemObject.itemList[i]);
-          }
+  /**
+   * @function selectItem
+   * @description アイテム一覧上にてアイテムをランダム選択する
+   * 方針：全Itemに最初からチェックが入っている、基本は全Itemからのランダム選択
+   * チェックを外すと、チェック済みの中からランダム選択
+   */
+  $scope.selectItem = function(){
+
+    var reset = function(){
+      for (var i=0; i<$scope.itemObject.itemList.length;i++){
+        if ($scope.selectFlagArray[i] === true) {
+          document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5';//#BBCCDD(薄い青) #fff9f5(アイボリー)
+        }else if ($scope.selectFlagArray[i] === false){
+          document.getElementById('random_'+i).parentNode.style.backgroundColor = '#fff9f5'; //#fff9f5 #fff
         }
       }
-      var randomSelect = function(flag){
-        // ランダム抽出
-        $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
-        // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
-        for (var i=0;i<$scope.itemObject.itemList.length;i++){
-          if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
-              chikachika(i); //CSS動的変更メソッド
-              result = i;
-          }
+      // ランダム選択対象として抽出(flag=trueのitem)
+      $scope.targetItems =[];
+      for (var j=0; j<$scope.itemObject.itemList.length;j++){
+        if ($scope.selectFlagArray[j] === true) {
+          $scope.targetItems.push($scope.itemObject.itemList[j]);
         }
       }
-      var chikachika = function(resultIndex){
-        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果 #11c1f3=ionicのcalm(青)
-      }
-      var finalChikachika = function(resultIndex){
-        document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#33cd5f';// ランダム抽出結果 #33cd5f=ionicのbalanced(緑)
-      }
-    }
+    };
 
-    /**
-     * @function trueFlagIsExist
-     * @description PushMe!ボタンの使用可否を決定するフラグを返すメソッド(trueの時，ボタン使用可能)
-     * @return {boolean} true or false
-     */
-    $scope.trueFlagIsExist = function(){
-      for (var i=0;i<$scope.selectFlagArray.length;i++){
-        if ($scope.selectFlagArray[i] === true ){
-          return true;
+    var randomSelect = function() {
+      // ランダム抽出
+      $scope.randomSelectResult = $scope.targetItems[Math.floor(Math.random() * $scope.targetItems.length)];
+      // 選ばれたアイテムの$indexを取得して置き，その$indexのアイテムのCSS動的変更を最後に行う
+      for (var i=0;i<$scope.itemObject.itemList.length;i++){
+        if ($scope.randomSelectResult.itemId === $scope.itemObject.itemList[i].itemId) {
+          chikachika(i); //CSS動的変更メソッド
+          result = i;
         }
       }
-      return false;//全てのアイテムのチェックが外れている場合は，falseを返す。PushMe!ボタンが押せない状態。
-    }
+    };
 
+    var chikachika = function(resultIndex) {
+      document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#11c1f3';// ランダム抽出結果 #11c1f3=ionicのcalm(青)
+    };
 
-    // すべてのチェックボックスを有効にする
-    $scope.allCheckFlag = function(){
-      Item.allCheckFlag();
-    }
+    var finalChikachika = function(resultIndex) {
+      document.getElementById('random_'+resultIndex).parentNode.style.backgroundColor = '#33cd5f';// ランダム抽出結果 #33cd5f=ionicのbalanced(緑)
+    };
 
-    // すべてのチェックボックスを無効にする
-    $scope.allUncheckFlag = function(){
-      Item.allUncheckFlag();
+    var result = null;
+    $scope.selectButtonFlag = false;// falseの時，PushMe!ボタンが押せない
+    $interval(function () {
+      reset();
+      randomSelect();
+    }, 300,15).then(function(){
+      finalChikachika(result);
+      $scope.selectButtonFlag = true;// trueの時，PushMe!ボタンが押せる
+    });//300msで15回ランダム選択し，最後にもう一尾ランダム選択して，選択アイテムを強調する
+  };
+
+  /**
+   * @function trueFlagIsExist
+   * @description PushMe!ボタンの使用可否を決定するフラグを返すメソッド(trueの時，ボタン使用可能)
+   * @return {boolean} true or false
+   */
+  $scope.trueFlagIsExist = function(){
+    for (var i=0;i<$scope.selectFlagArray.length;i++){
+      if ($scope.selectFlagArray[i] === true ){
+        return true;
+      }
     }
+    return false;//全てのアイテムのチェックが外れている場合は，falseを返す。PushMe!ボタンが押せない状態。
+  };
+
+  // すべてのチェックボックスを有効にする
+  $scope.allCheckFlag = function(){
+    Item.allCheckFlag();
+  };
+
+  // すべてのチェックボックスを無効にする
+  $scope.allUncheckFlag = function(){
+    Item.allUncheckFlag();
+  };
 })
 
 /**
@@ -380,7 +382,7 @@ angular.module('mainApp.controllers', ['mainApp.services', 'ngAnimate', 'ngCordo
     $ionicPlatform.ready(function(){
       AdMobManager.initAdMob();
     });
-  }
+  };
 
   /**
    * @function showUpInterstitialAd
