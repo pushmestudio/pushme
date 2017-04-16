@@ -52,7 +52,7 @@ angular.module('mainApp.dbConnector', [])
       deferred.reject('open error:' + event.message);
     };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function init
@@ -81,7 +81,7 @@ angular.module('mainApp.dbConnector', [])
 
     // チュートリアルもしくはテスト用にサンプルデータを作成する。
     module.createSample(groupStore, itemStore);
-  }
+  };
 
   /**
    * @function createSample
@@ -94,44 +94,44 @@ angular.module('mainApp.dbConnector', [])
     if(!groupStore || !itemStore) return;
 
     var groupSamples = [{
-      "groupId": "00160407120000",
-      "groupName": "[Sample]members",
-      "groupNote": "my department"
+      'groupId': '00160407120000',
+      'groupName': '[Sample]members',
+      'groupNote': 'my department'
     }];
 
     var itemSamples = [{
-      "itemId": "00160407120001",
-      "itemName": "me",
-      "itemGroup": "00160407120000",
-      "itemNote": "it's me"
+      'itemId': '00160407120001',
+      'itemName': 'me',
+      'itemGroup': '00160407120000',
+      'itemNote': "it's me"
     }, {
-      "itemId": "00160407120002",
-      "itemName": "Alice",
-      "itemGroup": "00160407120000",
-      "itemNote": "my boss"
+      'itemId': '00160407120002',
+      'itemName': 'Alice',
+      'itemGroup': '00160407120000',
+      'itemNote': 'my boss'
     }, {
-      "itemId": "20160407120003",
-      "itemName": "Kitty",
-      "itemGroup": "00160407120000",
-      "itemNote": "new commer"
+      'itemId': '20160407120003',
+      'itemName': 'Kitty',
+      'itemGroup': '00160407120000',
+      'itemNote': 'new commer'
     }, {
-      "itemId": "20160407120004",
-      "itemName": "Bob",
-      "itemGroup": "00160407120000",
-      "itemNote": "engineer"
+      'itemId': '20160407120004',
+      'itemName': 'Bob',
+      'itemGroup': '00160407120000',
+      'itemNote': 'engineer'
     }];
 
     // サンプルデータを一件ずつ追加する
-    groupSamples.forEach(function(entry, i) {
+    groupSamples.forEach(function(entry) {
       groupStore.add(entry);
     });
 
-    itemSamples.forEach(function(entry, i) {
+    itemSamples.forEach(function(entry) {
       itemStore.add(entry);
     });
 
     d.log('finish to create samples.');
-  }
+  };
 
   /**
    * @function getAllGroups
@@ -160,12 +160,12 @@ angular.module('mainApp.dbConnector', [])
         deferred.resolve(groups);
       }
     };
-    store.openCursor().onerror = function(event) {
+    store.openCursor().onerror = function() {
       d.log('取得に失敗しました');
       deferred.reject();
-    }
+    };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function getAllGroupItems
@@ -180,7 +180,7 @@ angular.module('mainApp.dbConnector', [])
     var store = trans.objectStore(module.itemStoreName);
     // 特定のグループ名を持つもののみをフィルター
     var range = IDBKeyRange.only(groupId);
-    var index = store.index("itemGroup");
+    var index = store.index('itemGroup');
 
     var deferred = module.q.defer();
 
@@ -199,12 +199,12 @@ angular.module('mainApp.dbConnector', [])
         deferred.resolve(items);
       }
     };
-    index.openCursor(range).onerror = function(event) {
+    index.openCursor(range).onerror = function() {
       d.log('取得に失敗しました');
       deferred.reject();
-    }
+    };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function addNewGroup
@@ -229,7 +229,7 @@ angular.module('mainApp.dbConnector', [])
     var deferred = module.q.defer();
 
     var request = store.add(newGroup); // idとcontentから構成したオブジェクトを追加
-    request.onsuccess = function(event) {
+    request.onsuccess = function() {
       deferred.resolve(newGroup);
     };
     request.onerror = function(event) {
@@ -237,7 +237,7 @@ angular.module('mainApp.dbConnector', [])
       d.log('addNewGroup失敗: '+ event.message);
     };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function updateGroup
@@ -263,13 +263,13 @@ angular.module('mainApp.dbConnector', [])
         data.groupNote = group.groupNote;
 
         var request = store.put(data); // ストアへ更新をかける
-        request.onsuccess = function(event) {
+        request.onsuccess = function() {
           deferred.resolve();
           d.log('更新完了!');
-        }
+        };
         request.onerror = function(event) {
           deferred.reject('更新途中で失敗!' + event.message);
-        }
+        };
       } else { // 該当結果がない場合
         d.log('update対象が見つかりません');
       }
@@ -277,9 +277,9 @@ angular.module('mainApp.dbConnector', [])
     store.get(group.groupId).onerror = function(event) {
       deferred.reject('request is rejected');
       d.log('update error:' + event.message);
-    }
+    };
     return deferred.promise;
-  }
+  };
 
   /**
   * @function deleteGroup
@@ -288,24 +288,24 @@ angular.module('mainApp.dbConnector', [])
   * @return {Promise} 同期処理を行うためのオブジェクト
   */
   module.deleteGroup = function(group) {
-   d.log('deleteGroup is called');
+    d.log('deleteGroup is called');
 
-   var trans = module.db.transaction(module.groupStoreName, 'readwrite');
-   var store = trans.objectStore(module.groupStoreName);
-   var deferred = module.q.defer();
+    var trans = module.db.transaction(module.groupStoreName, 'readwrite');
+    var store = trans.objectStore(module.groupStoreName);
+    var deferred = module.q.defer();
 
    // 名前が一致するデータを取得する
-   store.delete(group.groupId).onsuccess = function(event) {
-     var data = event.target.result;
-     d.log('delete group completed!');
-     deferred.resolve();
-   }
-   store.delete(group.groupId).onerror = function(event) {
-     d.log('delete group failed.');
-     deferred.reject('delete group failed.' + event.message);
-   }
-   return deferred.promise;
- }
+    store.delete(group.groupId).onsuccess = function(event) {
+      var data = event.target.result;
+      d.log('delete group completed!');
+      deferred.resolve(data);
+    };
+    store.delete(group.groupId).onerror = function(event) {
+      d.log('delete group failed.');
+      deferred.reject('delete group failed.' + event.message);
+    };
+    return deferred.promise;
+  };
 
   /**
    * @function addNewItem
@@ -331,7 +331,7 @@ angular.module('mainApp.dbConnector', [])
     var deferred = module.q.defer();
 
     var request = store.add(newItem); // idとcontentから構成したオブジェクトを追加
-    request.onsuccess = function(event) {
+    request.onsuccess = function() {
       deferred.resolve(newItem);
     };
     request.onerror = function(event) {
@@ -339,7 +339,7 @@ angular.module('mainApp.dbConnector', [])
       d.log('addNewItem失敗: '+ event.message);
     };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function updateItem
@@ -365,13 +365,13 @@ angular.module('mainApp.dbConnector', [])
         data.itemNote = item.itemNote;
 
         var request = store.put(data); // ストアへ更新をかける
-        request.onsuccess = function(event) {
+        request.onsuccess = function() {
           deferred.resolve();
           d.log('更新完了!');
-        }
+        };
         request.onerror = function(event) {
           deferred.reject('更新途中で失敗!' + event.message);
-        }
+        };
       } else { // 該当結果がない場合
         d.log('update対象が見つかりません');
       }
@@ -379,9 +379,9 @@ angular.module('mainApp.dbConnector', [])
     store.get(item.itemId).onerror = function(event) {
       deferred.reject('request is rejected');
       d.log('update error:' + event.message);
-    }
+    };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function deleteItem
@@ -389,7 +389,7 @@ angular.module('mainApp.dbConnector', [])
    * @param {object} item 削除対象となるグループオブジェクト
    * @return {Promise} 同期処理を行うためのオブジェクト
    */
-   module.deleteItem = function(item) {
+  module.deleteItem = function(item) {
     d.log('deleteItem is called');
 
     var trans = module.db.transaction(module.itemStoreName, 'readwrite');
@@ -400,14 +400,14 @@ angular.module('mainApp.dbConnector', [])
     store.delete(item.itemId).onsuccess = function(event) {
       var data = event.target.result;
       d.log('delete item completed!');
-      deferred.resolve();
-    }
+      deferred.resolve(data);
+    };
     store.delete(item.itemId).onerror = function(event) {
       d.log('delete item failed.');
       deferred.reject('delete item failed.' + event.message);
-    }
+    };
     return deferred.promise;
-  }
+  };
 
   /**
    * @function deleteGroupAllItems
@@ -415,7 +415,7 @@ angular.module('mainApp.dbConnector', [])
    * @param {object} group 削除対象となるグループオブジェクト
    * @return {Promise} 同期処理を行うためのオブジェクト
    */
-   module.deleteGroupAllItems = function(group) {
+  module.deleteGroupAllItems = function(group) {
     d.log('deleteGroupAllImtes is called');
 
     var trans = module.db.transaction(module.itemStoreName, 'readwrite');
@@ -423,7 +423,7 @@ angular.module('mainApp.dbConnector', [])
 
      // 特定のグループ名を持つもののみをフィルター
     var range = IDBKeyRange.only(group.groupId);
-    var index = store.index("itemGroup");
+    var index = store.index('itemGroup');
 
     var deferred = module.q.defer();
 
@@ -437,13 +437,13 @@ angular.module('mainApp.dbConnector', [])
         d.log('delete group all items completed!');
         deferred.resolve();
       }
-    }
+    };
     index.openKeyCursor(range).onerror = function(event) {
       d.log('delete group all items failed.');
       deferred.reject('delete group all items failed.' + event.message);
-    }
+    };
     return deferred.promise;
-  }
+  };
 
   // DBConnとして呼び出し可能(≒public)とするメソッドを下記に定義
   return {

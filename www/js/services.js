@@ -26,7 +26,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description DBを使用する前に接続処理を行い、成功したらDBから全Groupを取得する
    */
   var initGroup = function(){
-    d.log("initGroup is called");
+    d.log('initGroup is called');
     var def = $q.defer();
 
     DBConn.connect().then(function() {
@@ -38,14 +38,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       });
     });
     return def.promise;
-  }
+  };
 
   /**
    * @function loadGroup
    * @description DBから全Groupを取得する
    */
   var loadGroup = function(){
-    d.log("loadGroup is called");
+    d.log('loadGroup is called');
     var def = $q.defer();
 
     DBConn.getAllGroups().then(function(data) {
@@ -56,14 +56,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
 
     return def.promise;
-  }
+  };
 
   /**
    * @function addGroup
    * @description Controllersから受け取った新規groupオブジェクトをDBに追加する
    */
   var addGroup = function(group) {
-    d.log("addGroup is called");
+    d.log('addGroup is called');
     var def = $q.defer();
 
     // グループ名が入力されていなかった場合、グループ名を設定する
@@ -77,14 +77,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
 
     return def.promise;
-  }
+  };
 
   /**
    * @function saveGroup
    * @description Controllersから受け取ったgroupオブジェクトをDBに保存する
    */
   var saveGroup = function(group) {
-    d.log("saveGroup is called");
+    d.log('saveGroup is called');
     var def = $q.defer();
 
     DBConn.updateGroup(group).then(function() {
@@ -92,14 +92,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
 
     return def.promise;
-  }
+  };
 
   /**
    * @function deleteGroup
    * @description Controllersから受け取ったgroupオブジェクトをDBから削除する
    */
   var deleteGroup = function(group, groupIndex){
-    d.log("deleteGroup is called");
+    d.log('deleteGroup is called');
     var def = $q.defer();
 
     DBConn.deleteGroup(group).then(function(){
@@ -108,13 +108,13 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       $timeout(function(){
         groupObject.groupList.splice(groupIndex, 1);
       });
-    })
+    });
     DBConn.deleteGroupAllItems(group).then(function() {
       def.resolve();
     });
 
     return def.promise;
-  }
+  };
 
   // API公開名: 呼ばれる実際の内容
   return {
@@ -145,7 +145,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
   // view⇔controller⇔serviceでバインディングするグループに関する値をまとめたオブジェクト
   var itemObject = {
     itemList: []
-  }
+  };
   var selectFlagArray = [];
 
   /**
@@ -153,7 +153,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    * @description DBから指定したgroupIdをもつアイテム一覧を取得する
    */
   var initItem = function(groupId){
-    d.log("initItem is called");
+    d.log('initItem is called');
     var def = $q.defer();
 
     DBConn.getAllGroupItems(groupId).then(function(data){
@@ -167,42 +167,42 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
       });
     });
     return def.promise;
-  }
+  };
 
   /**
    * @function allCheckFlag
    * @description 全アイテムのチェック状態をTrueにする
    */
   var allCheckFlag = function(){
-      for (var i=0; i<selectFlagArray.length; i++) {
-        selectFlagArray[i] = true;
-      }
-  }
+    for (var i=0; i<selectFlagArray.length; i++) {
+      selectFlagArray[i] = true;
+    }
+  };
 
   /**
    * @function allUncheckFlag
    * @description 全アイテムのチェック状態をFalseにする
    */
   var allUncheckFlag = function(){
-      for (var i=0; i<selectFlagArray.length; i++){
-        selectFlagArray[i] = false;
-      }
-  }
+    for (var i=0; i<selectFlagArray.length; i++) {
+      selectFlagArray[i] = false;
+    }
+  };
 
   var getFlag = function(){
     return selectFlagArray;
-  }
+  };
 
   var deleteFlag = function(itemIndex){
     selectFlagArray.splice(itemIndex,1);
-  }
+  };
 
   /**
    * @function addItem
    * @description Controllersから受け取った新規ItemオブジェクトをDBに追加する
    */
   var addItem = function(item) {
-    d.log("addItem is called");
+    d.log('addItem is called');
     var def = $q.defer();
 
     // アイテム名が入力されていなかった場合、アイテム名を設定する
@@ -216,14 +216,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
 
     return def.promise;
-  }
+  };
 
   /**
    * @function saveItem
    * @description Controllersから受け取ったitemオブジェクトをDBに保存する
    */
   var saveItem = function(item) {
-    d.log("saveItem is called");
+    d.log('saveItem is called');
     var def = $q.defer();
 
     DBConn.updateItem(item).then(function() {
@@ -231,14 +231,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     });
 
     return def.promise;
-  }
+  };
 
   /**
    * @function deleteItem
    * @description Controllersから受け取ったitemオブジェクトをDBから削除する
    */
   var deleteItem = function(item, itemIndex){
-    d.log("dleteItem is called");
+    d.log('dleteItem is called');
     var def = $q.defer();
 
     DBConn.deleteItem(item).then(function(){
@@ -248,10 +248,10 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
         itemObject.itemList.splice(itemIndex, 1);
         def.resolve();
       });
-    })
+    });
 
     return def.promise;
-  }
+  };
 
   return {
     itemObject: itemObject,
@@ -270,7 +270,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     getFlag: function(){
       return getFlag();
     },
-    deleteFlag: function(itemIndex){
+    deleteFlag: function() {
       return deleteFlag();
     }
   };
@@ -285,6 +285,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
  * @requires $rootScope
  */
 .factory('d', function($rootScope) {
+  /* eslint-disable no-console */
   /**
    * @const {boolean} DEBUG_MODE デバッグ中ならONにして、ログ出力機能を有効にする
    */
@@ -349,14 +350,14 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
 
   // 広告呼び出し用のID
   var admobid = {
-    // banner: '',　バナー広告を使用する場合に必要
+    // banner: '', バナー広告を使用する場合に必要
     interstitial: 'ca-app-pub-2622960706202758/2841802224'
   };
 
   var flagData = {
     iconFlag: false,
     alterFlag: false
-  }
+  };
 
   /**
    * @function initAdMob
@@ -383,7 +384,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
         */
 
         // 広告の読込が完了（成功したときのコールバック）
-        document.addEventListener('onAdLoaded', function(data){
+        document.addEventListener('onAdLoaded', function() {
           if(Math.random() <= FREQ_POP_AD){
             d.log('Interstitial ad is ready');
             $timeout(function(){
@@ -401,7 +402,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
         });
       }
     }
-  }
+  };
 
   /**
    * @function showInterstitialAd
@@ -409,7 +410,7 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
    */
   var showInterstitialAd = function(){
     window.AdMob.showInterstitial();
-  }
+  };
 
   return {
     AdMob: window.AdMob,
@@ -420,5 +421,5 @@ angular.module('mainApp.services', ['mainApp.dbConnector'])
     showInterstitialAd: function(){
       showInterstitialAd();
     }
-  }
+  };
 });
